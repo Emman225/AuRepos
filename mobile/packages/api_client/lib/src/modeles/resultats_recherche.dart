@@ -36,6 +36,26 @@ final class CriteresRecherche {
     if (budgetMax != null) 'budget_max': budgetMax,
     if (page != null) 'page': page,
   };
+
+  // Égalité par valeur : permet d'utiliser ces critères comme clé d'un
+  // FutureProvider.family (recherche déclenchée par l'écran Recherche) et de
+  // les comparer directement dans les tests, sans instance partagée.
+  @override
+  bool operator ==(Object other) =>
+      other is CriteresRecherche &&
+      other.arrivee == arrivee &&
+      other.depart == depart &&
+      other.adultes == adultes &&
+      other.enfants == enfants &&
+      other.communeId == communeId &&
+      other.quartierId == quartierId &&
+      other.typeLogementId == typeLogementId &&
+      other.budgetMax == budgetMax &&
+      other.page == page;
+
+  @override
+  int get hashCode =>
+      Object.hash(arrivee, depart, adultes, enfants, communeId, quartierId, typeLogementId, budgetMax, page);
 }
 
 final class Pagination {
