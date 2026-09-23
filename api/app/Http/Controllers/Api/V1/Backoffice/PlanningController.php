@@ -13,6 +13,7 @@ use App\Http\Resources\Backoffice\PlanningBlocageResource;
 use App\Http\Resources\Backoffice\PlanningLogementResource;
 use App\Http\Resources\Backoffice\PlanningMissionResource;
 use App\Http\Resources\Backoffice\PlanningSejourResource;
+use App\Http\Resources\Backoffice\PlanningTicketMaintenanceResource;
 use App\Support\Api\ReponseApi;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -76,6 +77,7 @@ final class PlanningController extends Controller
             'sejours' => PlanningSejourResource::collection($sejours),
             'missions' => PlanningMissionResource::collection($this->planning->missions($logementIds, $du, $au)),
             'blocages' => PlanningBlocageResource::collection($this->planning->blocages($logementIds, $du, $au)),
+            'tickets_maintenance' => PlanningTicketMaintenanceResource::collection($this->planning->ticketsMaintenance($logementIds, $du, $au)),
             'indicateurs' => $this->planning->indicateurs($sejours, $logements->count(), $du, $au),
         ]);
     }

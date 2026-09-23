@@ -5,7 +5,6 @@
   "erreurGenerique": "Something went wrong. Please try again shortly.",
   "champObligatoire": "This field is required.",
   "annuler": "Cancel",
-  "valider": "Confirm",
   "deconnexion": "Log out",
 
   "connexionTitre": "Agent sign in",
@@ -66,11 +65,9 @@
   "checkOutConfirmer": "Confirm check-out",
 
   "occupantsTitre": "Occupants — police record",
-  "occupantsNom": "Name",
   "occupantsEnfant": "child",
   "occupantsTypePiece": "ID type",
   "occupantsTelephone": "Phone",
-  "occupantsPiece": "ID document",
   "occupantsAucunePiece": "No document uploaded.",
   "occupantsTeleverserPiece": "Add a photo",
 

@@ -47,6 +47,9 @@ beforeEach(function (): void {
     $caisse->valider($r, $this->admins[0]);
     $caisse->joindreLaPreuve($r->refresh(), $this->admins[1], UploadedFile::fake()->create('recu.pdf', 10, 'application/pdf'));
     $caisse->finaliser($r->refresh(), $this->admins[1]);
+
+    deposerEtFinaliserLaCaution($this->sejour, $this->gestionnaire, $this->admins[0], $this->admins[1]);
+
     app(ConfirmationDeSejour::class)->confirmer($this->sejour->refresh(), $this->gestionnaire);
 
     $code = app(CodesSecrets::class)->lirePourLeClient($this->sejour->refresh(), 'arrivee');

@@ -24,6 +24,7 @@ class PhotoLogementResource extends JsonResource
             'hauteur' => $this->hauteur,
             'ajoutee_par_administration' => $this->ajoutee_par_administration,
             'etat' => $this->etat,
+            'motif_refus' => $this->getAttribute('motif_refus'),
         ];
     }
 }

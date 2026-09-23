@@ -127,12 +127,6 @@ abstract class Libelles {
   /// **'Annuler'**
   String get annuler;
 
-  /// No description provided for @valider.
-  ///
-  /// In fr, this message translates to:
-  /// **'Valider'**
-  String get valider;
-
   /// No description provided for @deconnexion.
   ///
   /// In fr, this message translates to:
@@ -451,12 +445,6 @@ abstract class Libelles {
   /// **'Occupants — fiche de police'**
   String get occupantsTitre;
 
-  /// No description provided for @occupantsNom.
-  ///
-  /// In fr, this message translates to:
-  /// **'Nom'**
-  String get occupantsNom;
-
   /// No description provided for @occupantsEnfant.
   ///
   /// In fr, this message translates to:
@@ -474,12 +462,6 @@ abstract class Libelles {
   /// In fr, this message translates to:
   /// **'Téléphone'**
   String get occupantsTelephone;
-
-  /// No description provided for @occupantsPiece.
-  ///
-  /// In fr, this message translates to:
-  /// **'Pièce d’identité'**
-  String get occupantsPiece;
 
   /// No description provided for @occupantsAucunePiece.
   ///

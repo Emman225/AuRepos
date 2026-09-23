@@ -179,6 +179,7 @@ class _CarteEtatDesLieuxState extends ConsumerState<_CarteEtatDesLieux> {
                 child: TextField(controller: _observation, decoration: InputDecoration(labelText: t.etatsDesLieuxObservation)),
               ),
               FilledButton(
+                style: ThemeResidences.boutonEnLigne,
                 onPressed: _ajoutEnCours || _libelle.text.trim().isEmpty ? null : _ajouterLaLigne,
                 child: Text(t.etatsDesLieuxAjouterLigne),
               ),

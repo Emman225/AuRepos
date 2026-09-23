@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:residences_api_client/residences_api_client.dart';
 
@@ -184,6 +187,80 @@ void main() {
     expect(serveur.derniere!.data, {'type': 'entree'});
     expect(etat.type, TypeEtatDesLieux.entree);
     expect(etat.signe, isFalse);
+  });
+
+  test('televerserLaPieceDUnOccupant envoie le fichier en multipart', () async {
+    final fichier = File('${Directory.systemTemp.path}/piece-test-${DateTime.now().microsecondsSinceEpoch}.jpg')
+      ..writeAsBytesSync([0xFF, 0xD8, 0xFF]);
+    // Suppression au mieux : sous Windows, dio garde brievement le fichier ouvert apres l'envoi
+    // multipart, et un deleteSync strict ferait echouer un test dont les assertions ont reussi.
+    // Le repertoire temporaire du systeme se charge du reste.
+    addTearDown(() {
+      try {
+        fichier.deleteSync();
+      } on FileSystemException {
+        // fichier encore verrouille : sans consequence, c'est un artefact de test
+      }
+    });
+
+    final serveur = FauxServeur(200, {
+      'success': true,
+      'message': '',
+      'errors': null,
+      'data': {
+        'id': 1,
+        'nom': 'Kouassi',
+        'prenoms': 'Awa',
+        'enfant': false,
+        'type_piece': 'CNI',
+        'piece_fournie': true,
+        'telephone': null,
+        'pieces': [
+          {'id': 9, 'statut': 'en_attente', 'nom_original': 'piece-test.jpg'},
+        ],
+      },
+    });
+
+    final occupant = await DepotAgent(clientDeTest(serveur)).televerserLaPieceDUnOccupant(12, 1, cheminFichier: fichier.path);
+
+    expect(serveur.derniere!.path, '/agent/sejours/12/occupants/1/piece');
+    expect(serveur.derniere!.data, isA<FormData>());
+    expect(occupant.pieces.single.nomOriginal, 'piece-test.jpg');
+  });
+
+  test('ajouterUnePhotoDeLigne envoie le fichier en multipart', () async {
+    final fichier = File('${Directory.systemTemp.path}/ligne-test-${DateTime.now().microsecondsSinceEpoch}.jpg')
+      ..writeAsBytesSync([0xFF, 0xD8, 0xFF]);
+    // Suppression au mieux : sous Windows, dio garde brievement le fichier ouvert apres l'envoi
+    // multipart, et un deleteSync strict ferait echouer un test dont les assertions ont reussi.
+    // Le repertoire temporaire du systeme se charge du reste.
+    addTearDown(() {
+      try {
+        fichier.deleteSync();
+      } on FileSystemException {
+        // fichier encore verrouille : sans consequence, c'est un artefact de test
+      }
+    });
+
+    final serveur = FauxServeur(200, {
+      'success': true,
+      'message': '',
+      'errors': null,
+      'data': {
+        'id': 1,
+        'libelle': 'Salon',
+        'observation': null,
+        'ordre': 1,
+        'photos': [
+          {'id': 7, 'nom_original': 'ligne-test.jpg'},
+        ],
+      },
+    });
+
+    final ligne = await DepotAgent(clientDeTest(serveur)).ajouterUnePhotoDeLigne(12, 1, 1, cheminFichier: fichier.path);
+
+    expect(serveur.derniere!.path, '/agent/sejours/12/etats-des-lieux/1/lignes/1/photos');
+    expect(ligne.photos.single.nomOriginal, 'ligne-test.jpg');
   });
 
   test('ajouterUneLigneEtatDesLieux décode la ligne créée', () async {

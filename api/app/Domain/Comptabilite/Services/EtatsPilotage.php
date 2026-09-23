@@ -132,7 +132,11 @@ final class EtatsPilotage
                 'residence' => $residence?->nom,
                 'nuitees_disponibles' => $nuiteesDisponibles,
                 'nuitees_vendues' => $nuiteesVendues,
-                'taux_occupation' => $nuiteesDisponibles > 0 ? round($nuiteesVendues / $nuiteesDisponibles, 4) : 0.0,
+                // Pourcentage 0-100, jamais un ratio 0-1 : convention de TOUS les taux du projet
+                // (remise_pourcentage, pourcentage d'apporteur, pourcentage_plateforme…) et du
+                // `taux_occupation` déjà exposé par `Sejours\Services\Planning::indicateurs()`,
+                // qui porte le même nom — deux unités sous un seul nom de champ seraient un piège.
+                'taux_occupation' => $nuiteesDisponibles > 0 ? round($nuiteesVendues / $nuiteesDisponibles * 100, 2) : 0.0,
                 'revpar' => $nuiteesDisponibles > 0 ? (int) round($caHebergement / $nuiteesDisponibles) : 0,
                 'prix_moyen' => $nuiteesVendues > 0 ? (int) round($caHebergement / $nuiteesVendues) : 0,
             ];

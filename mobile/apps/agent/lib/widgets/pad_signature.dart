@@ -57,6 +57,7 @@ class _PadSignatureState extends State<PadSignature> {
         RepaintBoundary(
           key: _cleToile,
           child: GestureDetector(
+            key: const ValueKey('zone-signature'),
             onPanStart: _demarrer,
             onPanUpdate: _dessiner,
             child: Container(
@@ -76,6 +77,7 @@ class _PadSignatureState extends State<PadSignature> {
             TextButton(onPressed: _aDessine ? _effacer : null, child: Text(t.etatsDesLieuxEffacerSignature)),
             const Spacer(),
             FilledButton(
+              style: ThemeResidences.boutonEnLigne,
               onPressed: widget.enCours || !_aDessine ? null : _valider,
               child: widget.enCours
                   ? const SizedBox(

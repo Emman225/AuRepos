@@ -48,6 +48,8 @@ use Illuminate\Support\Str;
  * @property float|null $pourcentage_entreprise_derogation
  * @property EtatPublication $etat_publication
  * @property Carbon|null $publie_le
+ * @property string|null $motif_refus
+ * @property array<string, string>|null $motifs_refus_champs
  * @property bool $mise_en_avant
  * @property EtatMenage|null $etat_menage
  * @property-read Residence $residence
@@ -83,6 +85,7 @@ class Logement extends Model
             'prix_vente' => 'integer',
             'pourcentage_entreprise_derogation' => 'float',
             'publie_le' => 'datetime',
+            'motifs_refus_champs' => 'array',
         ];
     }
 
@@ -142,10 +145,28 @@ class Logement extends Model
         return $this->hasMany(Mission::class);
     }
 
+    /** Modifications proposées quand ce logement est publié (P3-PUB-04). @return HasMany<VersionLogement, $this> */
+    public function versions(): HasMany
+    {
+        return $this->hasMany(VersionLogement::class);
+    }
+
     /** Tickets de maintenance de ce logement (P2-MNT-01). @return HasMany<TicketMaintenance, $this> */
     public function ticketsMaintenance(): HasMany
     {
         return $this->hasMany(TicketMaintenance::class);
+    }
+
+    /**
+     * Alias de `ticketsMaintenance()` au nom que Laravel devine pour le binding de route
+     * imbriqué `{logement}/tickets-maintenance/{ticket}` (le groupe parent `{residence}/
+     * logements` porte `scopeBindings()`, qui s'applique aussi à ce niveau).
+     *
+     * @return HasMany<TicketMaintenance, $this>
+     */
+    public function tickets(): HasMany
+    {
+        return $this->ticketsMaintenance();
     }
 
     /** Inventaire de ce logement (P2-MNT-02). @return HasMany<ArticleInventaire, $this> */
@@ -154,10 +175,32 @@ class Logement extends Model
         return $this->hasMany(ArticleInventaire::class);
     }
 
+    /**
+     * Alias de `articlesInventaire()` pour le binding de route imbriqué `{logement}/
+     * inventaire/{article}` — même raison que `tickets()` ci-dessus.
+     *
+     * @return HasMany<ArticleInventaire, $this>
+     */
+    public function articles(): HasMany
+    {
+        return $this->articlesInventaire();
+    }
+
     /** Contrats récurrents de ce logement (P2-MNT-02). @return HasMany<ContratRecurrent, $this> */
     public function contratsRecurrents(): HasMany
     {
         return $this->hasMany(ContratRecurrent::class);
+    }
+
+    /**
+     * Alias de `contratsRecurrents()` pour le binding de route imbriqué `{logement}/
+     * contrats-recurrents/{contrat}` — même raison que `tickets()` ci-dessus.
+     *
+     * @return HasMany<ContratRecurrent, $this>
+     */
+    public function contrats(): HasMany
+    {
+        return $this->contratsRecurrents();
     }
 
     /** Avis PUBLIÉS des séjours de ce logement (P2-AVI-01) — jamais ceux en attente ou refusés.

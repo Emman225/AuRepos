@@ -65,7 +65,11 @@ class _MissionsEcranState extends ConsumerState<MissionsEcran> {
         ),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(t.annuler)),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(t.missionsTerminer)),
+          FilledButton(
+            style: ThemeResidences.boutonEnLigne,
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(t.missionsTerminer),
+          ),
         ],
       ),
     );
@@ -177,7 +181,11 @@ class _CarteMission extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: mission.statut == StatutDeMission.aFaire
                     ? OutlinedButton(onPressed: surDemarrer, child: Text(t.missionsDemarrer))
-                    : FilledButton(onPressed: surTerminer, child: Text(t.missionsTerminer)),
+                    : FilledButton(
+                        style: ThemeResidences.boutonEnLigne,
+                        onPressed: surTerminer,
+                        child: Text(t.missionsTerminer),
+                      ),
               ),
             ],
           ],

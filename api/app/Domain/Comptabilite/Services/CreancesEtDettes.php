@@ -6,7 +6,6 @@ use App\Domain\Caisse\Enums\EtatDuReglement;
 use App\Domain\Caisse\Enums\Guichet;
 use App\Domain\Caisse\Models\Reglement;
 use App\Domain\Caisse\Services\SoldeDesSejours;
-use App\Domain\Comptes\Enums\Profil;
 use App\Domain\Partenaires\Models\Apporteur;
 use App\Domain\Partenaires\Models\CommissionApporteur;
 use App\Domain\Sejours\Enums\EtatDuSejour;

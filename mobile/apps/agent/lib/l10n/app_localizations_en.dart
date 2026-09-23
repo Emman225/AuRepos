@@ -25,9 +25,6 @@ class LibellesEn extends Libelles {
   String get annuler => 'Cancel';
 
   @override
-  String get valider => 'Confirm';
-
-  @override
   String get deconnexion => 'Log out';
 
   @override
@@ -202,9 +199,6 @@ class LibellesEn extends Libelles {
   String get occupantsTitre => 'Occupants — police record';
 
   @override
-  String get occupantsNom => 'Name';
-
-  @override
   String get occupantsEnfant => 'child';
 
   @override
@@ -212,9 +206,6 @@ class LibellesEn extends Libelles {
 
   @override
   String get occupantsTelephone => 'Phone';
-
-  @override
-  String get occupantsPiece => 'ID document';
 
   @override
   String get occupantsAucunePiece => 'No document uploaded.';

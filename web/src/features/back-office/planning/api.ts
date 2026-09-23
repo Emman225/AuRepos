@@ -29,14 +29,11 @@ export const debloquerDesDates = (residenceId: number, logementId: number, bloca
 
 // ------------------------------------------------------------- Déplacement d'un séjour (P2-PLA-02)
 /**
- * AUCUN endpoint dédié n'existe encore côté API à la date d'écriture (23/09/2026) — seul
- * `GET /backoffice/planning` est en place, lecture seule (confirmé en lisant
- * `PlanningController.php` : pas de route `deplacer`/`deplacement`, aucun contrôleur du genre).
- * Chemin choisi par cohérence avec les autres sous-ressources d'un séjour déjà réelles (PUT
- * .../depart, voir `features/back-office/reservations/api.ts::modifierLeDepart`) — à corriger
- * si l'agent API retient un contrat différent pour P2-PLA-02. Tant que l'endpoint n'existe pas,
- * l'appel se solde par une erreur 404 traduite en message lisible par le client API (`ErreurApi`)
- * et affichée dans la modale : un échec visible, jamais silencieux.
+ * `PUT /backoffice/sejours/{sejour}/logement` (P2-PLA-02), contrat vérifié contre
+ * `SejoursController::deplacer` : corps `{ logement_id, motif }`, motif d'au moins 5 caractères.
+ * La contrainte « uniquement vers un logement du MÊME type » est appliquée côté serveur
+ * (`App\Domain\Sejours\Services\DeplacementDeSejour`), qui refuse en 422 avec un message clair :
+ * l'écran ne la duplique pas, `PlanningLogementResource` n'exposant pas le type de logement.
  */
 export const deplacerUnSejour = (sejourId: number, logementCibleId: number, motif: string): Promise<void> =>
   envoyer<void>(`/backoffice/sejours/${sejourId}/logement`, { logement_id: logementCibleId, motif }, 'put')

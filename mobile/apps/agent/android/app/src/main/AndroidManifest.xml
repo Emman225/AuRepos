@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- image_picker (état des lieux, fiche de police, CdC § 6.1/6.3) : appareil photo. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="residences_agent"
         android:name="${applicationName}"

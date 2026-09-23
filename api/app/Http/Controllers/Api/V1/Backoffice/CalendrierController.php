@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Api\V1\Backoffice;
 
-use App\Domain\Audit\Services\JournalAudit;
 use App\Domain\Catalogue\Enums\Disponibilite;
 use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Catalogue\Models\Residence;
+use App\Domain\Catalogue\Services\DisponibiliteDeResidence;
 use App\Domain\Comptes\Models\User;
-use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\BlocageCalendrier;
-use App\Domain\Sejours\Models\Sejour;
 use App\Domain\Sejours\Services\Calendrier;
 use App\Http\Controllers\Controller;
 use App\Support\Api\ReponseApi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /** Blocage de dates d'un logement et fermeture d'une résidence (CdC § 6.2). */
 final class CalendrierController extends Controller
 {
-    public function __construct(private readonly Calendrier $calendrier) {}
+    public function __construct(
+        private readonly Calendrier $calendrier,
+        private readonly DisponibiliteDeResidence $disponibilite,
+    ) {}
 
     public function blocages(Residence $residence, Logement $logement): JsonResponse
     {
@@ -62,7 +62,7 @@ final class CalendrierController extends Controller
      * Bouton « Occupée / Disponible » : fermée, la résidence disparaît aussitôt de la recherche publique
      * et ne peut plus être réservée ; les séjours déjà confirmés restent honorés.
      */
-    public function disponibilite(Request $request, Residence $residence, JournalAudit $journal): JsonResponse
+    public function disponibilite(Request $request, Residence $residence): JsonResponse
     {
         $saisie = $request->validate([
             'disponibilite' => ['required', Rule::enum(Disponibilite::class)],
@@ -74,43 +74,18 @@ final class CalendrierController extends Controller
         $auteur = $request->user();
         $cible = Disponibilite::from($saisie['disponibilite']);
 
-        if ($cible !== $residence->disponibilite) {
-            DB::transaction(function () use ($residence, $cible, $saisie, $auteur, $journal): void {
-                $fermee = $cible === Disponibilite::Occupee;
-
-                $fermee
-                    ? DB::table('fermetures_residence')->insert([
-                        'residence_id' => $residence->id, 'fermee_le' => now(), 'fermee_par' => $auteur->id, 'motif' => $saisie['motif'] ?? null,
-                        'reouverture_prevue_le' => $saisie['reouverture_prevue_le'] ?? null, 'created_at' => now(), 'updated_at' => now(),
-                    ])
-                    : DB::table('fermetures_residence')->where('residence_id', $residence->id)->whereNull('rouverte_le')
-                        ->update(['rouverte_le' => now(), 'rouverte_par' => $auteur->id, 'updated_at' => now()]);
-
-                $residence->forceFill([
-                    'disponibilite' => $cible,
-                    'reouverture_prevue_le' => $fermee ? ($saisie['reouverture_prevue_le'] ?? null) : null,
-                ])->saveQuietly();
-
-                $journal->consigner(
-                    $fermee ? 'residence_fermee' : 'residence_rouverte',
-                    ($fermee ? 'Fermeture (« Occupée ») : ' : 'Réouverture (« Disponible ») : ').$residence->libelleAudit().'.',
-                    $residence, auteur: $auteur,
-                );
-            });
-        }
-
-        // À afficher AVANT de confirmer une fermeture : ces séjours restent dus.
-        $aHonorer = Sejour::query()
-            ->whereIn('logement_id', $residence->logements()->pluck('id'))
-            ->whereIn('etat', [EtatDuSejour::Confirme, EtatDuSejour::Arrive])
-            ->where('depart', '>=', Carbon::today())->count();
+        $resultat = $this->disponibilite->basculer(
+            $residence, $cible, $auteur,
+            isset($saisie['reouverture_prevue_le']) ? Carbon::parse($saisie['reouverture_prevue_le']) : null,
+            $saisie['motif'] ?? null,
+        );
 
         return ReponseApi::succes([
             'disponibilite' => $residence->refresh()->disponibilite->value,
             'reouverture_prevue_le' => $residence->reouverture_prevue_le?->format('d/m/Y'),
-            'sejours_a_honorer' => $aHonorer,
+            'sejours_a_honorer' => $resultat['sejours_a_honorer'],
         ], $cible === Disponibilite::Occupee
-            ? 'Résidence fermée : elle n’apparaît plus sur le site.'.($aHonorer > 0 ? " {$aHonorer} séjour(s) déjà confirmé(s) restent à honorer." : '')
+            ? 'Résidence fermée : elle n’apparaît plus sur le site.'.($resultat['sejours_a_honorer'] > 0 ? " {$resultat['sejours_a_honorer']} séjour(s) déjà confirmé(s) restent à honorer." : '')
             : 'Résidence rouverte : elle est de nouveau visible et réservable.');
     }
 

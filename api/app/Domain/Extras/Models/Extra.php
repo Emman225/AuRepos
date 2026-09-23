@@ -28,6 +28,9 @@ class Extra extends Model
 
     protected $guarded = [];
 
+    /** @var array<string, mixed> */
+    protected $attributes = ['actif' => true];
+
     protected function casts(): array
     {
         return ['prix' => 'integer', 'actif' => 'boolean'];

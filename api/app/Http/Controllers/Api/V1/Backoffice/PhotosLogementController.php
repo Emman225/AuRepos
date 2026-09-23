@@ -106,6 +106,18 @@ final class PhotosLogementController extends Controller
         return ReponseApi::succes($this->galerie($logement), 'Photo supprimée.');
     }
 
+    /** Refus motivé PAR PHOTO (CdC § 7.1) : le propriétaire la remplace et resoumet. */
+    public function refuser(Request $request, Residence $residence, Logement $logement, PhotoLogement $photo): JsonResponse
+    {
+        $saisie = $request->validate(['motif' => ['required', 'string', 'min:5', 'max:255']], [], ['motif' => 'motif']);
+
+        /** @var User $auteur */
+        $auteur = $request->user();
+        $this->photos->refuser($photo, $saisie['motif'], $auteur);
+
+        return ReponseApi::succes($this->galerie($logement), 'Photo refusée.');
+    }
+
     /** @return array<string, mixed> */
     private function galerie(Logement $logement): array
     {

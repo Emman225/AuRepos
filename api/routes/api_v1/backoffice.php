@@ -21,11 +21,21 @@ use App\Http\Controllers\Api\V1\Backoffice\ClientsController;
 use App\Http\Controllers\Api\V1\Backoffice\CodePromoController;
 use App\Http\Controllers\Api\V1\Backoffice\CommandesExtrasController;
 use App\Http\Controllers\Api\V1\Backoffice\CommandesRepasController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteControleController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteExportController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteFiscaliteController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteGrandsLivresController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteMargesController;
+use App\Http\Controllers\Api\V1\Backoffice\ComptabiliteRetenuesController;
 use App\Http\Controllers\Api\V1\Backoffice\ComptesATermeController;
 use App\Http\Controllers\Api\V1\Backoffice\ContratsRecurrentsController;
 use App\Http\Controllers\Api\V1\Backoffice\DemandesAnnulationController;
+use App\Http\Controllers\Api\V1\Backoffice\DemandesPaiementProprietaireController;
+use App\Http\Controllers\Api\V1\Backoffice\DetteProprietaireController;
 use App\Http\Controllers\Api\V1\Backoffice\DevisController;
+use App\Http\Controllers\Api\V1\Backoffice\EtatsCreancesController;
 use App\Http\Controllers\Api\V1\Backoffice\EtatsDesLieuxController;
+use App\Http\Controllers\Api\V1\Backoffice\EtatsPilotageController;
 use App\Http\Controllers\Api\V1\Backoffice\EtatsRepasController;
 use App\Http\Controllers\Api\V1\Backoffice\ExtrasController;
 use App\Http\Controllers\Api\V1\Backoffice\FacturesController;
@@ -49,6 +59,7 @@ use App\Http\Controllers\Api\V1\Backoffice\PrixNegocieController;
 use App\Http\Controllers\Api\V1\Backoffice\ProduitsRepasController;
 use App\Http\Controllers\Api\V1\Backoffice\ProprietairesController;
 use App\Http\Controllers\Api\V1\Backoffice\PublicationLogementController;
+use App\Http\Controllers\Api\V1\Backoffice\PublicationsAValiderController;
 use App\Http\Controllers\Api\V1\Backoffice\ReclamationsController;
 use App\Http\Controllers\Api\V1\Backoffice\ResidencesController;
 use App\Http\Controllers\Api\V1\Backoffice\RestaurateursController;
@@ -192,6 +203,21 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
                 Route::put('{piece}/decision', [PiecesProprietaireController::class, 'decider'])->name('decider');
                 Route::delete('{piece}', [PiecesProprietaireController::class, 'supprimer'])->name('supprimer');
             });
+
+            // Dette, charges refacturées et relevés (P3-PRO-02/03).
+            Route::prefix('{proprietaire}/dette')->name('dette.')->scopeBindings()->group(function (): void {
+                Route::get('/', [DetteProprietaireController::class, 'afficher'])->name('afficher');
+                Route::post('charges', [DetteProprietaireController::class, 'ajouterUneCharge'])->name('charges.ajouter');
+                Route::get('releves', [DetteProprietaireController::class, 'relevesDuProprietaire'])->name('releves.index');
+                Route::post('releves', [DetteProprietaireController::class, 'genererLeReleve'])->name('releves.generer');
+            });
+        });
+
+        // Demandes de paiement des propriétaires (P3-PRO-04) : rejet ou décaissement (circuit de preuve de la caisse).
+        Route::prefix('proprietaires-demandes-paiement')->name('proprietaires.demandes-paiement.')->group(function (): void {
+            Route::get('/', [DemandesPaiementProprietaireController::class, 'index'])->name('index');
+            Route::put('{demande}/rejet', [DemandesPaiementProprietaireController::class, 'rejeter'])->whereNumber('demande')->name('rejeter');
+            Route::post('{demande}/decaissement', [DemandesPaiementProprietaireController::class, 'decaisser'])->whereNumber('demande')->name('decaisser');
         });
 
         // Apporteurs d'affaires : liste, mandat de commission, commissions et solde dû.
@@ -321,6 +347,12 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             Route::post('/', [ResidencesController::class, 'creer'])->name('creer');
         });
 
+        // File « Publications à valider » (CdC § 7.1, P3-PUB-02) : tous les logements « en attente », toutes résidences confondues.
+        Route::prefix('publications-a-valider')->name('publications-a-valider.')->group(function (): void {
+            Route::get('/', [PublicationsAValiderController::class, 'index'])->name('index');
+            Route::get('compte', [PublicationsAValiderController::class, 'compte'])->name('compte');
+        });
+
         // Un gestionnaire n'atteint que SES résidences : 404, pas 403, au-delà (CdC § 9.5).
         Route::prefix('residences')->name('residences.')->middleware('cloisonner.residence')->group(function (): void {
             Route::get('{residence}', [ResidencesController::class, 'afficher'])->name('afficher');
@@ -337,6 +369,11 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
                 Route::get('{logement}', [LogementsController::class, 'afficher'])->name('afficher');
                 Route::put('{logement}', [LogementsController::class, 'modifier'])->name('modifier');
                 Route::delete('{logement}', [LogementsController::class, 'supprimer'])->name('supprimer');
+
+                // Modification d'un logement publié (P3-PUB-04) : version en attente, publiée maintenue en ligne.
+                Route::get('{logement}/version', [LogementsController::class, 'versionEnAttente'])->name('version.afficher');
+                Route::put('{logement}/versions/{version}/validation', [LogementsController::class, 'validerLaVersion'])->whereNumber('version')->name('version.valider');
+                Route::put('{logement}/versions/{version}/refus', [LogementsController::class, 'refuserLaVersion'])->whereNumber('version')->name('version.refuser');
 
                 // Prix : propriétaire (négocié) et de vente (double validation).
                 Route::get('{logement}/prix', [PrixLogementController::class, 'afficher'])->name('prix.afficher');
@@ -360,6 +397,7 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
                     Route::put('ordre', [PhotosLogementController::class, 'reordonner'])->name('reordonner');
                     Route::put('{photo}', [PhotosLogementController::class, 'modifier'])->whereNumber('photo')->name('modifier');
                     Route::post('{photo}/recadrage', [PhotosLogementController::class, 'recadrer'])->whereNumber('photo')->name('recadrer');
+                    Route::put('{photo}/refus', [PhotosLogementController::class, 'refuser'])->whereNumber('photo')->name('refuser');
                     Route::delete('{photo}', [PhotosLogementController::class, 'supprimer'])->whereNumber('photo')->name('supprimer');
                 });
 
@@ -591,6 +629,47 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             // Avant {abonne} : « export » ne doit jamais être pris pour un identifiant de abonne.
             Route::get('export', [NewsletterController::class, 'exporter'])->name('exporter');
             Route::put('{abonne}/desabonner', [NewsletterController::class, 'desactiver'])->name('desabonner');
+        });
+
+        // Direction : états de pilotage et comptabilité (CdC § 9). Toutes ces routes sont en
+        // LECTURE SEULE — agrégats sur des montants déjà figés (séjours, règlements, factures) —
+        // sauf l'export qui ne fait que mettre en forme ces mêmes lectures.
+        Route::prefix('etats')->name('etats.')->group(function (): void {
+            Route::get('ca-detaille', [EtatsPilotageController::class, 'caDetaille'])->name('ca-detaille');
+            Route::get('ca-par-residence', [EtatsPilotageController::class, 'caParResidenceEtType'])->name('ca-par-residence');
+            Route::get('occupation', [EtatsPilotageController::class, 'occupation'])->name('occupation');
+            Route::get('annulations', [EtatsPilotageController::class, 'annulations'])->name('annulations');
+            Route::get('disponibilite-residences', [EtatsPilotageController::class, 'disponibiliteResidences'])->name('disponibilite-residences');
+            Route::get('marge-par-residence', [EtatsPilotageController::class, 'margeParResidence'])->name('marge-par-residence');
+            Route::get('previsionnel', [EtatsPilotageController::class, 'previsionnel'])->name('previsionnel');
+
+            Route::get('creances/a-terme', [EtatsCreancesController::class, 'etatClientATerme'])->name('creances.a-terme');
+            Route::get('creances/balance-agee', [EtatsCreancesController::class, 'balanceAgee'])->name('creances.balance-agee');
+            Route::get('creances/recapitulatif', [EtatsCreancesController::class, 'recapitulatifCreances'])->name('creances.recapitulatif');
+            Route::get('dettes/recapitulatif', [EtatsCreancesController::class, 'recapitulatifDettes'])->name('dettes.recapitulatif');
+            Route::get('filleuls', [EtatsCreancesController::class, 'paiementFilleul'])->name('filleuls');
+            Route::get('relances', [EtatsCreancesController::class, 'relances'])->name('relances');
+        });
+
+        Route::prefix('comptabilite')->name('comptabilite.')->group(function (): void {
+            Route::get('tva', [ComptabiliteFiscaliteController::class, 'tva'])->name('tva');
+            Route::get('tdt', [ComptabiliteFiscaliteController::class, 'tdt'])->name('tdt');
+            Route::get('taxe-sejour', [ComptabiliteFiscaliteController::class, 'taxeDeSejour'])->name('taxe-sejour');
+
+            // Avant {categorie} implicite : « export » est un segment propre à ce sous-préfixe.
+            Route::get('retenues/export', [ComptabiliteRetenuesController::class, 'exporter'])->name('retenues.exporter');
+            Route::get('retenues', [ComptabiliteRetenuesController::class, 'index'])->name('retenues.index');
+
+            Route::get('marges/sejours', [ComptabiliteMargesController::class, 'parSejour'])->name('marges.sejours');
+            Route::get('marges/transferts', [ComptabiliteMargesController::class, 'parTransfert'])->name('marges.transferts');
+            Route::get('marges/recapitulatif', [ComptabiliteMargesController::class, 'recapitulatif'])->name('marges.recapitulatif');
+            Route::get('cautions', [ComptabiliteMargesController::class, 'etatDesCautions'])->name('cautions');
+
+            Route::get('controle-coherence', [ComptabiliteControleController::class, 'index'])->name('controle-coherence');
+
+            Route::get('grands-livres/{categorie}', [ComptabiliteGrandsLivresController::class, 'index'])->name('grands-livres');
+
+            Route::get('export', [ComptabiliteExportController::class, 'exporter'])->name('export');
         });
     });
 });

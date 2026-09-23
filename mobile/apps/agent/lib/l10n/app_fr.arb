@@ -5,7 +5,6 @@
   "erreurGenerique": "Une erreur est survenue. Réessayez dans un instant.",
   "champObligatoire": "Ce champ est obligatoire.",
   "annuler": "Annuler",
-  "valider": "Valider",
   "deconnexion": "Déconnexion",
 
   "connexionTitre": "Connexion agent",
@@ -72,11 +71,9 @@
   "checkOutConfirmer": "Confirmer le check-out",
 
   "occupantsTitre": "Occupants — fiche de police",
-  "occupantsNom": "Nom",
   "occupantsEnfant": "enfant",
   "occupantsTypePiece": "Type de pièce",
   "occupantsTelephone": "Téléphone",
-  "occupantsPiece": "Pièce d’identité",
   "occupantsAucunePiece": "Aucune pièce déposée.",
   "occupantsTeleverserPiece": "Ajouter une photo",
 

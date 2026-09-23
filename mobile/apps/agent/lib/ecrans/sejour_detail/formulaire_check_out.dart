@@ -120,6 +120,7 @@ class _FormulaireCheckOutState extends ConsumerState<_FormulaireCheckOut> {
       actions: [
         TextButton(onPressed: _enCours ? null : () => Navigator.of(context).pop(), child: Text(t.annuler)),
         FilledButton(
+          style: ThemeResidences.boutonEnLigne,
           onPressed: _enCours || _motifManquant ? null : _confirmer,
           child: _enCours
               ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Couleurs.blanc))

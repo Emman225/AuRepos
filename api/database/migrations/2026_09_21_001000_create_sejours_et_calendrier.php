@@ -64,6 +64,12 @@ return new class extends Migration
         DB::statement("ALTER TABLE blocages_calendrier ADD CONSTRAINT blocages_motif_connu CHECK (motif IN ('maintenance','usage_proprietaire','saison_fermee','canal_externe'))");
         DB::statement('ALTER TABLE blocages_calendrier ADD CONSTRAINT blocages_periode_coherente CHECK (fin >= debut)');
 
+        // `btree_gist` donne à GiST les opérateurs des types courants (ici le `=` sur un entier),
+        // sans quoi la contrainte d'exclusion ci-dessous est refusée : « data type bigint has no
+        // default operator class for access method gist ». À créer AVANT, sinon une base neuve
+        // ne peut pas migrer du tout — les bases existantes l'avaient reçue à la main.
+        DB::statement('CREATE EXTENSION IF NOT EXISTS btree_gist');
+
         Schema::create('occupations', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('logement_id')->constrained('logements')->cascadeOnDelete();

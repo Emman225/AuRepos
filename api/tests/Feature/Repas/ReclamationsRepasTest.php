@@ -5,6 +5,7 @@ use App\Domain\Assistance\Models\Reclamation;
 use App\Domain\Caisse\Enums\Guichet;
 use App\Domain\Caisse\Models\Reglement;
 use App\Domain\Comptes\Enums\Profil;
+use App\Domain\Comptes\Models\Agence;
 use App\Domain\Comptes\Models\User;
 use App\Domain\Parametres\Services\Parametres;
 use App\Domain\Repas\Enums\EtatDeCommande;
@@ -78,9 +79,11 @@ it('la commande d’un autre séjour n’existe pas pour moi : 404', function ()
 
 it('LE trésorier désigné confirme un avoir sur une réclamation repas : la réclamation ferme et un décaissement est saisi', function (): void {
     [$client, $sejour, $commande] = uneCommandeLivreeDuClient();
-    $admin1 = User::factory()->profil(Profil::Administrateur)->create();
-    $admin2 = User::factory()->profil(Profil::Administrateur)->create();
-    $tresorier = User::factory()->profil(Profil::Administrateur)->create();
+    $agence = Agence::factory()->create();
+    $admin1 = User::factory()->profil(Profil::Administrateur)->create(['agence_id' => $agence->id]);
+    $admin2 = User::factory()->profil(Profil::Administrateur)->create(['agence_id' => $agence->id]);
+    // Le trésorier doit être rattaché à une agence pour pouvoir encaisser (Caisse::exigerUnCaissier).
+    $tresorier = User::factory()->profil(Profil::Administrateur)->create(['agence_id' => $agence->id]);
     app(Parametres::class)->enregistrer('gestionnaires', ['validant_2_id' => $tresorier->id], $admin1);
 
     connecterRepasReclamation($client);

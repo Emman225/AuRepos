@@ -3,6 +3,7 @@
 use App\Domain\Caisse\Enums\EtatDuReglement;
 use App\Domain\Caisse\Enums\Guichet;
 use App\Domain\Caisse\Models\Reglement;
+use App\Domain\Caisse\Models\RetenueDeCaution;
 use App\Domain\Caisse\Services\Cautions;
 use App\Domain\Comptes\Enums\Profil;
 use App\Domain\Comptes\Models\Agence;
@@ -140,7 +141,7 @@ it('retient une partie de la caution avec un motif obligatoire, des justificatif
         ->and($facture->lignes)->toHaveCount(1)
         ->and($facture->lignes[0]['description'])->toContain('Frais de dégradation / retard');
 
-    expect(DB::table('pieces_justificatives')->where('titulaire_type', \App\Domain\Caisse\Models\RetenueDeCaution::class)->count())->toBe(1);
+    expect(DB::table('pieces_justificatives')->where('titulaire_type', RetenueDeCaution::class)->count())->toBe(1);
 
     $solde = app(Cautions::class)->soldeDe($this->sejour->refresh());
     expect($solde)->toBe(['totale' => 50000, 'deposee' => 50000, 'retenue' => 15000, 'restituee' => 0, 'detenue' => 35000]);

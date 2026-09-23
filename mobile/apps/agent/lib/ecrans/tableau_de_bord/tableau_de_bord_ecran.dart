@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:residences_api_client/residences_api_client.dart';
 import 'package:residences_ui/residences_ui.dart';
 
 import '../../fournisseurs.dart';

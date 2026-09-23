@@ -25,9 +25,6 @@ class LibellesFr extends Libelles {
   String get annuler => 'Annuler';
 
   @override
-  String get valider => 'Valider';
-
-  @override
   String get deconnexion => 'Déconnexion';
 
   @override
@@ -202,9 +199,6 @@ class LibellesFr extends Libelles {
   String get occupantsTitre => 'Occupants — fiche de police';
 
   @override
-  String get occupantsNom => 'Nom';
-
-  @override
   String get occupantsEnfant => 'enfant';
 
   @override
@@ -212,9 +206,6 @@ class LibellesFr extends Libelles {
 
   @override
   String get occupantsTelephone => 'Téléphone';
-
-  @override
-  String get occupantsPiece => 'Pièce d’identité';
 
   @override
   String get occupantsAucunePiece => 'Aucune pièce déposée.';

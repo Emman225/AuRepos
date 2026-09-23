@@ -2,12 +2,12 @@
 
 namespace App\Domain\Comptabilite\Services;
 
+use App\Domain\Caisse\Services\Cautions;
 use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\Sejour;
 use App\Domain\Transferts\Enums\EtatDuTransfert;
 use App\Domain\Transferts\Models\Transfert;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 
 /**
  * Marges par séjour et par transfert, et bloc « Bénéfices de l'entreprise » (CdC § 9.3).
@@ -21,6 +21,8 @@ use Illuminate\Support\Collection;
  */
 final class Marges
 {
+    public function __construct(private readonly Cautions $cautions) {}
+
     /** Marge par séjour, triée du moins rentable au plus rentable (CdC § 9.3). */
     public function parSejour(Carbon $du, Carbon $au): array
     {
@@ -85,7 +87,17 @@ final class Marges
         ];
     }
 
-    /** État des cautions : retenue, restituée, détenue (CdC § 9.3). */
+    /**
+     * État des cautions, séjour par séjour : retenue, restituée, détenue (CdC § 9.3).
+     *
+     * Les montants viennent de `Cautions::soldeDe()`, c'est-à-dire des MOUVEMENTS RÉELS du
+     * guichet Cautions (dépôts finalisés, retenues actées, restitutions décaissées) — et non
+     * de l'état du séjour. Cette version lisait auparavant la colonne `caution_retenue` et
+     * DÉDUISAIT la restitution de l'état « parti / clôturé », ce qui déclarait restituée une
+     * caution encore en caisse : la restitution est un décaissement à part entière, qui peut
+     * n'intervenir que des jours après le départ. Un état comptable qui sous-évalue une dette
+     * est plus dangereux qu'un état absent.
+     */
     public function etatDesCautions(Carbon $du, Carbon $au): array
     {
         $sejours = Sejour::query()
@@ -94,14 +106,17 @@ final class Marges
             ->whereDate('arrivee', '>=', $du)->whereDate('arrivee', '<=', $au)
             ->get();
 
-        $termines = [EtatDuSejour::Parti, EtatDuSejour::Cloture];
-        $lignes = $sejours->map(fn (Sejour $s): array => [
-            'sejour' => $s->reference,
-            'caution' => $s->caution,
-            'retenue' => $s->caution_retenue,
-            'restituee' => in_array($s->etat, $termines, true) ? max(0, $s->caution - $s->caution_retenue) : 0,
-            'detenue' => in_array($s->etat, $termines, true) ? 0 : $s->caution,
-        ]);
+        $lignes = $sejours->map(function (Sejour $s): array {
+            $solde = $this->cautions->soldeDe($s);
+
+            return [
+                'sejour' => $s->reference,
+                'caution' => $s->caution,
+                'retenue' => $solde['retenue'],
+                'restituee' => $solde['restituee'],
+                'detenue' => $solde['detenue'],
+            ];
+        });
 
         return [
             'lignes' => $lignes->values()->all(),

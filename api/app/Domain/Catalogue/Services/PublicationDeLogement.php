@@ -34,7 +34,9 @@ final class PublicationDeLogement
         $this->exigerEtat($logement, EtatPublication::Brouillon, EtatPublication::Refuse);
         $this->exigerPret($logement, prixExiges: false);
 
-        $this->passer($logement, EtatPublication::EnAttente, $auteur, 'Soumission à la validation', ['motif_refus' => null]);
+        $this->passer($logement, EtatPublication::EnAttente, $auteur, 'Soumission à la validation', [
+            'motif_refus' => null, 'motifs_refus_champs' => null,
+        ]);
     }
 
     public function publier(Logement $logement, User $validateur): void
@@ -56,12 +58,21 @@ final class PublicationDeLogement
         ]);
     }
 
-    public function refuser(Logement $logement, User $validateur, string $motif): void
+    /**
+     * Refus motivé, PAR CHAMP en plus du motif global (CdC § 7.1 : « rejeté avec un motif par
+     * photo ou par champ ») : adresse incomplète, tarif hors médiane... Le propriétaire corrige
+     * CES champs précisément et resoumet (`soumettre`, déjà ouvert depuis Refusé).
+     *
+     * @param  array<string, string>  $motifsChamps  champ => motif, ex. ['description' => 'Trop courte']
+     */
+    public function refuser(Logement $logement, User $validateur, string $motif, array $motifsChamps = []): void
     {
         $this->exigerEtat($logement, EtatPublication::EnAttente);
         $this->exigerLeValidateur($validateur);
 
-        $this->passer($logement, EtatPublication::Refuse, $validateur, "Refus de publication — {$motif}", ['motif_refus' => $motif]);
+        $this->passer($logement, EtatPublication::Refuse, $validateur, "Refus de publication — {$motif}", [
+            'motif_refus' => $motif, 'motifs_refus_champs' => $motifsChamps === [] ? null : $motifsChamps,
+        ]);
     }
 
     /** Retrait temporaire (travaux, litige) ; les séjours confirmés restent honorés. */

@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>L’appareil photo sert à photographier les pièces d’identité (fiche de police) et l’état des lieux d’un séjour.</string>
 </dict>
 </plist>

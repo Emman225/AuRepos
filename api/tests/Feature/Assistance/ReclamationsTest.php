@@ -52,6 +52,9 @@ beforeEach(function (): void {
     $caisse->valider($r, $this->admins[0]);
     $caisse->joindreLaPreuve($r->refresh(), $this->admins[1], UploadedFile::fake()->create('recu.pdf', 10, 'application/pdf'));
     $caisse->finaliser($r->refresh(), $this->admins[1]);
+
+    deposerEtFinaliserLaCaution($this->sejour, $this->gestionnaire, $this->admins[0], $this->admins[1]);
+
     app(ConfirmationDeSejour::class)->confirmer($this->sejour->refresh(), $this->gestionnaire);
 
     $code = app(CodesSecrets::class)->lirePourLeClient($this->sejour->refresh(), 'arrivee');
@@ -135,7 +138,10 @@ it('propose un avoir une fois le trésorier désigné, sans rien verser avant co
 
     expect($reponse->json('data.champ'))->toBe('avoir_montant');
     expect(Reclamation::find($reclamation['id'])->statut)->toBe(EtatDeLaReclamation::EnCours);
-    expect(Reglement::count())->toBe(1); // seulement le règlement du séjour lui-même, rien de plus
+    // « Sans rien verser » : la proposition d'avoir ne crée AUCUN décaissement tant que le
+    // trésorier n'a pas confirmé. On compte les décaissements plutôt que tous les règlements,
+    // le parcours nominal en comptant déjà deux à l'encaissement (solde du séjour + caution).
+    expect(Reglement::where('sens', 'decaissement')->count())->toBe(0);
 });
 
 it('refuse qu’un administrateur QUELCONQUE confirme l’avoir : seul LE trésorier désigné le peut', function (): void {

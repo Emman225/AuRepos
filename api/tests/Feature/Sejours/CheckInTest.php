@@ -3,7 +3,6 @@
 use App\Domain\Audit\Models\EntreeAudit;
 use App\Domain\Caisse\Enums\ModeDeReglement;
 use App\Domain\Caisse\Services\Caisse;
-use App\Domain\Caisse\Services\Cautions;
 use App\Domain\Catalogue\Enums\EtatPublication;
 use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Catalogue\Models\Residence;
@@ -51,23 +50,12 @@ beforeEach(function (): void {
     $caisse->finaliser($r->refresh(), $this->admins[1]);
 
     // Caution déposée et finalisée : seconde condition du check-in (CdC § 6.3, P2-CAU-01).
-    deposerEtFinaliserLaCaution($this->sejour);
+    deposerEtFinaliserLaCaution($this->sejour, $this->gestionnaire, $this->admins[0], $this->admins[1]);
 
     app(ConfirmationDeSejour::class)->confirmer($this->sejour->refresh(), $this->gestionnaire);
     $this->sejour->refresh();
     $this->code = app(CodesSecrets::class)->lirePourLeClient($this->sejour, 'arrivee');
 });
-
-/** Circuit complet du dépôt de caution (même schéma que le règlement du séjour, guichet Cautions). */
-function deposerEtFinaliserLaCaution(\App\Domain\Sejours\Models\Sejour $sejour): void
-{
-    $caisse = app(Caisse::class);
-
-    $r = app(Cautions::class)->deposer(test()->gestionnaire, $sejour, $sejour->refresh()->caution, ModeDeReglement::Especes, 'Caution déposée au guichet');
-    $caisse->valider($r, test()->admins[0]);
-    $caisse->joindreLaPreuve($r->refresh(), test()->admins[1], UploadedFile::fake()->create('recu-caution.pdf', 10, 'application/pdf'));
-    $caisse->finaliser($r->refresh(), test()->admins[1]);
-}
 
 function connecteAgent(User $u): void
 {
@@ -123,7 +111,7 @@ it('refuse le check-in tant que la caution n’est pas encaissée, même le séj
     expect($sejour->refresh()->etat)->toBe(EtatDuSejour::Confirme);
 
     // Une fois la caution déposée et finalisée, le check-in redevient possible : même séjour, même code.
-    deposerEtFinaliserLaCaution($sejour->refresh());
+    deposerEtFinaliserLaCaution($sejour->refresh(), $this->gestionnaire, $this->admins[0], $this->admins[1]);
 
     test()->postJson("/api/v1/agent/sejours/{$sejour->id}/check-in", ['code' => $code])->assertOk();
     expect($sejour->refresh()->etat)->toBe(EtatDuSejour::Arrive);

@@ -7,9 +7,13 @@ use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Catalogue\Models\PhotoLogement;
 use App\Domain\Comptes\Models\User;
 use App\Domain\Parametres\Services\Parametres;
+use App\Mail\NotificationGeneriqueMail;
 use App\Support\Api\ErreurMetier;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Alignment;
@@ -18,6 +22,7 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Typography\FontFactory;
+use Throwable;
 
 /**
  * Dépôt, recadrage, ordre, couverture et suppression des photos d'un logement.
@@ -127,9 +132,18 @@ final class PhotosDeLogement
         });
     }
 
-    /** Une suppression est journalisée avec son motif (CdC § 7.1). */
+    /**
+     * Une suppression est journalisée avec son motif (CdC § 7.1). Le propriétaire ne peut pas
+     * supprimer une photo ajoutée par l'administrateur — seulement en demander le retrait — et
+     * quand un administrateur supprime, le propriétaire en est notifié.
+     */
     public function supprimer(PhotoLogement $photo, string $motif, User $auteur): void
     {
+        $administrateur = $auteur->profil->estPersonnel();
+        if ($photo->ajoutee_par_administration && ! $administrateur) {
+            throw new AuthorizationException('Cette photo a été ajoutée par l’administration : vous ne pouvez qu’en demander le retrait.');
+        }
+
         DB::transaction(function () use ($photo, $motif, $auteur): void {
             $etaitCouverture = $photo->couverture;
             $logementId = $photo->logement_id;
@@ -147,6 +161,40 @@ final class PhotosDeLogement
 
         Storage::disk('local')->delete($photo->chemin_original);
         Storage::disk('public')->delete([$photo->chemin_affichage, $photo->chemin_vignette]);
+
+        if ($administrateur) {
+            $this->notifierLeProprietaireDeLaSuppression($photo, $motif);
+        }
+    }
+
+    /** Refus PAR PHOTO (CdC § 7.1) : le propriétaire corrige (remplace) et resoumet le logement. */
+    public function refuser(PhotoLogement $photo, string $motif, User $administrateur): void
+    {
+        $photo->update(['etat' => 'refusee', 'motif_refus' => $motif]);
+
+        $this->journal->consigner(
+            'refus_photo', 'Refus de photo : '.$photo->libelleAudit()." — {$motif}", $photo, auteur: $administrateur,
+        );
+    }
+
+    /** Un envoi manqué ne bloque jamais la suppression (CdC § 13.2) : il est journalisé, jamais fatal. */
+    private function notifierLeProprietaireDeLaSuppression(PhotoLogement $photo, string $motif): void
+    {
+        try {
+            $logement = $photo->logement()->with('residence.proprietaire.utilisateur')->first();
+            $proprietaire = $logement?->residence->proprietaire;
+            if ($proprietaire === null || $proprietaire->interne) {
+                return;
+            }
+
+            $corps = sprintf(
+                "Bonjour %s,\n\nUne photo de votre logement « %s » a été supprimée par l’administration.\n\nMotif : %s",
+                $proprietaire->utilisateur->prenoms ?: $proprietaire->utilisateur->nom, $logement->nom, $motif,
+            );
+            Mail::to($proprietaire->utilisateur->email)->send(new NotificationGeneriqueMail('Photo supprimée — '.config('app.name'), $corps));
+        } catch (Throwable $e) {
+            Log::error('Notification de suppression de photo manquée', ['photo' => $photo->id, 'erreur' => $e->getMessage()]);
+        }
     }
 
     private function produireLesVersions(PhotoLogement $photo, ImageInterface $image): void

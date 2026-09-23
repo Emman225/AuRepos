@@ -140,9 +140,11 @@ describe('back office › réclamations (P2-AST-01)', () => {
     expect(await screen.findByRole('button', { name: 'Proposer un avoir' })).toBeDisabled()
   })
 
-  it(
-    'propose un avoir puis le trésorier le confirme depuis la file des changements',
-    async () => {
+  // Le test le plus lourd de la suite (deux modales enchaînées, une dizaine d'interactions) :
+  // il hérite du `testTimeout` global de `vite.config.ts`, réglé sur la lenteur mesurée de cette
+  // machine. Il portait un délai propre de 45 s, fixé quand le global valait 30 s ; depuis que
+  // celui-ci est passé à 60 s, ce plafond local était devenu le plus bas des deux.
+  it('propose un avoir puis le trésorier le confirme depuis la file des changements', async () => {
     let enAttente = false
     vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {
       if (url === '/backoffice/reclamations') return { elements: [RECLAMATION], pagination: { page: 1, par_page: 5, total: 1, derniere_page: 1 } } as never
@@ -192,7 +194,5 @@ describe('back office › réclamations (P2-AST-01)', () => {
     await userEvent.click(within(dialogueDecision).getByRole('button', { name: 'Confirmer' }))
 
     expect(envoyer).toHaveBeenCalledWith('/backoffice/changements/5/decision', { decision: 'valider', motif: undefined, mode_de_remboursement: 'especes' }, 'put')
-    },
-    45000,
-  )
+  })
 })

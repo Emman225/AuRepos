@@ -4,6 +4,19 @@ import 'couleurs.dart';
 
 /// Thème unique de toutes les applications.
 abstract final class ThemeResidences {
+  /// À passer en `style` à tout `FilledButton` posé dans un contexte HORIZONTAL — une `Row`,
+  /// les `actions` d'un `AlertDialog` (un `OverflowBar`), un `Wrap`.
+  ///
+  /// Le thème donne aux `FilledButton` un `minimumSize: Size.fromHeight(48)`, c'est-à-dire une
+  /// largeur MINIMALE infinie : voulu, les actions principales occupent toute la largeur de leur
+  /// colonne. Mais un parent horizontal mesure ses enfants sans borne de largeur, et cette
+  /// largeur minimale infinie devient alors une contrainte impossible — l'écran plante en
+  /// « BoxConstraints forces an infinite width », pas seulement en test.
+  ///
+  /// Ce style ne retire que le plancher de largeur : la hauteur de 48 et l'apparence restent
+  /// celles du thème.
+  static ButtonStyle get boutonEnLigne => FilledButton.styleFrom(minimumSize: const Size(0, 48));
+
   static ThemeData get clair {
     const schema = ColorScheme(
       brightness: Brightness.light,

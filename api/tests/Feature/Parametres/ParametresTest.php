@@ -49,13 +49,14 @@ it('réserve l’écran Paramètres aux administrateurs', function (Profil $prof
     [Profil::Gestionnaire, 403], [Profil::Gouvernante, 403], [Profil::Client, 403],
 ]);
 
-it('présente les neuf onglets du lot 1 avec leurs paramètres typés', function (): void {
+it('présente les onglets de paramètres avec leurs paramètres typés', function (): void {
     connecterComme(Profil::Administrateur);
 
     $onglets = test()->getJson('/api/v1/backoffice/parametres')->assertOk()->json('data.onglets');
 
+    // « creances » s'est ajouté au lot 1 avec les états de créances et dettes (P3-CPT).
     expect(array_column($onglets, 'code'))->toBe([
-        'general', 'sejours', 'taxes', 'gestionnaires', 'messages', 'comptant', 'proprietaires', 'conditions', 'entreprise',
+        'general', 'sejours', 'taxes', 'creances', 'gestionnaires', 'messages', 'comptant', 'proprietaires', 'conditions', 'entreprise',
     ]);
     $tva = collect($onglets[2]['parametres'])->firstWhere('cle', 'taxes.tva');
     expect($tva)->toMatchArray(['nom' => 'tva', 'type' => 'decimal', 'valeur' => 18, 'double_validation' => false]);

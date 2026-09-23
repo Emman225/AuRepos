@@ -3,6 +3,8 @@
 namespace App\Domain\Sejours\Services;
 
 use App\Domain\Exploitation\Models\Mission;
+use App\Domain\Maintenance\Enums\EtatDuTicketMaintenance;
+use App\Domain\Maintenance\Models\TicketMaintenance;
 use App\Domain\Sejours\Models\BlocageCalendrier;
 use App\Domain\Sejours\Models\Sejour;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,18 +13,20 @@ use Illuminate\Support\Carbon;
 
 /**
  * Agrégation du planning (grille logements × jours, P2-PLA-01/02/03, CdC § 6.2) : construit,
- * à partir des séjours, des missions de ménage et des blocages calendrier DÉJÀ existants, ce
- * que l'écran back-office affiche — sans nouvelle règle de facturation ni état inventé.
+ * à partir des séjours, des missions de ménage, des blocages calendrier et des tickets de
+ * maintenance DÉJÀ existants, ce que l'écran back-office affiche — sans nouvelle règle de
+ * facturation ni état inventé.
  *
  * Les 8 états colorés du brief de refonte (`web/src/shared/theme/jetons.ts`) se répartissent
  * ainsi : libre / réservé / occupé / départ du jour se lisent sur les séjours déjà renvoyés
  * par `PlanningController::index` (l'écran connaît déjà `EtatDuSejour`, rien de neuf ici) ;
  * EN MÉNAGE sur `missions()` (P2-MEN-01, seul type de mission construit à ce jour — un type
  * futur serait simplement ignoré par l'écran tant qu'il ne sait pas le dessiner) ; EN
- * MAINTENANCE et BLOQUÉ PROPRIÉTAIRE sur `blocages()` (motifs `maintenance` et
- * `usage_proprietaire` du blocage calendrier déjà existant, CdC § 6.2 — aucun guichet de
- * TICKETS de maintenance n'existe encore, P2-MNT-01, hors périmètre ici : « en maintenance »
- * vient du blocage manuel, pas d'un ticket) ; « Occupée (fermée par le propriétaire) » se lit
+ * MAINTENANCE sur `blocages()` (motif `maintenance`) ET sur `ticketsMaintenance()` : un ticket
+ * BLOQUANT (P2-MNT-01) pose lui-même un blocage de ce motif — les deux listes le décrivent
+ * alors, reliées par `blocage_id` — tandis qu'un ticket ouvert NON bloquant n'a aucune trace
+ * calendaire et ne se voit que par la seconde ; BLOQUÉ PROPRIÉTAIRE sur `blocages()` (motif
+ * `usage_proprietaire`, CdC § 6.2) ; « Occupée (fermée par le propriétaire) » se lit
  * sur `logement.ferme` (voir PlanningLogementResource), dérivé du bouton « Occupée / Disponible »
  * déjà existant sur la résidence (`Residence::disponibilite`), jamais d'un nouveau champ.
  */
@@ -65,6 +69,34 @@ final class Planning
         return BlocageCalendrier::query()
             ->whereIn('logement_id', $logementIds)
             ->whereRaw('daterange(debut, fin, \'[]\') && daterange(?, ?, \'[]\')', [$du->toDateString(), $au->toDateString()])
+            ->get();
+    }
+
+    /**
+     * Tickets de maintenance OUVERTS qui concernent la période (P2-MNT-01). Complément, et non
+     * doublon, des blocages : seul un ticket « bloquant » retire des dates du calendrier (il pose
+     * alors un BlocageCalendrier motif « maintenance », déjà renvoyé par blocages() et retrouvable
+     * ici par `blocage_id`). Un ticket ouvert NON bloquant — une panne signalée qui n'empêche pas
+     * de louer — n'a aucune trace calendaire : sans cette liste, le planning ne pourrait pas le
+     * montrer du tout. L'écran décide s'il le dessine en pastille plutôt qu'en barre pleine.
+     *
+     * Un ticket ouvert APRÈS la fin de la période n'existait pas à l'époque affichée, et un ticket
+     * dont l'indisponibilité est déjà levée avant le début ne la concerne plus : les deux sont exclus.
+     *
+     * @param  list<int>  $logementIds
+     * @return Collection<int, TicketMaintenance>
+     */
+    public function ticketsMaintenance(array $logementIds, Carbon $du, Carbon $au): Collection
+    {
+        if ($logementIds === []) {
+            return new Collection;
+        }
+
+        return TicketMaintenance::query()
+            ->whereIn('logement_id', $logementIds)
+            ->where('statut', EtatDuTicketMaintenance::Ouvert->value)
+            ->where('created_at', '<', $au->copy()->addDay()->startOfDay())
+            ->where(fn ($q) => $q->whereNull('indisponible_jusquau')->orWhere('indisponible_jusquau', '>=', $du->toDateString()))
             ->get();
     }
 

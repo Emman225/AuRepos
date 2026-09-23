@@ -20,6 +20,18 @@ Object.defineProperty(window, 'matchMedia', {
   }),
 })
 
+// jsdom n'implémente pas ResizeObserver, dont Ant Design se sert dès qu'une modale s'ouvre
+// (mesure du contenu). Même nature que le bouchon `matchMedia` ci-dessus : une lacune de
+// l'environnement de test, pas un comportement de l'écran — le navigateur, lui, l'a nativement.
+Object.defineProperty(window, 'ResizeObserver', {
+  writable: true,
+  value: class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  },
+})
+
 const administrateur = (): Utilisateur => ({
   id: 1,
   nom: 'Diallo',

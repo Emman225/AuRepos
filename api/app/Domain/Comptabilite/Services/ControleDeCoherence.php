@@ -11,7 +11,6 @@ use App\Domain\Partenaires\Enums\RegimeFiscal;
 use App\Domain\Partenaires\Enums\TypeDePiece;
 use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\Sejour;
-use Illuminate\Support\Collection;
 
 /**
  * Contrôle de cohérence (CdC § 9.3) : les recoupements automatiques cités mot pour mot au
