@@ -1,0 +1,1478 @@
+{
+  "marque": "Au Repos",
+  "marqueSlogan": "Résidences meublées à Abidjan",
+  "listes": {
+    "periode": {
+      "du": "Du",
+      "au": "Au"
+    },
+    "export": {
+      "titre": "Exporter",
+      "excel": "Excel",
+      "word": "Word",
+      "pdf": "PDF",
+      "echec": "L’export a échoué. Réessayez dans un instant."
+    },
+    "confirmation": {
+      "confirmer": "Confirmer",
+      "annuler": "Annuler"
+    }
+  },
+  "accueil": {
+    "titre": "Votre résidence meublée à Abidjan",
+    "sousTitre": "Studios, appartements et villas, avec accueil, ménage et services sur place.",
+    "misesEnAvant": {
+      "titre": "Nos résidences et logements mis en avant"
+    },
+    "promotions": {
+      "titre": "Promotions en cours"
+    },
+    "residencesMisesEnAvant": {
+      "titre": "Résidences meublées mises en avant"
+    },
+    "categories": {
+      "titre": "Nos catégories de logement",
+      "voir": "Voir"
+    },
+    "meilleuresResidences": {
+      "titre": "Les résidences meublées les mieux notées"
+    },
+    "residences": {
+      "aPartirDe": "À partir de {{prix}}"
+    },
+    "temoignages": {
+      "titre": "Ils nous font confiance"
+    },
+    "applications": {
+      "titre": "Nos applications mobiles",
+      "bientot": "Bientôt disponibles pour suivre vos séjours depuis votre téléphone.",
+      "argument1": "Code d'arrivée et consignes d'accès",
+      "argument2": "Messagerie directe avec l'agence",
+      "argument3": "Factures et reçus toujours à portée de main"
+    },
+    "cookies": {
+      "message": "Ce site utilise des cookies pour améliorer votre expérience et mesurer son audience.",
+      "accepter": "Accepter",
+      "refuser": "Refuser"
+    },
+    "newsletter": {
+      "titre": "Recevez nos actualités et bons plans",
+      "placeholder": "Votre courriel",
+      "sInscrire": "S’inscrire",
+      "confirmation": "Inscription enregistrée. Merci !"
+    }
+  },
+  "fiche": {
+    "introuvable": "Ce logement n’existe pas ou n’est plus publié.",
+    "erreur": "La fiche n’a pas pu être chargée. Réessayez dans un instant.",
+    "info": {
+      "capacite": "voyageurs",
+      "chambres_one": "chambre",
+      "chambres_other": "chambres",
+      "lits_one": "lit",
+      "lits_other": "lits",
+      "sdb_one": "salle de bain",
+      "sdb_other": "salles de bain",
+      "surface": "m²"
+    },
+    "equipements": {
+      "titre": "Équipements",
+      "aucun": "Aucun équipement renseigné."
+    },
+    "regles": {
+      "titre": "Règles de la maison",
+      "fumeur": "Fumeur autorisé",
+      "animaux": "Animaux autorisés",
+      "fetes": "Fêtes autorisées",
+      "horaires": "Arrivée à partir de {{arrivee}}, départ avant {{depart}}"
+    },
+    "lieu": {
+      "titre": "Emplacement",
+      "avertissement": "Le quartier est indiqué ; l’adresse exacte est communiquée après confirmation du séjour."
+    },
+    "calendrier": {
+      "titre": "Calendrier de disponibilité",
+      "moisPrecedent": "Mois précédent",
+      "moisSuivant": "Mois suivant",
+      "libre": "Libre",
+      "occupe": "Occupé"
+    },
+    "tarifs": {
+      "titre": "Tarif par saison"
+    },
+    "avis": {
+      "titre": "Avis",
+      "aucun": "Aucun avis pour l’instant."
+    },
+    "similaires": {
+      "titre": "Logements similaires"
+    },
+    "caution": "Caution : {{montant}}",
+    "cautionLibelle": "Caution",
+    "dureeMinimale_one": "Durée minimale : {{count}} nuit",
+    "dureeMinimale_other": "Durée minimale : {{count}} nuits",
+    "reserver": "Réserver"
+  },
+  "tunnel": {
+    "titre": "Votre réservation",
+    "etapes": {
+      "sejour": "Séjour",
+      "reglement": "Règlement",
+      "confirmation": "Confirmation"
+    },
+    "arrivee": "Arrivée",
+    "depart": "Départ",
+    "adultes": "Adultes",
+    "enfants": "Enfants",
+    "codePromo": "Code promo (facultatif)",
+    "choisirLesDates": "Choisissez vos dates pour voir le prix.",
+    "datesIndisponibles": "Ce logement n’est plus disponible pour ces dates.",
+    "erreurGenerique": "La demande a échoué. Réessayez dans un instant.",
+    "utiliserMesPoints": "Utiliser mes points de fidélité ({{valeur}} de réduction)",
+    "reserver": "Réserver",
+    "obtenirUnDevis": "Obtenir un devis",
+    "reglement": {
+      "titre": "Mode de règlement",
+      "enLigne": "Paiement en ligne",
+      "agence": "Paiement en agence",
+      "aTerme": "Sur mon compte à terme"
+    },
+    "devis": {
+      "hebergement_one": "Hébergement ({{count}} nuit)",
+      "hebergement_other": "Hébergement ({{count}} nuits)",
+      "remise": "Remise ({{pourcentage}} %)",
+      "tva": "TVA",
+      "autresTaxes": "Taxe de développement touristique et taxe de séjour",
+      "netAPayer": "Net à payer",
+      "caution": "Caution (non incluse dans le net à payer)",
+      "cautionNote": "Remboursable après l'état des lieux de départ. Jamais soumise à la TVA."
+    },
+    "devisEtabli": {
+      "titre": "Devis établi",
+      "sousTitre": "Votre devis {{reference}} est enregistré dans votre espace. Le prix reste figé jusqu’à sa transformation en réservation."
+    },
+    "transformation": {
+      "titre": "Transformer ce devis en réservation",
+      "transformer": "Transformer en réservation"
+    },
+    "confirmation": {
+      "titre": "Réservation enregistrée",
+      "sousTitre": "Référence {{reference}}",
+      "netAPayer": "Net à payer :",
+      "expire": "Réglez avant le {{date}} : passé ce délai, les dates seront libérées.",
+      "payerMaintenant": "Payer maintenant"
+    },
+    "paiement": {
+      "erreur": "Impossible de vérifier ce paiement.",
+      "montantRegle": "{{montant}} réglés pour le séjour {{sejour}}. Votre reçu vous a été envoyé.",
+      "retourAuSite": "Retour au site",
+      "etat": {
+        "en_attente": "Paiement en cours de confirmation…",
+        "reussi": "Paiement confirmé",
+        "echoue": "Le paiement n’a pas abouti",
+        "expire": "Le délai de paiement est dépassé"
+      }
+    }
+  },
+  "recherche": {
+    "titre": "Rechercher un logement",
+    "description": "Studios, appartements et villas meublés à Abidjan : filtrez par commune, dates, budget et équipements.",
+    "prixParNuit": "{{prix}} / nuit",
+    "parNuit": "par nuit",
+    "filtre": {
+      "commune": "Commune",
+      "toutesLesCommunes": "Toutes les communes",
+      "quartier": "Quartier",
+      "tousLesQuartiers": "Tous les quartiers",
+      "arrivee": "Arrivée",
+      "depart": "Départ",
+      "adultes": "Adultes",
+      "enfants": "Enfants",
+      "type": "Type de logement",
+      "tousLesTypes": "Tous les types",
+      "budget": "Budget max / nuit",
+      "equipements": "Équipements",
+      "rechercher": "Rechercher",
+      "reinitialiser": "Réinitialiser",
+      "ouvrirLesFiltres": "Filtres",
+      "fermer": "Voir les résultats"
+    },
+    "resultats": {
+      "disponibles_one": "{{count}} logement libre ce soir",
+      "disponibles_other": "{{count}} logements libres ce soir",
+      "pourLesDates_one": "{{count}} logement disponible pour ces dates",
+      "pourLesDates_other": "{{count}} logements disponibles pour ces dates",
+      "aucun": "Aucun logement ne correspond à cette recherche.",
+      "erreur": "La recherche a échoué. Réessayez dans un instant."
+    }
+  },
+  "erreurs": {
+    "pageIntrouvable": "Cette page n’existe pas.",
+    "retourAccueil": "Retour à l’accueil",
+    "accesRefuse": "Cet écran ne relève pas de votre profil.",
+    "retourMonEspace": "Retour à mon espace"
+  },
+  "connexion": {
+    "titre": "Connexion",
+    "sousTitre": "Un seul accès pour tous : clients, propriétaires, partenaires et personnel.",
+    "identifiant": "Identifiant",
+    "identifiantAide": "Votre courriel, votre téléphone ou l’identifiant reçu par courriel.",
+    "motDePasse": "Mot de passe",
+    "seConnecter": "Se connecter",
+    "seDeconnecter": "Se déconnecter",
+    "identifiantObligatoire": "Saisissez votre identifiant.",
+    "motDePasseObligatoire": "Saisissez votre mot de passe.",
+    "echecInattendu": "La connexion a échoué. Réessayez dans un instant.",
+    "pasDeCompte": "Pas encore de compte ?",
+    "creerUnCompte": "Créer un compte",
+    "motDePasseOublie": "Mot de passe oublié ?"
+  },
+  "espace": {
+    "bienvenue": "Bonjour {{nom}}",
+    "tableauDeBord": "Tableau de bord",
+    "monCompte": "Mon compte",
+    "profil": "Profil",
+    "courriel": "Courriel",
+    "agence": "Agence",
+    "aucuneAgence": "Aucune agence",
+    "encaissement": "Encaissement",
+    "peutEncaisser": "Autorisé pour cette agence",
+    "nePeutPasEncaisser": "Non autorisé",
+    "bientotDisponible": "Cet écran arrive dans une prochaine étape.",
+    "bientotDisponibleDetail": "Les écrans métier de cet espace sont en cours de construction. Votre compte est déjà actif — voici ce qu'il contient pour l'instant."
+  },
+  "client": {
+    "menu": {
+      "sejours": "Mes séjours",
+      "devis": "Mes devis",
+      "paiements": "Mes paiements",
+      "compte": "Mon compte"
+    },
+    "tableauDeBord": {
+      "avanceDisponible": "Avance disponible",
+      "devisEnAttente": "Devis en attente",
+      "voirMesDevis": "Voir mes devis",
+      "pointsDeFidelite": "Points de fidélité",
+      "prochainSejour": "Prochain séjour",
+      "voirLeDetail": "Voir le détail",
+      "aucunSejour": "Aucun séjour à venir."
+    },
+    "sejours": {
+      "reference": "Référence",
+      "logement": "Logement",
+      "arrivee": "Arrivée",
+      "depart": "Départ",
+      "etat": "État",
+      "netAPayer": "Net à payer",
+      "introuvable": "Introuvable.",
+      "aucun": "Aucun séjour pour l’instant."
+    },
+    "detail": {
+      "retourALaListe": "← Retour à la liste",
+      "codeArrivee": "Votre code d’arrivée : {{code}}",
+      "adresse": "Adresse :",
+      "nuits_one": "{{count}} nuit",
+      "nuits_other": "{{count}} nuits",
+      "factureBientot": "La facture normalisée sera disponible ici dès l’intégration DGI (FNE).",
+      "confirmerAnnulation": "Annuler cette réservation ?",
+      "annulerLeSejour": "Annuler ce séjour",
+      "devisDejaTransforme": "Ce devis a déjà été transformé en réservation {{reference}}.",
+      "confirmerArchivage": "Archiver ce devis ?",
+      "archiverLeDevis": "Archiver ce devis"
+    },
+    "paiements": {
+      "avanceDisponible": "Avance disponible",
+      "aReglerEnAgence": "À régler en agence",
+      "pointsDeFidelite": "Points de fidélité",
+      "mesReglements": "Mes règlements",
+      "date": "Date",
+      "montant": "Montant",
+      "mode": "Mode",
+      "affaires": "Séjour(s)",
+      "recu": "Reçu"
+    },
+    "compte": {
+      "coordonnees": "Coordonnées",
+      "nonRenseigne": "Non renseigné",
+      "regime": "Régime de facturation",
+      "raisonSociale": "Raison sociale",
+      "ncc": "NCC",
+      "aTerme": {
+        "titre": "Compte à terme",
+        "plafond": "Plafond de crédit",
+        "encours": "Encours",
+        "demander": "Demander un compte à terme",
+        "piecesAttendues": "Déposez vos pièces pour que le dossier soit instruit :",
+        "deposer": "Déposer"
+      },
+      "pieces": {
+        "rccm": "RCCM",
+        "bilan": "Bilan",
+        "pieceIdentite": "Pièce d’identité"
+      }
+    },
+    "transferts": {
+      "titre": "Transferts",
+      "aucun": "Aucun transfert demandé pour l’instant.",
+      "demander": "Demander un transfert",
+      "lieu": "Lieu de prise en charge",
+      "commune": "Commune",
+      "typeVehicule": "Type de véhicule souhaité",
+      "dateHeure": "Date et heure prévues",
+      "passagers": "Passagers",
+      "bagages": "Bagages (facultatif)",
+      "notes": "Notes (facultatif)",
+      "montantCalcule": "Transfert demandé. Montant : {{montant}}.",
+      "codePriseEnCharge": "Code de prise en charge : {{code}}",
+      "lieuObligatoire": "Saisissez le lieu de prise en charge.",
+      "communeObligatoire": "Choisissez la commune.",
+      "typeVehiculeObligatoire": "Choisissez le type de véhicule.",
+      "dateHeureObligatoire": "Choisissez la date et l’heure.",
+      "passagersObligatoire": "Saisissez le nombre de passagers."
+    },
+    "repas": {
+      "titre": "Commandes de repas",
+      "aucune": "Aucune commande de repas pour l’instant.",
+      "codeLivraison": "Votre code de livraison : {{code}}",
+      "commander": "Commander un repas",
+      "choisirUnRestaurateur": "Choisir un restaurateur",
+      "carteVide": "Aucun produit disponible pour l’instant.",
+      "quantite": "Quantité",
+      "quantiteDe": "Quantité de {{produit}}",
+      "modeDeReglement": "Mode de règlement",
+      "modeNoteDuSejour": "Sur la note du séjour",
+      "modeEnLigne": "Paiement en ligne",
+      "modeATerme": "Sur mon compte à terme",
+      "envoyerLaCommande": "Envoyer la commande",
+      "commandeEnvoyee": "Commande {{reference}} envoyée au restaurateur."
+    }
+  },
+  "backoffice": {
+    "menu": {
+      "reservations": "Réservations",
+      "planning": "Planning",
+      "apporteurs": "Apporteurs d’affaires",
+      "transferts": "Transferts",
+      "chauffeurs": "Chauffeurs",
+      "catalogue": "Catalogue",
+      "proprietaires": "Propriétaires",
+      "restaurateurs": "Restaurateurs",
+      "commandesRepas": "Commandes de repas",
+      "livreurs": "Livreurs",
+      "tarification": "Tarification",
+      "caisse": "Caisse",
+      "clients": "Clients",
+      "factures": "Factures normalisées",
+      "personnel": "Personnel et agences",
+      "parametres": "Paramètres",
+      "missions": "Missions de ménage",
+      "ticketsAssistance": "Tickets d’assistance",
+      "reclamations": "Réclamations",
+      "demandesAnnulation": "Demandes d’annulation"
+    },
+    "tableauDeBord": {
+      "reservationsEnAttente": "Réservations en attente",
+      "arriveesDuJour": "Arrivées du jour",
+      "departsDuJour": "Départs du jour",
+      "sejoursEnCours": "Séjours en cours",
+      "devisEnAttente": "Devis en attente",
+      "aujourdhui": "Aujourd’hui",
+      "aTraiter": "À traiter",
+      "accesRapides": "Accès rapides"
+    },
+    "planning": {
+      "aujourdhui": "Aujourd’hui",
+      "aucunLogement": "Aucun logement à afficher sur cette période."
+    },
+    "reservations": {
+      "client": "Client",
+      "onglets": {
+        "en_attente": "En attente",
+        "a_terme": "Client à terme",
+        "arrivees": "Arrivées du jour",
+        "departs": "Départs du jour",
+        "en_cours": "Séjours en cours",
+        "termines": "Terminés",
+        "devis": "Devis"
+      },
+      "manuelle": {
+        "titre": "Réservation manuelle",
+        "enregistrer": "Enregistrer",
+        "canal": "Canal",
+        "canalTelephone": "Téléphone",
+        "canalWalkIn": "Walk-in",
+        "canalExterne": "Canal externe (Booking, Airbnb)",
+        "logement": "Logement (référence)",
+        "logementAide": "Exemple : LOG-00001",
+        "periode": "Arrivée / départ",
+        "bonDeCommande": "Bon de commande (facultatif)",
+        "bonDeCommandeAide": "Obligatoire pour un client entreprise, administration ou étranger.",
+        "nomObligatoire": "Saisissez le nom du client.",
+        "courrielObligatoire": "Saisissez le courriel du client.",
+        "logementObligatoire": "Saisissez la référence du logement.",
+        "datesObligatoires": "Choisissez les dates d’arrivée et de départ."
+      },
+      "detail": {
+        "encaisse": "Encaissé",
+        "resteDu": "Reste dû",
+        "obstacles": "Cette réservation ne peut pas encore être confirmée",
+        "confirmer": "Confirmer la réservation",
+        "proposerUneReduction": "Proposer une réduction",
+        "reductionAide": "La réduction entrera en vigueur après confirmation du trésorier désigné.",
+        "pourcentage": "Pourcentage",
+        "motif": "Motif",
+        "reductionProposeeMessage": "Réduction proposée. Elle entrera en vigueur après confirmation du trésorier.",
+        "sejour": "Séjour",
+        "paiement": "Paiement",
+        "occupants": "Occupants",
+        "occupantsAdultes_one": "{{count}} adulte",
+        "occupantsAdultes_other": "{{count}} adultes",
+        "etEnfants_one": ", {{count}} enfant",
+        "etEnfants_other": ", {{count}} enfants",
+        "canal": "Canal",
+        "canalDirect": "Site internet",
+        "modeDeReglement": "Mode de règlement",
+        "caution": "Caution",
+        "cautionRetenue": "Caution retenue",
+        "acompteExige": "Acompte exigé",
+        "bonDeCommande": "Bon de commande",
+        "soldee": "Soldée",
+        "resteAEncaisser": "Reste à encaisser",
+        "noShow": "No-show constaté le {{date}} : les dates ont été libérées, la retenue applique la politique en vigueur.",
+        "cautionRetenueInfo": "Caution retenue au départ : {{montant}}"
+      },
+      "checkIn": {
+        "action": "Faire le check-in",
+        "titre": "Check-in",
+        "aide": "Saisissez le code d’arrivée transmis au client. Il n’est jamais affiché ici.",
+        "code": "Code d’arrivée",
+        "confirmer": "Valider le check-in"
+      },
+      "checkOut": {
+        "action": "Faire le check-out",
+        "titre": "Check-out",
+        "consommations": "Consommations du séjour",
+        "aucuneConsommation": "Aucune consommation facturée sur ce séjour.",
+        "hebergement": "Hébergement",
+        "repas": "Repas",
+        "transferts": "Transferts",
+        "total": "Total",
+        "cautionRetenue": "Caution retenue",
+        "motif": "Motif",
+        "motifObligatoire": "Le motif est obligatoire dès qu’une caution est retenue (au moins 5 caractères).",
+        "confirmer": "Valider le check-out"
+      },
+      "prolongation": {
+        "action": "Prolonger / départ anticipé",
+        "titre": "Prolongation ou départ anticipé",
+        "nouveauDepart": "Nouvelle date de départ",
+        "enregistrer": "Enregistrer"
+      },
+      "occupantsTitre": "Occupants et fiche de police",
+      "occupants": {
+        "nom": "Nom",
+        "enfant": "enfant",
+        "typePiece": "Type de pièce",
+        "telephone": "Téléphone",
+        "piece": "Pièce",
+        "aucunePiece": "Aucune pièce déposée",
+        "televerserPiece": "Déposer une pièce",
+        "statutsPiece": {
+          "en_attente": "En attente",
+          "validee": "Validée",
+          "refusee": "Refusée"
+        }
+      },
+      "etatsDesLieux": {
+        "titre": "État des lieux",
+        "etablirEntree": "Établir l’état des lieux d’entrée",
+        "etablirSortie": "Établir l’état des lieux de sortie",
+        "signe": "Signé",
+        "nonSigne": "Non signé",
+        "voirPdf": "Voir le PDF",
+        "libelle": "Libellé",
+        "observation": "Observation",
+        "ajouterLigne": "Ajouter",
+        "ajouterPhoto": "Ajouter une photo",
+        "signature": "Signature",
+        "signatureZone": "Zone de signature",
+        "signatureAide": "Dessinez la signature avec la souris ou le doigt puis validez.",
+        "effacer": "Effacer",
+        "signer": "Signer"
+      }
+    },
+    "catalogue": {
+      "residence": {
+        "creer": "Nouvelle résidence",
+        "modifier": "Modifier la résidence",
+        "nom": "Nom",
+        "proprietaire": "Propriétaire",
+        "lieu": "Lieu",
+        "logements": "Logements",
+        "disponibilite": "Disponibilité",
+        "active": "Active",
+        "oui": "Oui",
+        "non": "Non",
+        "disponible": "Disponible",
+        "occupee": "Occupée",
+        "adresse": "Adresse",
+        "repere": "Repère",
+        "description": "Description",
+        "proprietaireObligatoire": "Choisissez le propriétaire.",
+        "quartierObligatoire": "Choisissez le quartier.",
+        "nomCourt": "Le nom doit comporter au moins 3 caractères."
+      },
+      "logement": {
+        "titrePluriel": "Logements",
+        "creer": "Nouveau logement",
+        "modifier": "Modifier le logement",
+        "reference": "Référence",
+        "nom": "Nom",
+        "type": "Type de logement",
+        "prixVente": "Prix de vente",
+        "etatPublication": "Publication",
+        "nombrePieces": "Nombre de pièces",
+        "nombreChambres": "Nombre de chambres",
+        "caution": "Caution",
+        "capaciteDeBase": "Capacité de base",
+        "capaciteMaximale": "Capacité maximale",
+        "description": "Description",
+        "typeObligatoire": "Choisissez le type de logement.",
+        "nomCourt": "Le nom doit comporter au moins 2 caractères.",
+        "capaciteIncoherente": "La capacité maximale doit être au moins égale à la capacité de base.",
+        "chambresIncoherentes": "Le nombre de chambres ne peut pas dépasser le nombre de pièces."
+      },
+      "prix": {
+        "titre": "Prix",
+        "proprietaire": "Prix propriétaire",
+        "vente": "Prix de vente",
+        "marge": "Marge par nuitée",
+        "nonFixe": "Non fixé",
+        "conseille": "Prix de vente conseillé",
+        "propositionEnAttente": "Un nouveau prix de vente ({{montant}}) est proposé, en attente de confirmation par un second administrateur.",
+        "montant": "Montant",
+        "proposer": "Proposer",
+        "arreter": "Arrêter",
+        "motif": "Motif (facultatif)",
+        "derogation": "Pourcentage entreprise",
+        "pourcentageActuel": "Taux appliqué : {{taux}} %",
+        "derogationActive": "dérogation propre au logement",
+        "nouveauTaux": "Nouveau taux (%)",
+        "voirGrilleTarifaire": "Voir la grille tarifaire de ce logement"
+      },
+      "publication": {
+        "titre": "Publication",
+        "obstacles": "Ce logement ne peut pas encore être publié",
+        "soumettre": "Soumettre à validation",
+        "publier": "Publier",
+        "refuser": "Refuser",
+        "suspendre": "Suspendre",
+        "reactiver": "Réactiver"
+      },
+      "photos": {
+        "titre": "Photos",
+        "compte": "{{nombre}} photo(s) — minimum {{minimum}} pour publier",
+        "couverture": "Couverture",
+        "definirCouverture": "Définir comme couverture",
+        "confirmerSuppression": "Supprimer cette photo ?",
+        "supprimer": "Supprimer",
+        "ajouter": "Ajouter une photo"
+      },
+      "referentiels": {
+        "titre": "Types de logement et équipements",
+        "typesLogement": "Types de logement",
+        "equipements": "Équipements",
+        "ajouter": "Ajouter",
+        "modifier": "Modifier",
+        "code": "Code",
+        "nom": "Nom",
+        "nombrePieces": "Nombre de pièces",
+        "actif": "Actif",
+        "portee": "Portée",
+        "filtreRecherche": "Filtre de recherche",
+        "porteeLogement": "Logement",
+        "porteeResidence": "Résidence"
+      }
+    },
+    "proprietaires": {
+      "creer": "Nouveau propriétaire",
+      "modifier": "Modifier le propriétaire",
+      "nom": "Nom",
+      "nature": "Nature",
+      "courriel": "Courriel",
+      "residences": "Résidences",
+      "dossier": "Dossier",
+      "complet": "Complet",
+      "incomplet": "Incomplet",
+      "naturePersonnePhysique": "Personne physique",
+      "natureEntreprise": "Entreprise",
+      "raisonSociale": "Raison sociale",
+      "regimeFiscal": "Régime fiscal",
+      "regime": {
+        "nonRenseigne": "Non renseigné",
+        "aucun": "Aucun régime (particulier)",
+        "entreprenant": "Régime de l’entreprenant",
+        "microEntreprise": "Micro-entreprise",
+        "reelSimplifie": "Réel simplifié (RSI)",
+        "reelNormal": "Réel normal (RNI)"
+      },
+      "assujettiTva": "Assujetti à la TVA",
+      "ncc": "NCC",
+      "rccm": "RCCM",
+      "mandat": {
+        "titre": "Mandat",
+        "modeRemuneration": "Mode de rémunération",
+        "prixNegocie": "Prix négocié + prix de vente administrateur",
+        "commission": "Commission sur le prix de vente",
+        "tauxCommission": "Taux de commission (%)",
+        "signeLe": "Mandat signé le",
+        "signeLeValeur": "Mandat signé le {{date}}",
+        "nonSigne": "Mandat non signé"
+      },
+      "notes": "Notes",
+      "interne": "Propriétaire interne (compte de l’entreprise)",
+      "interneAide": "Ses résidences suivent le même circuit, mais le reversement est interne, sans retenue à la source.",
+      "nomObligatoire": "Saisissez le nom.",
+      "courrielObligatoire": "Saisissez le courriel.",
+      "elementsManquants": "Éléments manquants pour un dossier complet",
+      "retenueALaSource": "Retenue à la source",
+      "residencesConfiees": "Résidences confiées",
+      "pieces": {
+        "titre": "Pièces",
+        "type": "Type",
+        "nom": "Fichier",
+        "statut": "Statut",
+        "valider": "Valider",
+        "refuser": "Refuser",
+        "deposer": "Déposer",
+        "confirmerRefus": "Refuser cette pièce ?",
+        "types": {
+          "piece_identite": "Pièce d’identité",
+          "titre_propriete": "Titre de propriété",
+          "bail": "Bail",
+          "rib": "RIB",
+          "mandat": "Mandat de gestion signé",
+          "dfe": "Déclaration fiscale d’existence (DFE)",
+          "attestation_regime": "Attestation de régime d’imposition",
+          "rccm": "RCCM",
+          "bilan": "Bilan financier",
+          "autre": "Autre document"
+        }
+      }
+    },
+    "apporteurs": {
+      "creer": "Nouvel apporteur",
+      "modifier": "Modifier l’apporteur",
+      "code": "Code",
+      "pourcentage": "Commission (%)",
+      "actif": "Actif",
+      "aucun": "Aucun apporteur pour l’instant.",
+      "soldeDu": "Solde dû",
+      "commissions": "Commissions",
+      "aucuneCommission": "Aucune commission pour l’instant."
+    },
+    "transferts": {
+      "filtrerParEtat": "État",
+      "tousLesEtats": "Tous les états",
+      "etats": {
+        "demande": "Demandé",
+        "affecte": "Affecté",
+        "termine": "Terminé",
+        "annule": "Annulé"
+      },
+      "reference": "Référence",
+      "sejour": "Séjour",
+      "lieu": "Lieu de prise en charge",
+      "commune": "Commune",
+      "dateHeure": "Date et heure prévues",
+      "passagers": "Passagers",
+      "bagages": "Bagages",
+      "montant": "Montant",
+      "chauffeur": "Chauffeur",
+      "vehicule": "Véhicule",
+      "aucun": "Aucun transfert pour l’instant.",
+      "affecter": "Affecter",
+      "affecterLeTransfert": "Affecter un chauffeur",
+      "montantVerseAuChauffeur": "Montant à verser au chauffeur",
+      "annuler": "Annuler le transfert",
+      "confirmerAnnulation": "Annuler ce transfert ?",
+      "codeEmis": "Code de prise en charge émis",
+      "chauffeurObligatoire": "Choisissez un chauffeur.",
+      "vehiculeObligatoire": "Choisissez un véhicule.",
+      "montantObligatoire": "Saisissez le montant à verser au chauffeur."
+    },
+    "chauffeurs": {
+      "creer": "Nouveau chauffeur",
+      "modifier": "Modifier le chauffeur",
+      "aucun": "Aucun chauffeur pour l’instant.",
+      "actif": "Actif",
+      "vehicules": "Véhicules",
+      "aucunVehicule": "Aucun véhicule pour l’instant.",
+      "ajouterVehicule": "Ajouter un véhicule",
+      "immatriculation": "Immatriculation",
+      "typeVehicule": "Type de véhicule"
+    },
+    "restaurateurs": {
+      "creer": "Nouveau restaurateur",
+      "modifier": "Modifier le restaurateur",
+      "actif": "Actif",
+      "aucun": "Aucun restaurateur pour l’instant.",
+      "pourcentagePlateforme": "Pourcentage plateforme",
+      "pourcentageNonFixe": "Non fixé",
+      "pourcentageAide": "Ce taux détermine le prix de vente à partir du prix d’achat. Proposition soumise à double validation, comme le pourcentage entreprise de la tarification.",
+      "pourcentageActuel": "Taux appliqué : {{taux}} %",
+      "propositionEnvoyee": "Proposition envoyée ({{montant}} %), en attente de confirmation par un second administrateur.",
+      "carte": "Carte",
+      "carteVide": "Aucun produit sur la carte pour l’instant.",
+      "ajouterUnProduit": "Ajouter un produit",
+      "dette": "Dette",
+      "du": "Dû",
+      "dejaVerse": "Déjà versé",
+      "produit": {
+        "nom": "Nom",
+        "categorie": "Catégorie",
+        "plat": "Plat",
+        "boisson": "Boisson",
+        "prixAchat": "Prix d’achat",
+        "disponible": "Disponible",
+        "ajouter": "Ajouter un produit",
+        "modifier": "Modifier le produit"
+      }
+    },
+    "livreurs": {
+      "creer": "Nouveau livreur",
+      "modifier": "Modifier le livreur",
+      "aucun": "Aucun livreur pour l’instant.",
+      "soldeDu": "Solde dû",
+      "totalGagne": "Total gagné",
+      "dejaVerse": "Déjà versé"
+    },
+    "commandesRepas": {
+      "filtreEtat": "État",
+      "etats": {
+        "demande": "Demandée",
+        "confirmee": "Confirmée",
+        "en_preparation": "En préparation",
+        "prete": "Prête",
+        "en_livraison": "En livraison",
+        "livree": "Livrée",
+        "annulee": "Annulée",
+        "refusee": "Refusée"
+      },
+      "aucune": "Aucune commande pour l’instant.",
+      "reference": "Référence",
+      "sejour": "Séjour",
+      "restaurateur": "Restaurateur",
+      "montant": "Montant",
+      "confirmer": "Confirmer",
+      "affecterLivreur": "Affecter un livreur",
+      "affecter": "Affecter",
+      "livreur": "Livreur",
+      "remunerationLivreur": "Rémunération du livreur",
+      "refuser": "Refuser",
+      "motifRefus": "Motif du refus"
+    },
+    "tarification": {
+      "titre": "Tarification",
+      "onglets": {
+        "grille": "Grille tarifaire",
+        "pourcentage": "Pourcentage entreprise",
+        "prixNegocies": "Prix négociés",
+        "codesPromo": "Codes promo",
+        "baremeTransfert": "Barème des transferts",
+        "baremeLivraisonRepas": "Barème de livraison repas",
+        "referentiels": "Saisons, tranches et suppléments"
+      },
+      "grille": {
+        "titre": "Grille tarifaire",
+        "choisirUnType": "Choisir un type de logement",
+        "choisirUneCible": "Choisissez un type de logement pour afficher sa grille tarifaire.",
+        "pourCeLogement": "Grille tarifaire propre à ce logement.",
+        "saison": "Saison",
+        "periode": "Période",
+        "anomalies": "{{nombre}} anomalie(s) détectée(s)",
+        "bloquant": "Bloquant",
+        "information": "Information"
+      },
+      "simulation": {
+        "titre": "Simulation d’un séjour",
+        "logementId": "Logement (identifiant)",
+        "simuler": "Simuler",
+        "nombreDeNuits": "Nombre de nuits",
+        "hebergement": "Hébergement HT",
+        "date": "Date",
+        "tarif": "Tarif",
+        "origine": "Origine"
+      },
+      "pourcentage": {
+        "titre": "Pourcentage entreprise global",
+        "aide": "Ce taux s’applique à tous les logements, sauf dérogation propre à un logement. Proposition soumise à double validation.",
+        "proposer": "Proposer",
+        "propositionEnvoyee": "Proposition envoyée ({{montant}} %), en attente de confirmation par un second administrateur.",
+        "derogations": "Dérogations par logement",
+        "tauxGlobal": "Taux global",
+        "tauxDerogation": "Taux dérogatoire"
+      },
+      "prixNegocies": {
+        "titre": "Prix négociés",
+        "ajouter": "Nouveau prix négocié",
+        "client": "Client",
+        "typeLogement": "Type de logement",
+        "tarifParNuit": "Tarif par nuit",
+        "actif": "Actif",
+        "notes": "Notes (facultatif)",
+        "modifieLe": "Modifié le",
+        "desactiver": "Désactiver",
+        "confirmerDesactivation": "Désactiver ce prix négocié ?",
+        "clientObligatoire": "Choisissez le client.",
+        "typeLogementObligatoire": "Choisissez le type de logement.",
+        "tarifObligatoire": "Saisissez le tarif par nuit."
+      },
+      "codesPromo": {
+        "titre": "Codes promo",
+        "ajouter": "Nouveau code promo",
+        "modifier": "Modifier le code promo",
+        "code": "Code",
+        "type": "Type de remise",
+        "typePourcentage": "Pourcentage",
+        "typeMontant": "Montant fixe",
+        "valeur": "Valeur",
+        "periode": "Période de validité",
+        "residence": "Résidence (facultatif, sinon toutes)",
+        "description": "Description (facultative)",
+        "actif": "Actif",
+        "valableAujourdhui": "Valable aujourd’hui",
+        "codeObligatoire": "Saisissez le code.",
+        "valeurObligatoire": "Saisissez la valeur.",
+        "periodeObligatoire": "Choisissez la période de validité."
+      },
+      "baremeTransfert": {
+        "titre": "Barème des transferts",
+        "ajouter": "Nouveau barème",
+        "modifier": "Modifier le barème",
+        "commune": "Commune",
+        "typeVehicule": "Type de véhicule",
+        "prix": "Prix",
+        "aucun": "Aucun barème pour l’instant.",
+        "supprimer": "Supprimer",
+        "confirmerSuppression": "Supprimer ce barème ?",
+        "communeObligatoire": "Choisissez la commune.",
+        "typeVehiculeObligatoire": "Choisissez le type de véhicule.",
+        "prixObligatoire": "Saisissez le prix."
+      },
+      "baremeLivraisonRepas": {
+        "ajouter": "Nouveau barème",
+        "modifier": "Modifier le barème",
+        "forfait": "Forfait",
+        "aucun": "Aucun barème pour l’instant."
+      },
+      "referentiels": {
+        "saisons": "Saisons",
+        "tranchesDuree": "Tranches de durée",
+        "supplements": "Suppléments",
+        "nom": "Nom",
+        "categorie": "Catégorie",
+        "categorieBasse": "Basse saison",
+        "categorieHaute": "Haute saison",
+        "categorieEvenement": "Événement",
+        "periode": "Période",
+        "dateDebut": "Date de début",
+        "dateFin": "Date de fin",
+        "nuits": "Nuits (min — max)",
+        "nuitsMin": "Nuits minimum",
+        "nuitsMax": "Nuits maximum (facultatif, illimité si vide)",
+        "code": "Code",
+        "codeOccupantSupplementaire": "Occupant supplémentaire",
+        "codeWeekEnd": "Week-end",
+        "codeArriveeTardive": "Arrivée tardive",
+        "codeDepartTardif": "Départ tardif",
+        "mode": "Mode de calcul",
+        "modeParNuitEtParPersonne": "Par nuit et par personne",
+        "modeParNuit": "Par nuit",
+        "modeForfait": "Forfait",
+        "montant": "Montant",
+        "typeLogement": "Type de logement (facultatif)",
+        "tousLesTypes": "Tous les types",
+        "actif": "Actif",
+        "ajouter": "Ajouter",
+        "modifier": "Modifier",
+        "supprimer": "Supprimer",
+        "confirmerSuppression": "Supprimer cet élément ?",
+        "avertissementCascade": "Attention : supprimer cette saison ou cette tranche efface aussi les tarifs de grille déjà saisis pour elle."
+      }
+    },
+    "caisse": {
+      "onglets": {
+        "encaissement": "Encaissement",
+        "fileDeValidation": "File de validation",
+        "avances": "Avances",
+        "registre": "Registre",
+        "decaissement": "Décaissement"
+      },
+      "guichets": {
+        "sejours": "Séjours",
+        "creancesATerme": "Créances à terme",
+        "enLigne": "Paiement en ligne",
+        "avances": "Avances clients",
+        "dettesPartenaires": "Dettes partenaires"
+      },
+      "modes": {
+        "especes": "Espèces",
+        "mobile_money": "Mobile money",
+        "carte": "Carte",
+        "virement": "Virement",
+        "cheque": "Chèque",
+        "avance": "Avance",
+        "canal_externe": "Canal externe"
+      },
+      "sens": {
+        "encaissement": "Encaissement",
+        "decaissement": "Décaissement"
+      },
+      "etats": {
+        "en_attente": "En attente de validation",
+        "a_payer": "À payer",
+        "preuve_jointe": "À payer, preuve jointe",
+        "effectue": "Effectué",
+        "rejete": "Rejeté"
+      },
+      "encaissement": {
+        "client": "Client (identifiant)",
+        "guichet": "Guichet",
+        "chargerLesAffaires": "Charger les affaires",
+        "aucuneAffaire": "Aucune affaire avec un solde restant pour ce client.",
+        "reference": "Référence",
+        "periode": "Arrivée — Départ",
+        "enCours": "En cours",
+        "montant": "Montant",
+        "mode": "Mode de règlement",
+        "referenceDuMode": "Référence du mode (facultative)",
+        "notes": "Notes / observations",
+        "surplusEnAvance": "Verser le surplus en avance si le montant dépasse le reste dû",
+        "encaisser": "Encaisser",
+        "saisiMessage": "Encaissement {{reference}} saisi. Il ne comptera qu’une fois validé, prouvé et finalisé."
+      },
+      "file": {
+        "etapes": {
+          "saisie": "Saisie",
+          "validation": "Validation",
+          "preuve": "Preuve",
+          "finalisation": "Finalisation"
+        },
+        "enAttenteDeValidation": "En attente de validation",
+        "aPayer": "À payer (preuve à joindre)",
+        "aFinaliser": "Preuve jointe (à finaliser)",
+        "aucunReglement": "Aucun règlement à ce stade.",
+        "saisiPar": "Saisi par",
+        "valider": "Valider",
+        "joindreLaPreuve": "Joindre la preuve",
+        "finaliser": "Finaliser",
+        "rejeter": "Rejeter",
+        "preuveAide": "Fichier PDF, JPG ou PNG, 5 Mo maximum.",
+        "choisirUnFichier": "Choisir un fichier",
+        "motifDuRejet": "Motif du rejet",
+        "confirmerLeRejet": "Rejeter ce règlement ?"
+      },
+      "avances": {
+        "consulter": "Consulter",
+        "nouveauDepot": "Nouveau dépôt d’avance",
+        "situationTitre": "Avances de {{client}}",
+        "disponible": "Disponible",
+        "aucunDepot": "Aucun dépôt d’avance pour ce client.",
+        "date": "Date",
+        "montant": "Montant",
+        "utilise": "Utilisé",
+        "solde": "Solde",
+        "deposer": "Déposer"
+      },
+      "registre": {
+        "reference": "Référence",
+        "sens": "Sens",
+        "etat": "État",
+        "guichet": "Guichet",
+        "tiersId": "Tiers (identifiant)",
+        "tiers": "Tiers",
+        "montant": "Montant",
+        "mode": "Mode",
+        "numeroRecu": "N° reçu",
+        "voirLeRecu": "Voir le reçu",
+        "renvoyerLeRecu": "Renvoyer le reçu"
+      },
+      "decaissement": {
+        "aide": "Sortie de fonds (ex. reversement à un propriétaire), soumise au même circuit de preuve à trois personnes qu’un encaissement.",
+        "beneficiaire": "Bénéficiaire (identifiant)",
+        "decaisser": "Décaisser",
+        "saisiMessage": "Décaissement {{reference}} saisi. Il suit le même circuit de preuve."
+      }
+    },
+    "clients": {
+      "onglets": {
+        "clients": "Clients",
+        "aTerme": "Demandes de compte à terme"
+      },
+      "recherche": "Rechercher (nom, courriel, téléphone)",
+      "statut": "Statut",
+      "statuts": {
+        "en_attente": "En attente de vérification",
+        "actif": "Actif",
+        "bloque": "Bloqué"
+      },
+      "nature": "Nature",
+      "statutATerme": "À terme",
+      "listeNoire": "Liste noire",
+      "enListeNoire": "En liste noire",
+      "pasEnListeNoire": "Pas en liste noire",
+      "nom": "Nom",
+      "email": "Courriel",
+      "motifListeNoire": "Motif (obligatoire)",
+      "mettreEnListeNoire": "Mettre en liste noire",
+      "retirerDeLaListeNoire": "Retirer de la liste noire",
+      "tva": {
+        "titre": "Régime de TVA",
+        "hebergement": "TVA sur l’hébergement",
+        "transfert": "TVA sur le transfert",
+        "motif": "Motif de la bascule (obligatoire avant de modifier)",
+        "dernierMotif": "Dernier motif"
+      },
+      "fiche": {
+        "titre": "Identité fiscale",
+        "raisonSociale": "Raison sociale",
+        "ncc": "NCC",
+        "rccm": "RCCM",
+        "enregistrer": "Enregistrer"
+      },
+      "aTermeStatuts": {
+        "aucune": "Sans demande",
+        "en_attente": "En attente d’instruction",
+        "acceptee": "Acceptées",
+        "refusee": "Refusées"
+      },
+      "aucuneDemande": "Aucune demande à ce statut.",
+      "aTerme": {
+        "demandeLe": "Demandée le",
+        "plafondCredit": "Plafond de crédit",
+        "encours": "Encours",
+        "dossier": "Dossier de compte à terme",
+        "decision": "Décision",
+        "accepter": "Accepter",
+        "motifRefus": "Motif du refus",
+        "refuser": "Refuser"
+      }
+    },
+    "factures": {
+      "titre": "Factures normalisées",
+      "nouvelle": "Nouvelle facture",
+      "statut": "Transmission DGI",
+      "statuts": {
+        "a_transmettre": "À transmettre",
+        "transmise": "Transmise",
+        "refusee": "Refusée par la DGI",
+        "non_configuree": "Transmission non configurée"
+      },
+      "type": "Type",
+      "types": {
+        "proforma": "Proforma",
+        "facture": "Facture",
+        "avoir": "Avoir"
+      },
+      "numero": "Numéro",
+      "sejour": "Séjour",
+      "montantTtc": "Net",
+      "montantHt": "Montant HT",
+      "refDgi": "Référence DGI",
+      "sejourId": "Séjour (identifiant)",
+      "generer": "Générer",
+      "designation": "Désignation",
+      "quantite": "Quantité",
+      "soldeStickers": "Solde de stickers",
+      "voirLePdf": "Voir le PDF",
+      "transmettre": "Transmettre à la DGI",
+      "emettreUnAvoir": "Émettre un avoir",
+      "motifAvoir": "Motif de l’avoir (obligatoire)"
+    },
+    "personnel": {
+      "onglets": {
+        "personnel": "Personnel",
+        "agences": "Agences"
+      },
+      "profil": "Profil",
+      "profils": {
+        "super_administrateur": "Super administrateur",
+        "administrateur": "Administrateur",
+        "gestionnaire": "Gestionnaire",
+        "gouvernante": "Gouvernante",
+        "agent_assistance": "Agent d’assistance"
+      },
+      "rechercher": "Rechercher (nom, courriel, identifiant)",
+      "nouveauCompte": "Nouveau compte",
+      "nom": "Nom",
+      "prenoms": "Prénoms",
+      "telephone": "Téléphone",
+      "identifiant": "Identifiant",
+      "agence": "Agence",
+      "facultatif": "facultatif",
+      "residences": "Résidences",
+      "residencesConfiees": "Résidences confiées",
+      "residencesDe": "Résidences de {{nom}}",
+      "creer": "Créer le compte"
+    },
+    "agences": {
+      "rechercher": "Rechercher une agence",
+      "nouvelle": "Nouvelle agence",
+      "nom": "Nom",
+      "adresse": "Adresse",
+      "telephone": "Téléphone",
+      "active": "Active",
+      "inactive": "Inactive",
+      "nombrePersonnel": "Personnel rattaché"
+    },
+    "parametres": {
+      "enregistrer": "Enregistrer",
+      "doubleValidation": "Ce réglage se propose depuis Tarification (double validation) : il ne peut pas être changé ici.",
+      "reserveSuperAdmin": "Réservé au super administrateur.",
+      "divers": "Divers",
+      "diversOnglets": {
+        "blog": "Blog",
+        "bannieres": "Bannières",
+        "carrousel": "Carrousel",
+        "newsletter": "Lettre d’information"
+      },
+      "blog": {
+        "rechercher": "Rechercher un article",
+        "nouveau": "Nouvel article",
+        "titre": "Titre",
+        "auteur": "Auteur",
+        "statut": "Statut",
+        "publieLe": "Publié le",
+        "resume": "Résumé",
+        "image": "Image (URL)",
+        "contenu": "Contenu",
+        "statuts": {
+          "brouillon": "Brouillon",
+          "publie": "Publié"
+        }
+      },
+      "bannieres": {
+        "nouvelle": "Nouvelle bannière",
+        "titre": "Titre",
+        "sousTitre": "Sous-titre",
+        "image": "Image (URL)",
+        "lien": "Lien",
+        "ordre": "Ordre",
+        "actif": "Active",
+        "confirmerSuppression": "Supprimer cette bannière ?",
+        "supprimer": "Supprimer"
+      },
+      "carrousel": {
+        "nouvelle": "Nouvelle diapositive",
+        "diapositive": "Diapositive",
+        "legende": "Légende"
+      },
+      "newsletter": {
+        "rechercher": "Rechercher un abonné",
+        "email": "Courriel",
+        "abonneLe": "Abonné le",
+        "confirmerDesabonnement": "Désinscrire cet abonné ?",
+        "desabonner": "Désinscrire"
+      }
+    },
+    "missions": {
+      "tousLesStatuts": "Tous les statuts",
+      "statuts": {
+        "a_faire": "À faire",
+        "en_cours": "En cours",
+        "faite": "Faite"
+      },
+      "aucune": "Aucune mission pour l’instant.",
+      "type": "Type",
+      "logement": "Logement",
+      "sejour": "Séjour",
+      "echeance": "Échéance",
+      "agent": "Agent de terrain",
+      "nonAffectee": "Non affectée",
+      "affecter": {
+        "titre": "Affecter un agent de terrain",
+        "action": "Affecter",
+        "aide": "Aucun annuaire des agents de terrain n’existe encore côté back office : saisissez l’identifiant du compte agent.",
+        "agentId": "Identifiant du compte agent"
+      },
+      "demande": {
+        "titre": "Demander un ménage",
+        "action": "Demander un ménage",
+        "residence": "Résidence",
+        "logement": "Logement",
+        "echeance": "Échéance",
+        "motif": "Motif"
+      }
+    },
+    "ticketsAssistance": {
+      "consultationSeule": "Consultation seule : la réponse à un ticket se fait dans l’espace assistance.",
+      "tousLesStatuts": "Tous les statuts",
+      "statuts": {
+        "ouvert": "Ouvert",
+        "en_cours": "En cours",
+        "ferme": "Fermé"
+      },
+      "aucun": "Aucun ticket d’assistance pour l’instant.",
+      "sejour": "Séjour",
+      "sujet": "Sujet",
+      "reponse": "Réponse",
+      "creeLe": "Créé le"
+    },
+    "reclamations": {
+      "tousLesStatuts": "Tous les statuts",
+      "statuts": {
+        "ouverte": "Ouverte",
+        "en_cours": "En cours",
+        "fermee": "Fermée"
+      },
+      "aucune": "Aucune réclamation pour l’instant.",
+      "motif": "Motif",
+      "reponse": "Réponse (facultative)",
+      "fermer": "Fermer",
+      "avoir": {
+        "titre": "Avoir",
+        "proposer": "Proposer un avoir",
+        "montant": "Montant",
+        "enAttente": "Proposé, en attente de confirmation",
+        "aucunTresorier": "Aucun trésorier désigné (Paramètres › Gestionnaires) : impossible de proposer un avoir."
+      },
+      "changements": {
+        "validerTitre": "Confirmer l’avoir",
+        "refuserTitre": "Refuser l’avoir",
+        "valider": "Confirmer",
+        "refuser": "Refuser",
+        "modeDeRemboursement": "Mode de remboursement",
+        "modes": {
+          "especes": "Espèces",
+          "mobile_money": "Mobile money",
+          "carte": "Carte",
+          "virement": "Virement",
+          "cheque": "Chèque",
+          "avance": "Avance",
+          "canal_externe": "Canal externe"
+        }
+      }
+    },
+    "demandesAnnulation": {
+      "tousLesEtats": "Tous les états",
+      "etats": {
+        "en_attente": "En attente",
+        "acceptee": "Acceptée",
+        "rejetee": "Rejetée"
+      },
+      "aucune": "Aucune demande d’annulation pour l’instant.",
+      "motifClient": "Motif du client",
+      "montantRembourse": "Montant remboursé",
+      "accepter": "Accepter",
+      "rejeter": "Rejeter"
+    }
+  },
+  "langue": {
+    "selectionner": "Choisir la langue"
+  },
+  "legal": {
+    "cgv": "Conditions générales de vente",
+    "confidentialite": "Politique de confidentialité",
+    "pasEncoreDisponible": "Ce contenu n’est pas encore disponible."
+  },
+  "entete": {
+    "logements": "Logements",
+    "blog": "Blog"
+  },
+  "blog": {
+    "titre": "Le blog",
+    "sousTitre": "Conseils, actualités et coulisses de nos résidences à Abidjan.",
+    "aucun": "Aucun article publié pour l’instant.",
+    "introuvable": "Cet article n’existe pas ou n’est plus publié.",
+    "erreur": "Impossible de charger cet article pour l’instant.",
+    "retour": "Retour au blog"
+  },
+  "proprietaire": {
+    "menu": {
+      "residences": "Mes résidences"
+    },
+    "tableauDeBord": {
+      "residences": "Résidences",
+      "logements": "Logements",
+      "sejoursEnCours": "Séjours en cours",
+      "arriveesSous7Jours": "Arrivées sous 7 jours"
+    },
+    "residences": {
+      "aucune": "Aucune résidence pour l’instant."
+    },
+    "residence": {
+      "aucunLogement": "Aucun logement pour l’instant.",
+      "capacite": "Capacité"
+    },
+    "logement": {
+      "sejours": "Séjours",
+      "aucunSejour": "Aucun séjour pour l’instant."
+    }
+  },
+  "apporteur": {
+    "menu": {
+      "filleuls": "Mes filleuls",
+      "commissions": "Mes commissions"
+    },
+    "tableauDeBord": {
+      "soldeDu": "Solde dû",
+      "filleuls": "Filleuls",
+      "commissions": "Commissions"
+    },
+    "filleuls": {
+      "aucun": "Aucun filleul pour l’instant.",
+      "inscritLe": "Inscrit le"
+    },
+    "commissions": {
+      "aucune": "Aucune commission pour l’instant.",
+      "date": "Date",
+      "montant": "Montant"
+    }
+  },
+  "chauffeur": {
+    "menu": {
+      "transferts": "Mes transferts",
+      "gains": "Mes gains",
+      "vehicules": "Mes véhicules"
+    },
+    "tableauDeBord": {
+      "transfertsAffectes": "Transferts affectés en attente",
+      "totalGagne": "Total gagné",
+      "soldeDu": "Solde dû"
+    },
+    "transferts": {
+      "aucun": "Aucun transfert pour l’instant.",
+      "lieu": "Lieu de prise en charge",
+      "commune": "Commune",
+      "dateHeure": "Date et heure prévues",
+      "vehicule": "Véhicule",
+      "montant": "Montant à percevoir",
+      "cloturer": "Clôturer avec le code",
+      "code": "Code de prise en charge",
+      "codeAide": "Le code vous a été communiqué par le client.",
+      "codeObligatoire": "Saisissez le code de prise en charge.",
+      "cloture": "Transfert clôturé."
+    },
+    "gains": {
+      "totalGagne": "Total gagné",
+      "soldeDu": "Solde dû"
+    },
+    "vehicules": {
+      "aucun": "Aucun véhicule pour l’instant.",
+      "ajouter": "Ajouter un véhicule",
+      "immatriculation": "Immatriculation",
+      "typeVehicule": "Type de véhicule",
+      "actif": "Actif"
+    }
+  },
+  "restaurateur": {
+    "menu": {
+      "carte": "Ma carte",
+      "commandes": "Mes commandes",
+      "dette": "Ma dette"
+    },
+    "tableauDeBord": {
+      "dette": "Dette",
+      "aPreparer": "Commandes confirmées",
+      "enAttente": "Commandes en attente"
+    },
+    "carte": {
+      "prixVente": "Prix de vente"
+    },
+    "commandes": {
+      "demarrerLaPreparation": "Démarrer la préparation",
+      "marquerPrete": "Marquer prête",
+      "bonDePreparation": "Bon de préparation — {{reference}}",
+      "bonDePreparationAide": "Saisissez la quantité réellement servie pour chaque ligne : elle peut différer de la quantité commandée.",
+      "quantiteCommandee": "commandée : {{quantite}}",
+      "quantiteServie": "Quantité servie de {{produit}}"
+    },
+    "dette": {
+      "du": "Dû",
+      "dejaVerse": "Déjà versé",
+      "paiements": "Paiements reçus",
+      "aucunPaiement": "Aucun paiement pour l’instant."
+    }
+  },
+  "livreur": {
+    "menu": {
+      "courses": "Mes courses",
+      "gains": "Mes gains"
+    },
+    "tableauDeBord": {
+      "soldeDu": "Solde dû",
+      "coursesEnCours": "Courses en cours",
+      "coursesLivrees": "Courses livrées"
+    },
+    "courses": {
+      "aucune": "Aucune course pour l’instant.",
+      "cloturer": "Clôturer avec le code",
+      "code": "Code de livraison",
+      "codeAide": "Le code vous a été communiqué par le client."
+    },
+    "gains": {
+      "totalGagne": "Total gagné",
+      "dejaVerse": "Déjà versé"
+    }
+  },
+  "espaces": {
+    "backoffice": "Back office",
+    "assistance": "Assistance",
+    "proprietaire": "Espace propriétaire",
+    "agent": "Espace agent de terrain",
+    "chauffeur": "Espace chauffeur",
+    "livreur": "Espace livreur",
+    "restaurateur": "Espace restaurateur",
+    "apporteur": "Espace apporteur d’affaires",
+    "client": "Mon espace"
+  },
+  "inscription": {
+    "titre": "Créer un compte",
+    "sousTitre": "Pour réserver, suivre vos séjours et retrouver vos factures.",
+    "nom": "Nom",
+    "prenoms": "Prénoms",
+    "courriel": "Courriel",
+    "telephone": "Téléphone",
+    "telephoneAide": "Facultatif. Exemple : 07 07 07 07 07",
+    "confirmation": "Confirmez le mot de passe",
+    "motDePasseAide": "Au moins 8 caractères, avec des lettres et des chiffres.",
+    "codeParrain": "Code de parrainage (facultatif)",
+    "codeParrainAide": "Si un apporteur d’affaires vous a communiqué un code.",
+    "jAccepte": "J’accepte les",
+    "conditions": "conditions générales",
+    "creerMonCompte": "Créer mon compte",
+    "dejaUnCompte": "Déjà un compte ?",
+    "nomObligatoire": "Saisissez votre nom.",
+    "courrielObligatoire": "Saisissez votre courriel.",
+    "courrielInvalide": "Ce courriel n’est pas valide.",
+    "telephoneInvalide": "Le numéro doit comporter 8 à 15 chiffres.",
+    "motDePasseCourt": "Le mot de passe doit comporter au moins 8 caractères.",
+    "motDePasseFaible": "Le mot de passe doit contenir des lettres et des chiffres.",
+    "confirmationDifferente": "Les deux mots de passe sont différents.",
+    "conditionsObligatoires": "Vous devez accepter les conditions générales."
+  },
+  "verification": {
+    "titre": "Vérifiez votre adresse",
+    "sousTitre": "Saisissez le code à six chiffres reçu par courriel.",
+    "code": "Code de vérification",
+    "codeAide": "Six chiffres, valables 15 minutes.",
+    "codeSixChiffres": "Le code comporte six chiffres.",
+    "valider": "Valider le code",
+    "renvoyer": "Recevoir un nouveau code",
+    "renvoyerDans": "Nouveau code possible dans {{secondes}} s",
+    "codeEnvoye": "Un code vient d’être envoyé à {{email}}.",
+    "nouveauCodeEnvoye": "Si un compte attend sa vérification à cette adresse, un nouveau code vient de partir.",
+    "retourConnexion": "Retour à la connexion"
+  },
+  "motDePasse": {
+    "titre": "Mot de passe oublié",
+    "etape1": "Indiquez votre courriel : nous vous envoyons un code.",
+    "etape2": "Saisissez le code envoyé à {{email}} et choisissez un nouveau mot de passe.",
+    "recevoirLeCode": "Recevoir le code",
+    "codeEnvoye": "Si un compte existe à cette adresse, un code vient de lui être envoyé.",
+    "nouveau": "Nouveau mot de passe",
+    "changer": "Changer le mot de passe",
+    "change": "Mot de passe changé. Vous pouvez vous connecter."
+  }
+}

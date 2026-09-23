@@ -1,0 +1,1478 @@
+{
+  "marque": "Au Repos",
+  "marqueSlogan": "Furnished residences in Abidjan",
+  "listes": {
+    "periode": {
+      "du": "From",
+      "au": "To"
+    },
+    "export": {
+      "titre": "Export",
+      "excel": "Excel",
+      "word": "Word",
+      "pdf": "PDF",
+      "echec": "The export failed. Please try again shortly."
+    },
+    "confirmation": {
+      "confirmer": "Confirm",
+      "annuler": "Cancel"
+    }
+  },
+  "accueil": {
+    "titre": "Your furnished residence in Abidjan",
+    "sousTitre": "Studios, apartments and villas, with on-site reception, housekeeping and services.",
+    "misesEnAvant": {
+      "titre": "Our featured residences and units"
+    },
+    "promotions": {
+      "titre": "Current promotions"
+    },
+    "residencesMisesEnAvant": {
+      "titre": "Featured furnished residences"
+    },
+    "categories": {
+      "titre": "Our categories of accommodation",
+      "voir": "View"
+    },
+    "meilleuresResidences": {
+      "titre": "Our top-rated furnished residences"
+    },
+    "residences": {
+      "aPartirDe": "From {{prix}}"
+    },
+    "temoignages": {
+      "titre": "What our guests say"
+    },
+    "applications": {
+      "titre": "Our mobile apps",
+      "bientot": "Coming soon, to follow your stays from your phone.",
+      "argument1": "Arrival code and access instructions",
+      "argument2": "Direct messaging with the agency",
+      "argument3": "Invoices and receipts always at hand"
+    },
+    "cookies": {
+      "message": "This site uses cookies to improve your experience and measure its audience.",
+      "accepter": "Accept",
+      "refuser": "Decline"
+    },
+    "newsletter": {
+      "titre": "Get our news and special offers",
+      "placeholder": "Your email",
+      "sInscrire": "Subscribe",
+      "confirmation": "Subscription saved. Thank you!"
+    }
+  },
+  "fiche": {
+    "introuvable": "This accommodation does not exist or is no longer published.",
+    "erreur": "The page could not be loaded. Please try again shortly.",
+    "info": {
+      "capacite": "guests",
+      "chambres_one": "bedroom",
+      "chambres_other": "bedrooms",
+      "lits_one": "bed",
+      "lits_other": "beds",
+      "sdb_one": "bathroom",
+      "sdb_other": "bathrooms",
+      "surface": "m²"
+    },
+    "equipements": {
+      "titre": "Amenities",
+      "aucun": "No amenities listed."
+    },
+    "regles": {
+      "titre": "House rules",
+      "fumeur": "Smoking allowed",
+      "animaux": "Pets allowed",
+      "fetes": "Parties allowed",
+      "horaires": "Check-in from {{arrivee}}, check-out before {{depart}}"
+    },
+    "lieu": {
+      "titre": "Location",
+      "avertissement": "Only the neighbourhood is shown; the exact address is provided once the stay is confirmed."
+    },
+    "calendrier": {
+      "titre": "Availability calendar",
+      "moisPrecedent": "Previous month",
+      "moisSuivant": "Next month",
+      "libre": "Free",
+      "occupe": "Booked"
+    },
+    "tarifs": {
+      "titre": "Rate by season"
+    },
+    "avis": {
+      "titre": "Reviews",
+      "aucun": "No reviews yet."
+    },
+    "similaires": {
+      "titre": "Similar accommodation"
+    },
+    "caution": "Security deposit: {{montant}}",
+    "cautionLibelle": "Security deposit",
+    "dureeMinimale_one": "Minimum stay: {{count}} night",
+    "dureeMinimale_other": "Minimum stay: {{count}} nights",
+    "reserver": "Book"
+  },
+  "tunnel": {
+    "titre": "Your booking",
+    "etapes": {
+      "sejour": "Stay",
+      "reglement": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "arrivee": "Check-in",
+    "depart": "Check-out",
+    "adultes": "Adults",
+    "enfants": "Children",
+    "codePromo": "Promo code (optional)",
+    "choisirLesDates": "Choose your dates to see the price.",
+    "datesIndisponibles": "This accommodation is no longer available for these dates.",
+    "erreurGenerique": "The request failed. Please try again shortly.",
+    "utiliserMesPoints": "Use my loyalty points ({{valeur}} off)",
+    "reserver": "Book",
+    "obtenirUnDevis": "Get a quote",
+    "reglement": {
+      "titre": "Payment method",
+      "enLigne": "Pay online",
+      "agence": "Pay at the office",
+      "aTerme": "On my credit account"
+    },
+    "devis": {
+      "hebergement_one": "Accommodation ({{count}} night)",
+      "hebergement_other": "Accommodation ({{count}} nights)",
+      "remise": "Discount ({{pourcentage}} %)",
+      "tva": "VAT",
+      "autresTaxes": "Tourism development tax and stay tax",
+      "netAPayer": "Amount due",
+      "caution": "Security deposit (not included in the amount due)",
+      "cautionNote": "Refunded after the check-out inventory. Never subject to VAT."
+    },
+    "devisEtabli": {
+      "titre": "Quote issued",
+      "sousTitre": "Your quote {{reference}} is saved to your account. The price stays fixed until it is turned into a booking."
+    },
+    "transformation": {
+      "titre": "Turn this quote into a booking",
+      "transformer": "Turn into a booking"
+    },
+    "confirmation": {
+      "titre": "Booking saved",
+      "sousTitre": "Reference {{reference}}",
+      "netAPayer": "Amount due:",
+      "expire": "Pay before {{date}}: after that, the dates will be released.",
+      "payerMaintenant": "Pay now"
+    },
+    "paiement": {
+      "erreur": "This payment could not be checked.",
+      "montantRegle": "{{montant}} paid for stay {{sejour}}. Your receipt has been sent to you.",
+      "retourAuSite": "Back to the site",
+      "etat": {
+        "en_attente": "Payment being confirmed…",
+        "reussi": "Payment confirmed",
+        "echoue": "The payment did not go through",
+        "expire": "The payment window has expired"
+      }
+    }
+  },
+  "recherche": {
+    "titre": "Search for a place to stay",
+    "description": "Furnished studios, apartments and villas in Abidjan: filter by area, dates, budget and amenities.",
+    "prixParNuit": "{{prix}} / night",
+    "parNuit": "per night",
+    "filtre": {
+      "commune": "District",
+      "toutesLesCommunes": "All districts",
+      "quartier": "Neighbourhood",
+      "tousLesQuartiers": "All neighbourhoods",
+      "arrivee": "Check-in",
+      "depart": "Check-out",
+      "adultes": "Adults",
+      "enfants": "Children",
+      "type": "Type of accommodation",
+      "tousLesTypes": "All types",
+      "budget": "Max budget / night",
+      "equipements": "Amenities",
+      "rechercher": "Search",
+      "reinitialiser": "Reset",
+      "ouvrirLesFiltres": "Filters",
+      "fermer": "View results"
+    },
+    "resultats": {
+      "disponibles_one": "{{count}} place free tonight",
+      "disponibles_other": "{{count}} places free tonight",
+      "pourLesDates_one": "{{count}} place available for these dates",
+      "pourLesDates_other": "{{count}} places available for these dates",
+      "aucun": "No accommodation matches this search.",
+      "erreur": "The search failed. Please try again shortly."
+    }
+  },
+  "erreurs": {
+    "pageIntrouvable": "This page does not exist.",
+    "retourAccueil": "Back to home",
+    "accesRefuse": "This screen is not part of your profile.",
+    "retourMonEspace": "Back to my area"
+  },
+  "connexion": {
+    "titre": "Sign in",
+    "sousTitre": "One access for everyone: guests, owners, partners and staff.",
+    "identifiant": "Login",
+    "identifiantAide": "Your email, your phone number or the login you received by email.",
+    "motDePasse": "Password",
+    "seConnecter": "Sign in",
+    "seDeconnecter": "Sign out",
+    "identifiantObligatoire": "Enter your login.",
+    "motDePasseObligatoire": "Enter your password.",
+    "echecInattendu": "Sign-in failed. Please try again shortly.",
+    "pasDeCompte": "No account yet?",
+    "creerUnCompte": "Create an account",
+    "motDePasseOublie": "Forgot your password?"
+  },
+  "espace": {
+    "bienvenue": "Hello {{nom}}",
+    "tableauDeBord": "Dashboard",
+    "monCompte": "My account",
+    "profil": "Profile",
+    "courriel": "Email",
+    "agence": "Branch",
+    "aucuneAgence": "No branch",
+    "encaissement": "Cash desk",
+    "peutEncaisser": "Allowed for this branch",
+    "nePeutPasEncaisser": "Not allowed",
+    "bientotDisponible": "This screen is coming in a future step.",
+    "bientotDisponibleDetail": "This space's screens are still being built. Your account is already active — here's what it holds for now."
+  },
+  "client": {
+    "menu": {
+      "sejours": "My stays",
+      "devis": "My quotes",
+      "paiements": "My payments",
+      "compte": "My account"
+    },
+    "tableauDeBord": {
+      "avanceDisponible": "Available advance",
+      "devisEnAttente": "Pending quotes",
+      "voirMesDevis": "View my quotes",
+      "pointsDeFidelite": "Loyalty points",
+      "prochainSejour": "Next stay",
+      "voirLeDetail": "View details",
+      "aucunSejour": "No upcoming stay."
+    },
+    "sejours": {
+      "reference": "Reference",
+      "logement": "Accommodation",
+      "arrivee": "Check-in",
+      "depart": "Check-out",
+      "etat": "Status",
+      "netAPayer": "Amount due",
+      "introuvable": "Not found.",
+      "aucun": "No stays yet."
+    },
+    "detail": {
+      "retourALaListe": "← Back to list",
+      "codeArrivee": "Your arrival code: {{code}}",
+      "adresse": "Address:",
+      "nuits_one": "{{count}} night",
+      "nuits_other": "{{count}} nights",
+      "factureBientot": "The standardized invoice will appear here once the DGI (FNE) integration is live.",
+      "confirmerAnnulation": "Cancel this booking?",
+      "annulerLeSejour": "Cancel this stay",
+      "devisDejaTransforme": "This quote was already turned into booking {{reference}}.",
+      "confirmerArchivage": "Archive this quote?",
+      "archiverLeDevis": "Archive this quote"
+    },
+    "paiements": {
+      "avanceDisponible": "Available advance",
+      "aReglerEnAgence": "Due at the office",
+      "pointsDeFidelite": "Loyalty points",
+      "mesReglements": "My payments",
+      "date": "Date",
+      "montant": "Amount",
+      "mode": "Method",
+      "affaires": "Stay(s)",
+      "recu": "Receipt"
+    },
+    "compte": {
+      "coordonnees": "Contact details",
+      "nonRenseigne": "Not provided",
+      "regime": "Billing profile",
+      "raisonSociale": "Company name",
+      "ncc": "Tax ID",
+      "aTerme": {
+        "titre": "Credit account",
+        "plafond": "Credit limit",
+        "encours": "Outstanding balance",
+        "demander": "Request a credit account",
+        "piecesAttendues": "Upload your documents so the file can be reviewed:",
+        "deposer": "Upload"
+      },
+      "pieces": {
+        "rccm": "Business registration",
+        "bilan": "Financial statement",
+        "pieceIdentite": "ID document"
+      }
+    },
+    "transferts": {
+      "titre": "Transfers",
+      "aucun": "No transfer requested yet.",
+      "demander": "Request a transfer",
+      "lieu": "Pickup location",
+      "commune": "Area",
+      "typeVehicule": "Desired vehicle type",
+      "dateHeure": "Scheduled date and time",
+      "passagers": "Passengers",
+      "bagages": "Bags (optional)",
+      "notes": "Notes (optional)",
+      "montantCalcule": "Transfer requested. Amount: {{montant}}.",
+      "codePriseEnCharge": "Pickup code: {{code}}",
+      "lieuObligatoire": "Enter the pickup location.",
+      "communeObligatoire": "Choose the area.",
+      "typeVehiculeObligatoire": "Choose the vehicle type.",
+      "dateHeureObligatoire": "Choose the date and time.",
+      "passagersObligatoire": "Enter the number of passengers."
+    },
+    "repas": {
+      "titre": "Meal orders",
+      "aucune": "No meal orders yet.",
+      "codeLivraison": "Your delivery code: {{code}}",
+      "commander": "Order a meal",
+      "choisirUnRestaurateur": "Choose a restaurateur",
+      "carteVide": "No products available yet.",
+      "quantite": "Quantity",
+      "quantiteDe": "Quantity of {{produit}}",
+      "modeDeReglement": "Payment method",
+      "modeNoteDuSejour": "On the stay's bill",
+      "modeEnLigne": "Online payment",
+      "modeATerme": "On my credit account",
+      "envoyerLaCommande": "Send the order",
+      "commandeEnvoyee": "Order {{reference}} sent to the restaurateur."
+    }
+  },
+  "backoffice": {
+    "menu": {
+      "reservations": "Bookings",
+      "planning": "Planning",
+      "apporteurs": "Referrers",
+      "transferts": "Transfers",
+      "chauffeurs": "Drivers",
+      "catalogue": "Catalogue",
+      "proprietaires": "Owners",
+      "restaurateurs": "Restaurateurs",
+      "commandesRepas": "Meal orders",
+      "livreurs": "Delivery riders",
+      "tarification": "Pricing",
+      "caisse": "Cash desk",
+      "clients": "Guests",
+      "factures": "Standardized invoices",
+      "personnel": "Staff and branches",
+      "parametres": "Settings",
+      "missions": "Housekeeping missions",
+      "ticketsAssistance": "Assistance tickets",
+      "reclamations": "Complaints",
+      "demandesAnnulation": "Cancellation requests"
+    },
+    "tableauDeBord": {
+      "reservationsEnAttente": "Pending bookings",
+      "arriveesDuJour": "Today's check-ins",
+      "departsDuJour": "Today's check-outs",
+      "sejoursEnCours": "Ongoing stays",
+      "devisEnAttente": "Pending quotes",
+      "aujourdhui": "Today",
+      "aTraiter": "Needs attention",
+      "accesRapides": "Quick access"
+    },
+    "planning": {
+      "aujourdhui": "Today",
+      "aucunLogement": "No accommodation to show for this period."
+    },
+    "reservations": {
+      "client": "Guest",
+      "onglets": {
+        "en_attente": "Pending",
+        "a_terme": "Credit account guest",
+        "arrivees": "Today's check-ins",
+        "departs": "Today's check-outs",
+        "en_cours": "Ongoing stays",
+        "termines": "Completed",
+        "devis": "Quotes"
+      },
+      "manuelle": {
+        "titre": "Manual booking",
+        "enregistrer": "Save",
+        "canal": "Channel",
+        "canalTelephone": "Phone",
+        "canalWalkIn": "Walk-in",
+        "canalExterne": "External channel (Booking, Airbnb)",
+        "logement": "Accommodation (reference)",
+        "logementAide": "Example: LOG-00001",
+        "periode": "Check-in / check-out",
+        "bonDeCommande": "Purchase order (optional)",
+        "bonDeCommandeAide": "Required for a business, government or foreign guest.",
+        "nomObligatoire": "Enter the guest's last name.",
+        "courrielObligatoire": "Enter the guest's email.",
+        "logementObligatoire": "Enter the accommodation's reference.",
+        "datesObligatoires": "Choose the check-in and check-out dates."
+      },
+      "detail": {
+        "encaisse": "Collected",
+        "resteDu": "Balance due",
+        "obstacles": "This booking cannot be confirmed yet",
+        "confirmer": "Confirm the booking",
+        "proposerUneReduction": "Propose a discount",
+        "reductionAide": "The discount takes effect once the designated treasurer confirms it.",
+        "pourcentage": "Percentage",
+        "motif": "Reason",
+        "reductionProposeeMessage": "Discount proposed. It will take effect once the treasurer confirms it.",
+        "sejour": "Stay",
+        "paiement": "Payment",
+        "occupants": "Occupants",
+        "occupantsAdultes_one": "{{count}} adult",
+        "occupantsAdultes_other": "{{count}} adults",
+        "etEnfants_one": ", {{count}} child",
+        "etEnfants_other": ", {{count}} children",
+        "canal": "Channel",
+        "canalDirect": "Website",
+        "modeDeReglement": "Payment method",
+        "caution": "Security deposit",
+        "cautionRetenue": "Deposit withheld",
+        "acompteExige": "Deposit required",
+        "bonDeCommande": "Purchase order",
+        "soldee": "Settled",
+        "resteAEncaisser": "Outstanding",
+        "noShow": "No-show recorded on {{date}}: the dates have been released, the withholding follows the policy in effect.",
+        "cautionRetenueInfo": "Deposit withheld at check-out: {{montant}}"
+      },
+      "checkIn": {
+        "action": "Check in",
+        "titre": "Check-in",
+        "aide": "Enter the arrival code given to the guest. It is never shown here.",
+        "code": "Arrival code",
+        "confirmer": "Confirm check-in"
+      },
+      "checkOut": {
+        "action": "Check out",
+        "titre": "Check-out",
+        "consommations": "Stay consumptions",
+        "aucuneConsommation": "No consumption billed on this stay.",
+        "hebergement": "Accommodation",
+        "repas": "Meals",
+        "transferts": "Transfers",
+        "total": "Total",
+        "cautionRetenue": "Deposit withheld",
+        "motif": "Reason",
+        "motifObligatoire": "A reason is required as soon as a deposit is withheld (at least 5 characters).",
+        "confirmer": "Confirm check-out"
+      },
+      "prolongation": {
+        "action": "Extend / early departure",
+        "titre": "Extension or early departure",
+        "nouveauDepart": "New check-out date",
+        "enregistrer": "Save"
+      },
+      "occupantsTitre": "Occupants and police record",
+      "occupants": {
+        "nom": "Name",
+        "enfant": "child",
+        "typePiece": "ID type",
+        "telephone": "Phone",
+        "piece": "ID document",
+        "aucunePiece": "No document uploaded",
+        "televerserPiece": "Upload a document",
+        "statutsPiece": {
+          "en_attente": "Pending",
+          "validee": "Validated",
+          "refusee": "Rejected"
+        }
+      },
+      "etatsDesLieux": {
+        "titre": "Inspection report",
+        "etablirEntree": "Establish check-in inspection",
+        "etablirSortie": "Establish check-out inspection",
+        "signe": "Signed",
+        "nonSigne": "Not signed",
+        "voirPdf": "View PDF",
+        "libelle": "Label",
+        "observation": "Observation",
+        "ajouterLigne": "Add",
+        "ajouterPhoto": "Add a photo",
+        "signature": "Signature",
+        "signatureZone": "Signature area",
+        "signatureAide": "Draw the signature with the mouse or your finger, then confirm.",
+        "effacer": "Clear",
+        "signer": "Sign"
+      }
+    },
+    "catalogue": {
+      "residence": {
+        "creer": "New residence",
+        "modifier": "Edit the residence",
+        "nom": "Name",
+        "proprietaire": "Owner",
+        "lieu": "Location",
+        "logements": "Units",
+        "disponibilite": "Availability",
+        "active": "Active",
+        "oui": "Yes",
+        "non": "No",
+        "disponible": "Available",
+        "occupee": "Occupied",
+        "adresse": "Address",
+        "repere": "Landmark",
+        "description": "Description",
+        "proprietaireObligatoire": "Choose the owner.",
+        "quartierObligatoire": "Choose the neighbourhood.",
+        "nomCourt": "The name must be at least 3 characters."
+      },
+      "logement": {
+        "titrePluriel": "Units",
+        "creer": "New unit",
+        "modifier": "Edit the unit",
+        "reference": "Reference",
+        "nom": "Name",
+        "type": "Unit type",
+        "prixVente": "Sale price",
+        "etatPublication": "Publication",
+        "nombrePieces": "Number of rooms",
+        "nombreChambres": "Number of bedrooms",
+        "caution": "Security deposit",
+        "capaciteDeBase": "Base capacity",
+        "capaciteMaximale": "Maximum capacity",
+        "description": "Description",
+        "typeObligatoire": "Choose the unit type.",
+        "nomCourt": "The name must be at least 2 characters.",
+        "capaciteIncoherente": "Maximum capacity must be at least the base capacity.",
+        "chambresIncoherentes": "The number of bedrooms cannot exceed the number of rooms."
+      },
+      "prix": {
+        "titre": "Price",
+        "proprietaire": "Owner price",
+        "vente": "Sale price",
+        "marge": "Margin per night",
+        "nonFixe": "Not set",
+        "conseille": "Suggested sale price",
+        "propositionEnAttente": "A new sale price ({{montant}}) is proposed, pending confirmation by a second administrator.",
+        "montant": "Amount",
+        "proposer": "Propose",
+        "arreter": "Set",
+        "motif": "Reason (optional)",
+        "derogation": "Company percentage",
+        "pourcentageActuel": "Applied rate: {{taux}} %",
+        "derogationActive": "unit-specific exception",
+        "nouveauTaux": "New rate (%)",
+        "voirGrilleTarifaire": "View this unit's price grid"
+      },
+      "publication": {
+        "titre": "Publication",
+        "obstacles": "This unit cannot be published yet",
+        "soumettre": "Submit for validation",
+        "publier": "Publish",
+        "refuser": "Reject",
+        "suspendre": "Suspend",
+        "reactiver": "Reactivate"
+      },
+      "photos": {
+        "titre": "Photos",
+        "compte": "{{nombre}} photo(s) — minimum {{minimum}} to publish",
+        "couverture": "Cover",
+        "definirCouverture": "Set as cover",
+        "confirmerSuppression": "Delete this photo?",
+        "supprimer": "Delete",
+        "ajouter": "Add a photo"
+      },
+      "referentiels": {
+        "titre": "Unit types and amenities",
+        "typesLogement": "Unit types",
+        "equipements": "Amenities",
+        "ajouter": "Add",
+        "modifier": "Edit",
+        "code": "Code",
+        "nom": "Name",
+        "nombrePieces": "Number of rooms",
+        "actif": "Active",
+        "portee": "Scope",
+        "filtreRecherche": "Search filter",
+        "porteeLogement": "Unit",
+        "porteeResidence": "Residence"
+      }
+    },
+    "proprietaires": {
+      "creer": "New owner",
+      "modifier": "Edit the owner",
+      "nom": "Name",
+      "nature": "Nature",
+      "courriel": "Email",
+      "residences": "Residences",
+      "dossier": "File",
+      "complet": "Complete",
+      "incomplet": "Incomplete",
+      "naturePersonnePhysique": "Individual",
+      "natureEntreprise": "Company",
+      "raisonSociale": "Company name",
+      "regimeFiscal": "Tax regime",
+      "regime": {
+        "nonRenseigne": "Not provided",
+        "aucun": "No regime (individual)",
+        "entreprenant": "Entrepreneur regime",
+        "microEntreprise": "Micro-business",
+        "reelSimplifie": "Simplified actual regime",
+        "reelNormal": "Standard actual regime"
+      },
+      "assujettiTva": "VAT registered",
+      "ncc": "Tax ID",
+      "rccm": "Business registration",
+      "mandat": {
+        "titre": "Agreement",
+        "modeRemuneration": "Payout method",
+        "prixNegocie": "Negotiated price + admin sale price",
+        "commission": "Commission on sale price",
+        "tauxCommission": "Commission rate (%)",
+        "signeLe": "Agreement signed on",
+        "signeLeValeur": "Agreement signed on {{date}}",
+        "nonSigne": "Agreement not signed"
+      },
+      "notes": "Notes",
+      "interne": "Internal owner (company account)",
+      "interneAide": "Their residences follow the same process, but the payout is internal, without withholding tax.",
+      "nomObligatoire": "Enter the name.",
+      "courrielObligatoire": "Enter the email.",
+      "elementsManquants": "Missing items for a complete file",
+      "retenueALaSource": "Withholding tax",
+      "residencesConfiees": "Entrusted residences",
+      "pieces": {
+        "titre": "Documents",
+        "type": "Type",
+        "nom": "File",
+        "statut": "Status",
+        "valider": "Approve",
+        "refuser": "Reject",
+        "deposer": "Upload",
+        "confirmerRefus": "Reject this document?",
+        "types": {
+          "piece_identite": "ID document",
+          "titre_propriete": "Property title",
+          "bail": "Lease",
+          "rib": "Bank details",
+          "mandat": "Signed management agreement",
+          "dfe": "Tax registration declaration",
+          "attestation_regime": "Tax regime certificate",
+          "rccm": "Business registration",
+          "bilan": "Financial statement",
+          "autre": "Other document"
+        }
+      }
+    },
+    "apporteurs": {
+      "creer": "New referrer",
+      "modifier": "Edit referrer",
+      "code": "Code",
+      "pourcentage": "Commission (%)",
+      "actif": "Active",
+      "aucun": "No referrers yet.",
+      "soldeDu": "Balance due",
+      "commissions": "Commissions",
+      "aucuneCommission": "No commissions yet."
+    },
+    "transferts": {
+      "filtrerParEtat": "Status",
+      "tousLesEtats": "All statuses",
+      "etats": {
+        "demande": "Requested",
+        "affecte": "Assigned",
+        "termine": "Completed",
+        "annule": "Cancelled"
+      },
+      "reference": "Reference",
+      "sejour": "Stay",
+      "lieu": "Pickup location",
+      "commune": "Area",
+      "dateHeure": "Scheduled date and time",
+      "passagers": "Passengers",
+      "bagages": "Bags",
+      "montant": "Amount",
+      "chauffeur": "Driver",
+      "vehicule": "Vehicle",
+      "aucun": "No transfers yet.",
+      "affecter": "Assign",
+      "affecterLeTransfert": "Assign a driver",
+      "montantVerseAuChauffeur": "Amount paid to the driver",
+      "annuler": "Cancel the transfer",
+      "confirmerAnnulation": "Cancel this transfer?",
+      "codeEmis": "Pickup code issued",
+      "chauffeurObligatoire": "Choose a driver.",
+      "vehiculeObligatoire": "Choose a vehicle.",
+      "montantObligatoire": "Enter the amount paid to the driver."
+    },
+    "chauffeurs": {
+      "creer": "New driver",
+      "modifier": "Edit driver",
+      "aucun": "No drivers yet.",
+      "actif": "Active",
+      "vehicules": "Vehicles",
+      "aucunVehicule": "No vehicles yet.",
+      "ajouterVehicule": "Add a vehicle",
+      "immatriculation": "License plate",
+      "typeVehicule": "Vehicle type"
+    },
+    "restaurateurs": {
+      "creer": "New restaurateur",
+      "modifier": "Edit restaurateur",
+      "actif": "Active",
+      "aucun": "No restaurateurs yet.",
+      "pourcentagePlateforme": "Platform percentage",
+      "pourcentageNonFixe": "Not set",
+      "pourcentageAide": "This rate sets the sale price from the purchase price. Proposal subject to double validation, like the pricing platform percentage.",
+      "pourcentageActuel": "Rate applied: {{taux}} %",
+      "propositionEnvoyee": "Proposal sent ({{montant}} %), pending confirmation by a second administrator.",
+      "carte": "Menu",
+      "carteVide": "No products on the menu yet.",
+      "ajouterUnProduit": "Add a product",
+      "dette": "Balance owed",
+      "du": "Owed",
+      "dejaVerse": "Already paid",
+      "produit": {
+        "nom": "Name",
+        "categorie": "Category",
+        "plat": "Dish",
+        "boisson": "Drink",
+        "prixAchat": "Purchase price",
+        "disponible": "Available",
+        "ajouter": "Add a product",
+        "modifier": "Edit product"
+      }
+    },
+    "livreurs": {
+      "creer": "New delivery rider",
+      "modifier": "Edit delivery rider",
+      "aucun": "No delivery riders yet.",
+      "soldeDu": "Balance due",
+      "totalGagne": "Total earned",
+      "dejaVerse": "Already paid"
+    },
+    "commandesRepas": {
+      "filtreEtat": "Status",
+      "etats": {
+        "demande": "Requested",
+        "confirmee": "Confirmed",
+        "en_preparation": "Being prepared",
+        "prete": "Ready",
+        "en_livraison": "Out for delivery",
+        "livree": "Delivered",
+        "annulee": "Cancelled",
+        "refusee": "Declined"
+      },
+      "aucune": "No orders yet.",
+      "reference": "Reference",
+      "sejour": "Stay",
+      "restaurateur": "Restaurateur",
+      "montant": "Amount",
+      "confirmer": "Confirm",
+      "affecterLivreur": "Assign a delivery rider",
+      "affecter": "Assign",
+      "livreur": "Delivery rider",
+      "remunerationLivreur": "Delivery rider's pay",
+      "refuser": "Decline",
+      "motifRefus": "Reason for declining"
+    },
+    "tarification": {
+      "titre": "Pricing",
+      "onglets": {
+        "grille": "Price grid",
+        "pourcentage": "Company percentage",
+        "prixNegocies": "Negotiated prices",
+        "codesPromo": "Promo codes",
+        "baremeTransfert": "Transfer rate table",
+        "baremeLivraisonRepas": "Meal delivery rate table",
+        "referentiels": "Seasons, duration bands and add-ons"
+      },
+      "grille": {
+        "titre": "Price grid",
+        "choisirUnType": "Choose a unit type",
+        "choisirUneCible": "Choose a unit type to display its price grid.",
+        "pourCeLogement": "Price grid specific to this unit.",
+        "saison": "Season",
+        "periode": "Period",
+        "anomalies": "{{nombre}} issue(s) detected",
+        "bloquant": "Blocking",
+        "information": "Information"
+      },
+      "simulation": {
+        "titre": "Stay simulation",
+        "logementId": "Unit (ID)",
+        "simuler": "Simulate",
+        "nombreDeNuits": "Number of nights",
+        "hebergement": "Accommodation excl. tax",
+        "date": "Date",
+        "tarif": "Rate",
+        "origine": "Origin"
+      },
+      "pourcentage": {
+        "titre": "Global company percentage",
+        "aide": "This rate applies to all units, unless a unit-specific exception is set. The proposal requires a second administrator's confirmation.",
+        "proposer": "Propose",
+        "propositionEnvoyee": "Proposal sent ({{montant}} %), pending confirmation by a second administrator.",
+        "derogations": "Unit exceptions",
+        "tauxGlobal": "Global rate",
+        "tauxDerogation": "Exception rate"
+      },
+      "prixNegocies": {
+        "titre": "Negotiated prices",
+        "ajouter": "New negotiated price",
+        "client": "Client",
+        "typeLogement": "Unit type",
+        "tarifParNuit": "Rate per night",
+        "actif": "Active",
+        "notes": "Notes (optional)",
+        "modifieLe": "Last updated",
+        "desactiver": "Deactivate",
+        "confirmerDesactivation": "Deactivate this negotiated price?",
+        "clientObligatoire": "Choose the client.",
+        "typeLogementObligatoire": "Choose the unit type.",
+        "tarifObligatoire": "Enter the rate per night."
+      },
+      "codesPromo": {
+        "titre": "Promo codes",
+        "ajouter": "New promo code",
+        "modifier": "Edit the promo code",
+        "code": "Code",
+        "type": "Discount type",
+        "typePourcentage": "Percentage",
+        "typeMontant": "Fixed amount",
+        "valeur": "Value",
+        "periode": "Validity period",
+        "residence": "Property (optional, otherwise all)",
+        "description": "Description (optional)",
+        "actif": "Active",
+        "valableAujourdhui": "Valid today",
+        "codeObligatoire": "Enter the code.",
+        "valeurObligatoire": "Enter the value.",
+        "periodeObligatoire": "Choose the validity period."
+      },
+      "baremeTransfert": {
+        "titre": "Transfer rate table",
+        "ajouter": "New rate",
+        "modifier": "Edit the rate",
+        "commune": "Area",
+        "typeVehicule": "Vehicle type",
+        "prix": "Price",
+        "aucun": "No rates yet.",
+        "supprimer": "Delete",
+        "confirmerSuppression": "Delete this rate?",
+        "communeObligatoire": "Choose the area.",
+        "typeVehiculeObligatoire": "Choose the vehicle type.",
+        "prixObligatoire": "Enter the price."
+      },
+      "baremeLivraisonRepas": {
+        "ajouter": "New rate",
+        "modifier": "Edit the rate",
+        "forfait": "Flat fee",
+        "aucun": "No rates yet."
+      },
+      "referentiels": {
+        "saisons": "Seasons",
+        "tranchesDuree": "Duration bands",
+        "supplements": "Add-ons",
+        "nom": "Name",
+        "categorie": "Category",
+        "categorieBasse": "Low season",
+        "categorieHaute": "High season",
+        "categorieEvenement": "Event",
+        "periode": "Period",
+        "dateDebut": "Start date",
+        "dateFin": "End date",
+        "nuits": "Nights (min — max)",
+        "nuitsMin": "Minimum nights",
+        "nuitsMax": "Maximum nights (optional, unlimited if empty)",
+        "code": "Code",
+        "codeOccupantSupplementaire": "Extra occupant",
+        "codeWeekEnd": "Weekend",
+        "codeArriveeTardive": "Late arrival",
+        "codeDepartTardif": "Late departure",
+        "mode": "Calculation mode",
+        "modeParNuitEtParPersonne": "Per night and per person",
+        "modeParNuit": "Per night",
+        "modeForfait": "Flat fee",
+        "montant": "Amount",
+        "typeLogement": "Unit type (optional)",
+        "tousLesTypes": "All types",
+        "actif": "Active",
+        "ajouter": "Add",
+        "modifier": "Edit",
+        "supprimer": "Delete",
+        "confirmerSuppression": "Delete this item?",
+        "avertissementCascade": "Warning: deleting this season or band also erases any grid rates already entered for it."
+      }
+    },
+    "caisse": {
+      "onglets": {
+        "encaissement": "Collection",
+        "fileDeValidation": "Validation queue",
+        "avances": "Advances",
+        "registre": "Ledger",
+        "decaissement": "Payout"
+      },
+      "guichets": {
+        "sejours": "Stays",
+        "creancesATerme": "Term credit",
+        "enLigne": "Online payment",
+        "avances": "Client advances",
+        "dettesPartenaires": "Partner debts"
+      },
+      "modes": {
+        "especes": "Cash",
+        "mobile_money": "Mobile money",
+        "carte": "Card",
+        "virement": "Bank transfer",
+        "cheque": "Cheque",
+        "avance": "Advance",
+        "canal_externe": "External channel"
+      },
+      "sens": {
+        "encaissement": "Collection",
+        "decaissement": "Payout"
+      },
+      "etats": {
+        "en_attente": "Awaiting validation",
+        "a_payer": "To pay",
+        "preuve_jointe": "To pay, proof attached",
+        "effectue": "Completed",
+        "rejete": "Rejected"
+      },
+      "encaissement": {
+        "client": "Client (ID)",
+        "guichet": "Desk",
+        "chargerLesAffaires": "Load accounts",
+        "aucuneAffaire": "No account with an outstanding balance for this client.",
+        "reference": "Reference",
+        "periode": "Arrival — Departure",
+        "enCours": "In progress",
+        "montant": "Amount",
+        "mode": "Payment method",
+        "referenceDuMode": "Method reference (optional)",
+        "notes": "Notes / remarks",
+        "surplusEnAvance": "Credit the surplus as an advance if the amount exceeds the balance due",
+        "encaisser": "Collect",
+        "saisiMessage": "Collection {{reference}} recorded. It will only count once validated, proven and finalized."
+      },
+      "file": {
+        "etapes": {
+          "saisie": "Entry",
+          "validation": "Validation",
+          "preuve": "Proof",
+          "finalisation": "Finalization"
+        },
+        "enAttenteDeValidation": "Awaiting validation",
+        "aPayer": "To pay (proof to attach)",
+        "aFinaliser": "Proof attached (to finalize)",
+        "aucunReglement": "No payment at this stage.",
+        "saisiPar": "Recorded by",
+        "valider": "Validate",
+        "joindreLaPreuve": "Attach proof",
+        "finaliser": "Finalize",
+        "rejeter": "Reject",
+        "preuveAide": "PDF, JPG or PNG file, 5 MB maximum.",
+        "choisirUnFichier": "Choose a file",
+        "motifDuRejet": "Reason for rejection",
+        "confirmerLeRejet": "Reject this payment?"
+      },
+      "avances": {
+        "consulter": "Look up",
+        "nouveauDepot": "New advance deposit",
+        "situationTitre": "Advances for {{client}}",
+        "disponible": "Available",
+        "aucunDepot": "No advance deposit for this client.",
+        "date": "Date",
+        "montant": "Amount",
+        "utilise": "Used",
+        "solde": "Balance",
+        "deposer": "Deposit"
+      },
+      "registre": {
+        "reference": "Reference",
+        "sens": "Direction",
+        "etat": "Status",
+        "guichet": "Desk",
+        "tiersId": "Party (ID)",
+        "tiers": "Party",
+        "montant": "Amount",
+        "mode": "Method",
+        "numeroRecu": "Receipt no.",
+        "voirLeRecu": "View receipt",
+        "renvoyerLeRecu": "Resend receipt"
+      },
+      "decaissement": {
+        "aide": "Outflow of funds (e.g. payout to an owner), subject to the same three-person proof circuit as a collection.",
+        "beneficiaire": "Beneficiary (ID)",
+        "decaisser": "Pay out",
+        "saisiMessage": "Payout {{reference}} recorded. It follows the same proof circuit."
+      }
+    },
+    "clients": {
+      "onglets": {
+        "clients": "Clients",
+        "aTerme": "Term-credit requests"
+      },
+      "recherche": "Search (name, email, phone)",
+      "statut": "Status",
+      "statuts": {
+        "en_attente": "Awaiting verification",
+        "actif": "Active",
+        "bloque": "Blocked"
+      },
+      "nature": "Nature",
+      "statutATerme": "Term credit",
+      "listeNoire": "Blacklist",
+      "enListeNoire": "Blacklisted",
+      "pasEnListeNoire": "Not blacklisted",
+      "nom": "Name",
+      "email": "Email",
+      "motifListeNoire": "Reason (required)",
+      "mettreEnListeNoire": "Add to blacklist",
+      "retirerDeLaListeNoire": "Remove from blacklist",
+      "tva": {
+        "titre": "VAT regime",
+        "hebergement": "VAT on accommodation",
+        "transfert": "VAT on transfer",
+        "motif": "Reason for the change (required before changing)",
+        "dernierMotif": "Last reason"
+      },
+      "fiche": {
+        "titre": "Tax identity",
+        "raisonSociale": "Company name",
+        "ncc": "NCC",
+        "rccm": "RCCM",
+        "enregistrer": "Save"
+      },
+      "aTermeStatuts": {
+        "aucune": "No request",
+        "en_attente": "Awaiting review",
+        "acceptee": "Accepted",
+        "refusee": "Rejected"
+      },
+      "aucuneDemande": "No request at this status.",
+      "aTerme": {
+        "demandeLe": "Requested on",
+        "plafondCredit": "Credit limit",
+        "encours": "Outstanding",
+        "dossier": "Term-credit file",
+        "decision": "Decision",
+        "accepter": "Accept",
+        "motifRefus": "Reason for rejection",
+        "refuser": "Reject"
+      }
+    },
+    "factures": {
+      "titre": "Normalized invoices",
+      "nouvelle": "New invoice",
+      "statut": "DGI transmission",
+      "statuts": {
+        "a_transmettre": "To transmit",
+        "transmise": "Transmitted",
+        "refusee": "Rejected by the DGI",
+        "non_configuree": "Transmission not configured"
+      },
+      "type": "Type",
+      "types": {
+        "proforma": "Proforma",
+        "facture": "Invoice",
+        "avoir": "Credit note"
+      },
+      "numero": "Number",
+      "sejour": "Stay",
+      "montantTtc": "Net",
+      "montantHt": "Amount excl. tax",
+      "refDgi": "DGI reference",
+      "sejourId": "Stay (ID)",
+      "generer": "Generate",
+      "designation": "Description",
+      "quantite": "Quantity",
+      "soldeStickers": "Sticker balance",
+      "voirLePdf": "View PDF",
+      "transmettre": "Transmit to the DGI",
+      "emettreUnAvoir": "Issue a credit note",
+      "motifAvoir": "Reason for the credit note (required)"
+    },
+    "personnel": {
+      "onglets": {
+        "personnel": "Staff",
+        "agences": "Agencies"
+      },
+      "profil": "Role",
+      "profils": {
+        "super_administrateur": "Super administrator",
+        "administrateur": "Administrator",
+        "gestionnaire": "Manager",
+        "gouvernante": "Housekeeper",
+        "agent_assistance": "Support agent"
+      },
+      "rechercher": "Search (name, email, username)",
+      "nouveauCompte": "New account",
+      "nom": "Name",
+      "prenoms": "First names",
+      "telephone": "Phone",
+      "identifiant": "Username",
+      "agence": "Agency",
+      "facultatif": "optional",
+      "residences": "Residences",
+      "residencesConfiees": "Assigned residences",
+      "residencesDe": "Residences of {{nom}}",
+      "creer": "Create account"
+    },
+    "agences": {
+      "rechercher": "Search an agency",
+      "nouvelle": "New agency",
+      "nom": "Name",
+      "adresse": "Address",
+      "telephone": "Phone",
+      "active": "Active",
+      "inactive": "Inactive",
+      "nombrePersonnel": "Assigned staff"
+    },
+    "parametres": {
+      "enregistrer": "Save",
+      "doubleValidation": "This setting is proposed from Tarification (double validation): it cannot be changed here.",
+      "reserveSuperAdmin": "Reserved to the super administrator.",
+      "divers": "Other",
+      "diversOnglets": {
+        "blog": "Blog",
+        "bannieres": "Banners",
+        "carrousel": "Carousel",
+        "newsletter": "Newsletter"
+      },
+      "blog": {
+        "rechercher": "Search an article",
+        "nouveau": "New article",
+        "titre": "Title",
+        "auteur": "Author",
+        "statut": "Status",
+        "publieLe": "Published on",
+        "resume": "Summary",
+        "image": "Image (URL)",
+        "contenu": "Content",
+        "statuts": {
+          "brouillon": "Draft",
+          "publie": "Published"
+        }
+      },
+      "bannieres": {
+        "nouvelle": "New banner",
+        "titre": "Title",
+        "sousTitre": "Subtitle",
+        "image": "Image (URL)",
+        "lien": "Link",
+        "ordre": "Order",
+        "actif": "Active",
+        "confirmerSuppression": "Delete this banner?",
+        "supprimer": "Delete"
+      },
+      "carrousel": {
+        "nouvelle": "New slide",
+        "diapositive": "Slide",
+        "legende": "Caption"
+      },
+      "newsletter": {
+        "rechercher": "Search a subscriber",
+        "email": "Email",
+        "abonneLe": "Subscribed on",
+        "confirmerDesabonnement": "Unsubscribe this person?",
+        "desabonner": "Unsubscribe"
+      }
+    },
+    "missions": {
+      "tousLesStatuts": "All statuses",
+      "statuts": {
+        "a_faire": "To do",
+        "en_cours": "In progress",
+        "faite": "Done"
+      },
+      "aucune": "No mission yet.",
+      "type": "Type",
+      "logement": "Accommodation",
+      "sejour": "Stay",
+      "echeance": "Due date",
+      "agent": "Field agent",
+      "nonAffectee": "Unassigned",
+      "affecter": {
+        "titre": "Assign a field agent",
+        "action": "Assign",
+        "aide": "No field-agent directory exists yet in the back office: enter the agent account's identifier.",
+        "agentId": "Agent account identifier"
+      },
+      "demande": {
+        "titre": "Request housekeeping",
+        "action": "Request housekeeping",
+        "residence": "Residence",
+        "logement": "Accommodation",
+        "echeance": "Due date",
+        "motif": "Reason"
+      }
+    },
+    "ticketsAssistance": {
+      "consultationSeule": "View only: replying to a ticket happens in the assistance space.",
+      "tousLesStatuts": "All statuses",
+      "statuts": {
+        "ouvert": "Open",
+        "en_cours": "In progress",
+        "ferme": "Closed"
+      },
+      "aucun": "No assistance ticket yet.",
+      "sejour": "Stay",
+      "sujet": "Subject",
+      "reponse": "Reply",
+      "creeLe": "Created on"
+    },
+    "reclamations": {
+      "tousLesStatuts": "All statuses",
+      "statuts": {
+        "ouverte": "Open",
+        "en_cours": "In progress",
+        "fermee": "Closed"
+      },
+      "aucune": "No complaint yet.",
+      "motif": "Reason",
+      "reponse": "Reply (optional)",
+      "fermer": "Close",
+      "avoir": {
+        "titre": "Credit note",
+        "proposer": "Propose a credit note",
+        "montant": "Amount",
+        "enAttente": "Proposed, pending confirmation",
+        "aucunTresorier": "No treasurer designated (Settings › Managers): a credit note cannot be proposed."
+      },
+      "changements": {
+        "validerTitre": "Confirm the credit note",
+        "refuserTitre": "Refuse the credit note",
+        "valider": "Confirm",
+        "refuser": "Refuse",
+        "modeDeRemboursement": "Refund method",
+        "modes": {
+          "especes": "Cash",
+          "mobile_money": "Mobile money",
+          "carte": "Card",
+          "virement": "Bank transfer",
+          "cheque": "Cheque",
+          "avance": "Advance payment",
+          "canal_externe": "External channel"
+        }
+      }
+    },
+    "demandesAnnulation": {
+      "tousLesEtats": "All statuses",
+      "etats": {
+        "en_attente": "Pending",
+        "acceptee": "Accepted",
+        "rejetee": "Rejected"
+      },
+      "aucune": "No cancellation request yet.",
+      "motifClient": "Guest's reason",
+      "montantRembourse": "Amount refunded",
+      "accepter": "Accept",
+      "rejeter": "Reject"
+    }
+  },
+  "langue": {
+    "selectionner": "Choose language"
+  },
+  "legal": {
+    "cgv": "Terms and conditions of sale",
+    "confidentialite": "Privacy policy",
+    "pasEncoreDisponible": "This content is not available yet."
+  },
+  "entete": {
+    "logements": "Stays",
+    "blog": "Blog"
+  },
+  "blog": {
+    "titre": "The blog",
+    "sousTitre": "Tips, news and behind-the-scenes from our residences in Abidjan.",
+    "aucun": "No article published yet.",
+    "introuvable": "This article does not exist or is no longer published.",
+    "erreur": "Could not load this article right now.",
+    "retour": "Back to the blog"
+  },
+  "proprietaire": {
+    "menu": {
+      "residences": "My properties"
+    },
+    "tableauDeBord": {
+      "residences": "Properties",
+      "logements": "Units",
+      "sejoursEnCours": "Ongoing stays",
+      "arriveesSous7Jours": "Check-ins within 7 days"
+    },
+    "residences": {
+      "aucune": "No properties yet."
+    },
+    "residence": {
+      "aucunLogement": "No units yet.",
+      "capacite": "Capacity"
+    },
+    "logement": {
+      "sejours": "Stays",
+      "aucunSejour": "No stays yet."
+    }
+  },
+  "apporteur": {
+    "menu": {
+      "filleuls": "My referrals",
+      "commissions": "My commissions"
+    },
+    "tableauDeBord": {
+      "soldeDu": "Balance due",
+      "filleuls": "Referrals",
+      "commissions": "Commissions"
+    },
+    "filleuls": {
+      "aucun": "No referrals yet.",
+      "inscritLe": "Joined on"
+    },
+    "commissions": {
+      "aucune": "No commissions yet.",
+      "date": "Date",
+      "montant": "Amount"
+    }
+  },
+  "chauffeur": {
+    "menu": {
+      "transferts": "My transfers",
+      "gains": "My earnings",
+      "vehicules": "My vehicles"
+    },
+    "tableauDeBord": {
+      "transfertsAffectes": "Assigned transfers pending",
+      "totalGagne": "Total earned",
+      "soldeDu": "Balance due"
+    },
+    "transferts": {
+      "aucun": "No transfers yet.",
+      "lieu": "Pickup location",
+      "commune": "Area",
+      "dateHeure": "Scheduled date and time",
+      "vehicule": "Vehicle",
+      "montant": "Amount to receive",
+      "cloturer": "Close with the code",
+      "code": "Pickup code",
+      "codeAide": "The code was given to you by the guest.",
+      "codeObligatoire": "Enter the pickup code.",
+      "cloture": "Transfer closed."
+    },
+    "gains": {
+      "totalGagne": "Total earned",
+      "soldeDu": "Balance due"
+    },
+    "vehicules": {
+      "aucun": "No vehicles yet.",
+      "ajouter": "Add a vehicle",
+      "immatriculation": "License plate",
+      "typeVehicule": "Vehicle type",
+      "actif": "Active"
+    }
+  },
+  "restaurateur": {
+    "menu": {
+      "carte": "My menu",
+      "commandes": "My orders",
+      "dette": "My balance"
+    },
+    "tableauDeBord": {
+      "dette": "Balance owed",
+      "aPreparer": "Confirmed orders",
+      "enAttente": "Pending orders"
+    },
+    "carte": {
+      "prixVente": "Sale price"
+    },
+    "commandes": {
+      "demarrerLaPreparation": "Start preparation",
+      "marquerPrete": "Mark ready",
+      "bonDePreparation": "Preparation slip — {{reference}}",
+      "bonDePreparationAide": "Enter the quantity actually served for each line: it may differ from the ordered quantity.",
+      "quantiteCommandee": "ordered: {{quantite}}",
+      "quantiteServie": "Quantity served of {{produit}}"
+    },
+    "dette": {
+      "du": "Owed",
+      "dejaVerse": "Already paid",
+      "paiements": "Payments received",
+      "aucunPaiement": "No payments yet."
+    }
+  },
+  "livreur": {
+    "menu": {
+      "courses": "My deliveries",
+      "gains": "My earnings"
+    },
+    "tableauDeBord": {
+      "soldeDu": "Balance due",
+      "coursesEnCours": "Deliveries in progress",
+      "coursesLivrees": "Deliveries completed"
+    },
+    "courses": {
+      "aucune": "No deliveries yet.",
+      "cloturer": "Close with the code",
+      "code": "Delivery code",
+      "codeAide": "The code was given to you by the guest."
+    },
+    "gains": {
+      "totalGagne": "Total earned",
+      "dejaVerse": "Already paid"
+    }
+  },
+  "espaces": {
+    "backoffice": "Back office",
+    "assistance": "Support",
+    "proprietaire": "Owner area",
+    "agent": "Field agent area",
+    "chauffeur": "Driver area",
+    "livreur": "Courier area",
+    "restaurateur": "Restaurant area",
+    "apporteur": "Referrer area",
+    "client": "My account"
+  },
+  "inscription": {
+    "titre": "Create an account",
+    "sousTitre": "To book, follow your stays and find your invoices.",
+    "nom": "Last name",
+    "prenoms": "First names",
+    "courriel": "Email",
+    "telephone": "Phone",
+    "telephoneAide": "Optional. Example: 07 07 07 07 07",
+    "confirmation": "Confirm the password",
+    "motDePasseAide": "At least 8 characters, with letters and digits.",
+    "codeParrain": "Referral code (optional)",
+    "codeParrainAide": "If a referral partner gave you a code.",
+    "jAccepte": "I accept the",
+    "conditions": "terms and conditions",
+    "creerMonCompte": "Create my account",
+    "dejaUnCompte": "Already have an account?",
+    "nomObligatoire": "Enter your last name.",
+    "courrielObligatoire": "Enter your email.",
+    "courrielInvalide": "This email is not valid.",
+    "telephoneInvalide": "The number must have 8 to 15 digits.",
+    "motDePasseCourt": "The password must be at least 8 characters long.",
+    "motDePasseFaible": "The password must contain letters and digits.",
+    "confirmationDifferente": "The two passwords are different.",
+    "conditionsObligatoires": "You must accept the terms and conditions."
+  },
+  "verification": {
+    "titre": "Verify your address",
+    "sousTitre": "Enter the six-digit code received by email.",
+    "code": "Verification code",
+    "codeAide": "Six digits, valid for 15 minutes.",
+    "codeSixChiffres": "The code has six digits.",
+    "valider": "Confirm the code",
+    "renvoyer": "Get a new code",
+    "renvoyerDans": "New code available in {{secondes}} s",
+    "codeEnvoye": "A code has just been sent to {{email}}.",
+    "nouveauCodeEnvoye": "If an account is awaiting verification at this address, a new code has just been sent.",
+    "retourConnexion": "Back to sign in"
+  },
+  "motDePasse": {
+    "titre": "Forgot password",
+    "etape1": "Enter your email: we will send you a code.",
+    "etape2": "Enter the code sent to {{email}} and choose a new password.",
+    "recevoirLeCode": "Get the code",
+    "codeEnvoye": "If an account exists at this address, a code has just been sent to it.",
+    "nouveau": "New password",
+    "changer": "Change the password",
+    "change": "Password changed. You can sign in."
+  }
+}

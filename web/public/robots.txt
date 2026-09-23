@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin
+Disallow: /connexion
+Disallow: /inscription
+Disallow: /verification
+Disallow: /mot-de-passe-oublie
+Disallow: /paiement
+Disallow: /logements/*/reserver
+
+Sitemap: /sitemap.xml

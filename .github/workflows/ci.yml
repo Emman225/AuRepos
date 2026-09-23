@@ -1,0 +1,94 @@
+name: Intégration continue
+
+# Lint + tests à chaque push. Mon Gravier n'avait aucune CI : ses tests
+# tournaient à la main, sur la base de développement.
+on:
+  push:
+  pull_request:
+
+jobs:
+  api:
+    name: API Laravel
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: residences
+          POSTGRES_PASSWORD: residences
+          POSTGRES_DB: residences_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U residences" --health-interval 5s --health-timeout 3s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_pgsql, pgsql, gd, intl, zip, bcmath, mbstring
+          coverage: none
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: cp .env.example .env && php artisan key:generate
+      - name: Extension btree_gist sur la base de test
+        run: PGPASSWORD=residences psql -h 127.0.0.1 -U residences -d residences_test -c 'CREATE EXTENSION IF NOT EXISTS btree_gist;'
+      - name: Style (Pint)
+        run: vendor/bin/pint --test
+      - name: Analyse statique (Larastan)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+      - name: Tests (Pest)
+        run: vendor/bin/pest
+
+  web:
+    name: Front React
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  mobile:
+    name: Applications Flutter
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.4'
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter gen-l10n
+        working-directory: mobile/apps/client
+      - run: dart analyze .
+      - name: Tests de chaque paquet et application
+        run: |
+          for d in packages/core packages/api_client packages/ui apps/client; do
+            (cd "$d" && flutter test)
+          done
+
+  secrets:
+    name: Aucun secret versionné
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,28 @@
+name: residences_mobile
+description: Espace de travail des applications mobiles Résidences meublées.
+publish_to: none
+
+environment:
+  sdk: ^3.10.3
+
+# Un seul verrouillage de versions pour tous les paquets et toutes les apps :
+# Mon Gravier recopiait à la main le même bloc de dépendances dans trois projets.
+workspace:
+  - packages/core
+  - packages/api_client
+  - packages/ui
+  - apps/client
+
+dev_dependencies:
+  melos: ^7.0.0
+
+melos:
+  scripts:
+    analyse:
+      run: dart analyze .
+      description: Analyse statique de tout l'espace de travail.
+    tests:
+      exec: flutter test
+      description: Lance les tests de chaque paquet et de chaque application.
+      packageFilters:
+        dirExists: test

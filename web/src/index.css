@@ -1,0 +1,270 @@
+/* Charte graphique — mêmes valeurs que src/shared/theme/jetons.ts */
+:root {
+  --color-primary: #1e3a5f; /* bleu nuit */
+  --color-primary-dark: #152b47;
+  --color-secondary: #d9c3a5; /* sable */
+  --color-secondary-light: #efe4d3;
+  --color-bg: #f8f7f4; /* blanc cassé */
+  --color-text: #1f2a37;
+  --color-text-muted: #5b6676;
+  --color-border: #e4ded3;
+
+  /*
+   * Laiton chaud — accent du SITE PUBLIC uniquement (hors back-office et mobile,
+   * qui restent sur le bleu nuit + sable déjà partagés). Réservé aux notes, aux
+   * prix, aux rangs et aux touches d'accent volontairement rares.
+   */
+  --site-laiton: #a9762f;
+  --site-laiton-clair: #c99a4f;
+  --site-font-display: 'Newsreader', Georgia, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-primary);
+}
+
+/*
+ * En-têtes de tableaux et de popups en bleu principal (icônes et texte en blanc) :
+ * les jetons AntD (jetons.ts) posent déjà les couleurs de fond/texte de base, mais
+ * les icônes de tri/filtre d'un tableau et la croix de fermeture d'une modale ne sont
+ * PAS pilotées par ces jetons (elles restent grises par défaut, illisibles sur fond
+ * bleu) — corrigé ici, au même endroit pour tout l'écran, plutôt que modale par modale.
+ */
+.ant-table-thead .ant-table-column-sorter,
+.ant-table-thead .ant-table-filter-trigger {
+  color: rgba(255, 255, 255, 0.75);
+}
+.ant-table-thead .ant-table-column-sorter:hover,
+.ant-table-thead .ant-table-filter-trigger:hover,
+.ant-table-thead .ant-table-column-sorter-up.active,
+.ant-table-thead .ant-table-column-sorter-down.active {
+  color: #ffffff;
+}
+.ant-table-thead > tr > th.ant-table-cell::before {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/*
+ * L'en-tête d'une modale AntD n'a PAS de bandeau propre par défaut (thème « à plat » :
+ * une seule zone de contenu, header/body/footer partagent le même padding, le header a
+ * lui-même un padding de 0) — poser `headerBg` sur le jeton de thème ne peint donc que
+ * le texte du titre, pas une vraie bannière pleine largeur. Corrigé en sortant l'en-tête
+ * du padding du conteneur (marge négative = le padding du conteneur, 20px/24px) pour en
+ * faire un vrai bandeau, avec ses propres coins arrondis et son propre padding.
+ */
+.ant-modal .ant-modal-header {
+  margin: -20px -24px 16px;
+  padding: 14px 24px;
+  border-radius: 12px 12px 0 0;
+}
+.ant-modal .ant-modal-close {
+  top: 14px;
+  inset-inline-end: 18px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.ant-modal .ant-modal-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Un tableau ou une carte se détache légèrement du fond, plutôt qu'à plat. */
+.ant-table-wrapper .ant-table {
+  box-shadow: 0 1px 2px rgba(30, 58, 95, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Une carte cliquable (catégories, logements) se soulève légèrement au survol. */
+.ant-card-hoverable {
+  box-shadow: 0 1px 3px rgba(30, 58, 95, 0.08);
+}
+.ant-card-hoverable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(30, 58, 95, 0.14) !important;
+}
+.ant-modal .ant-modal-container {
+  box-shadow: 0 12px 40px rgba(30, 58, 95, 0.18);
+}
+
+/*
+ * Onglets : le défilement horizontal au clic-glissé / molette / trackpad existe déjà
+ * nativement dans AntD dès que les onglets débordent — ce qui manquait était un indice
+ * visuel (un dégradé en bord de piste) signalant qu'il y a plus à voir de ce côté-là.
+ * AntD pose lui-même les classes `-ping-left`/`-ping-right` pendant le débordement.
+ */
+.ant-tabs-nav-wrap {
+  position: relative;
+}
+.ant-tabs-nav-wrap-ping-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  background: linear-gradient(to right, rgba(248, 247, 244, 0), rgba(248, 247, 244, 0.95));
+  pointer-events: none;
+}
+.ant-tabs-nav-wrap-ping-left::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 28px;
+  background: linear-gradient(to left, rgba(248, 247, 244, 0), rgba(248, 247, 244, 0.95));
+  pointer-events: none;
+  z-index: 1;
+}
+.ant-tabs-top > .ant-tabs-nav {
+  margin-bottom: 20px;
+}
+.ant-tabs .ant-tabs-tab {
+  padding: 10px 4px;
+  transition: color 0.15s ease;
+}
+.ant-tabs .ant-tabs-tab:hover {
+  color: #1e3a5f;
+}
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin-left: 28px;
+}
+
+/*
+ * Carrousels du site public (en-tête, promotions) : points de navigation plus visibles,
+ * dans le bleu principal, avec une transition douce plutôt que les barres blanches par défaut.
+ */
+.ant-carousel .slick-dots li button {
+  background: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+  border-radius: 999px;
+  transition: background 0.2s ease, width 0.2s ease;
+}
+.ant-carousel .slick-dots li.slick-active button {
+  background: #ffffff;
+}
+.carrousel-fleche:hover {
+  background: #ffffff !important;
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* Cartes image-forward (logements, résidences) : la photo se dilate légèrement au survol, contenue par le cadre arrondi. */
+.carte-image-forward img {
+  transition: transform 0.4s ease;
+}
+.carte-image-forward:hover img {
+  transform: scale(1.05);
+}
+
+/* Indicateur chiffré cliquable (KPI) : se soulève légèrement, comme une carte, pour signaler qu'il mène à une action. */
+.kpi-actionnable:hover {
+  transform: translateY(-2px);
+}
+
+.lien-entete {
+  transition: color 0.15s ease;
+}
+.lien-entete:hover {
+  color: #ffffff !important;
+}
+
+/* Rythme des sections de la page d'accueil : plus d'air qu'un simple `Space` uniforme. */
+.rythme-accueil > * + * {
+  margin-top: 72px;
+}
+.rythme-accueil h2 {
+  font-family: var(--site-font-display);
+  font-weight: 500;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+/* Ligne d'un classement (résidences les mieux notées) : grille nommée, réagencée sous 480px plutôt que compressée. */
+.ligne-classee {
+  display: grid;
+  grid-template-columns: 40px 92px 1fr auto;
+  grid-template-areas: 'rang photo nom prix';
+  align-items: center;
+  column-gap: 18px;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--color-border);
+}
+.ligne-classee .carte-image-forward {
+  grid-area: photo;
+  width: 92px;
+  height: 92px;
+}
+@media (max-width: 480px) {
+  .ligne-classee {
+    grid-template-columns: 32px 64px 1fr;
+    grid-template-areas:
+      'rang photo nom'
+      'rang photo prix';
+    row-gap: 4px;
+    column-gap: 12px;
+  }
+  .ligne-classee .carte-image-forward {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Page résultats : filtres en colonne fixe à gauche à partir de 992px, en tiroir en dessous. */
+.recherche-disposition {
+  display: block;
+}
+.recherche-panneau-filtres {
+  display: none;
+}
+.recherche-bouton-filtres {
+  display: inline-flex;
+}
+@media (min-width: 992px) {
+  .recherche-disposition {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .recherche-panneau-filtres {
+    display: block;
+    position: sticky;
+    top: 20px;
+  }
+  .recherche-bouton-filtres {
+    display: none;
+  }
+}
+
+/* Catégories de la page d'accueil : carte fine, qui se soulève et se souligne de laiton au survol. */
+.categorie-pastille {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.categorie-pastille:hover {
+  transform: translateY(-3px);
+  border-color: var(--site-laiton-clair) !important;
+  box-shadow: 0 10px 24px -14px rgba(30, 58, 95, 0.35);
+}

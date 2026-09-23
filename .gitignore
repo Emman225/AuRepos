@@ -1,0 +1,25 @@
+# Secrets : jamais versionnés (leçon Mon Gravier)
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+key.properties
+
+# Artefacts : jamais dans le dépôt
+*.apk
+*.aab
+*.ipa
+*.zip
+
+# Bureautique : fichiers de verrouillage Word / Excel
+~$*
+
+# Systèmes et éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# État local d'outillage, jamais partagé
+.claude/scheduled_tasks.lock
