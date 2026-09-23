@@ -1,11 +1,14 @@
 import { FilterOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
-import { Alert, Button, Col, Drawer, Empty, Pagination, Row, Skeleton, Typography } from 'antd'
+import { Button, Col, Drawer, Pagination, Row, Skeleton, Typography } from 'antd'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { ErreurApi, lire } from '../../shared/api/client'
+import { EtatErreur } from '../../shared/composants/EtatErreur'
+import { EtatVide } from '../../shared/composants/EtatVide'
 import { couleurs } from '../../shared/theme/jetons'
+import { laitonClair, policeDisplay } from '../../shared/theme/jetonsSitePublic'
 import { BaliseSeo } from './BaliseSeo'
 import { CarteLogement } from './CarteLogement'
 import { FormulaireRecherche } from './FormulaireRecherche'
@@ -85,7 +88,7 @@ export function PageRecherche() {
       <BaliseSeo titre={`${t('recherche.titre')} — ${t('marque')}`} description={t('recherche.description')} chemin="/recherche" />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
-        <Typography.Title level={1} style={{ marginBottom: 4 }}>
+        <Typography.Title level={1} style={{ marginBottom: 4, fontFamily: policeDisplay, fontWeight: 500 }}>
           {t('recherche.titre')}
         </Typography.Title>
         <Button className="recherche-bouton-filtres" icon={<FilterOutlined />} onClick={() => setFiltresOuverts(true)}>
@@ -94,7 +97,7 @@ export function PageRecherche() {
       </div>
 
       {resultats.data && (
-        <Typography.Text style={{ display: 'block', color: couleurs.texteDiscret, marginBottom: 24 }}>
+        <Typography.Text style={{ display: 'block', color: couleurs.texteDiscret, marginBottom: 28 }}>
           {t(resultats.data.avec_dates ? 'recherche.resultats.pourLesDates' : 'recherche.resultats.disponibles', {
             count: resultats.data.pagination.total,
           })}
@@ -103,6 +106,21 @@ export function PageRecherche() {
 
       <div className="recherche-disposition">
         <aside className="recherche-panneau-filtres">
+          <Typography.Text
+            strong
+            style={{
+              display: 'block',
+              fontSize: 12,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: couleurs.bleuNuit,
+              marginBottom: 18,
+              paddingBottom: 12,
+              borderBottom: `2px solid ${laitonClair}`,
+            }}
+          >
+            {t('recherche.filtre.ouvrirLesFiltres')}
+          </Typography.Text>
           <FormulaireRecherche filtresInitiaux={filtres} onRechercher={rechercher} />
         </aside>
 
@@ -117,18 +135,24 @@ export function PageRecherche() {
         </Drawer>
 
         <div>
-          {resultats.isPending && <Skeleton active />}
+          {resultats.isPending && (
+            <Row gutter={[16, 16]}>
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <Col key={n} xs={24} sm={12} xl={8}>
+                  <Skeleton.Image active style={{ width: '100%', aspectRatio: '4 / 5', height: 'auto', borderRadius: 10 }} />
+                </Col>
+              ))}
+            </Row>
+          )}
           {resultats.isError && (
-            <Alert
-              type="error"
-              showIcon
-              title={resultats.error instanceof ErreurApi ? resultats.error.message : t('recherche.resultats.erreur')}
+            <EtatErreur
+              titre={resultats.error instanceof ErreurApi ? resultats.error.message : t('recherche.resultats.erreur')}
             />
           )}
           {resultats.data && (
             <>
               {resultats.data.elements.length === 0 ? (
-                <Empty description={t('recherche.resultats.aucun')} />
+                <EtatVide titre={t('recherche.resultats.aucun')} />
               ) : (
                 <Row gutter={[16, 16]}>
                   {resultats.data.elements.map((logement) => (

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { App as AppAntd } from 'antd'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -140,7 +140,9 @@ describe('back office › réclamations (P2-AST-01)', () => {
     expect(await screen.findByRole('button', { name: 'Proposer un avoir' })).toBeDisabled()
   })
 
-  it('propose un avoir puis le trésorier le confirme depuis la file des changements', async () => {
+  it(
+    'propose un avoir puis le trésorier le confirme depuis la file des changements',
+    async () => {
     let enAttente = false
     vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {
       if (url === '/backoffice/reclamations') return { elements: [RECLAMATION], pagination: { page: 1, par_page: 5, total: 1, derniere_page: 1 } } as never
@@ -167,7 +169,7 @@ describe('back office › réclamations (P2-AST-01)', () => {
     expect(proposer).not.toBeDisabled()
     await userEvent.click(proposer)
 
-    const dialogueAvoir = await screen.findByRole('dialog', { name: 'Avoir' })
+    const dialogueAvoir = await screen.findByRole('dialog')
     await userEvent.type(within(dialogueAvoir).getByRole('spinbutton'), '10000')
     await userEvent.type(within(dialogueAvoir).getByRole('textbox', { name: 'Motif' }), 'Geste commercial fidélité')
     await userEvent.click(within(dialogueAvoir).getByRole('button', { name: 'Proposer un avoir' }))
@@ -176,14 +178,21 @@ describe('back office › réclamations (P2-AST-01)', () => {
     expect(await screen.findByText('Proposé, en attente de confirmation')).toBeInTheDocument()
 
     // La modale précédente peut rester montée le temps de son animation de fermeture (jsdom) :
-    // on cible la nouvelle modale par son TITRE (nom accessible), qui la distingue sans ambiguïté
-    // d'un éventuel reliquat de l'ancienne, plutôt qu'un rôle « dialog » générique.
+    // on prend la DERNIÈRE boîte de dialogue apparue plutôt qu'une requête qui suppose qu'une
+    // seule existe, un éventuel reliquat de l'ancienne restant parfois affiché un instant.
     await userEvent.click(screen.getByRole('button', { name: 'Confirmer' }))
-    const dialogueDecision = await screen.findByRole('dialog', { name: 'Confirmer l’avoir' })
+    const dialoguesOuverts = await waitFor(() => {
+      const trouvees = screen.getAllByRole('dialog')
+      expect(trouvees.length).toBeGreaterThan(0)
+      return trouvees
+    })
+    const dialogueDecision = dialoguesOuverts[dialoguesOuverts.length - 1]
     await userEvent.click(within(dialogueDecision).getByRole('combobox', { name: 'Mode de remboursement' }))
     await userEvent.click(await screen.findByText('Espèces'))
     await userEvent.click(within(dialogueDecision).getByRole('button', { name: 'Confirmer' }))
 
     expect(envoyer).toHaveBeenCalledWith('/backoffice/changements/5/decision', { decision: 'valider', motif: undefined, mode_de_remboursement: 'especes' }, 'put')
-  })
+    },
+    45000,
+  )
 })

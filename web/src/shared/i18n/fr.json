@@ -1416,6 +1416,32 @@
       "dejaVerse": "Déjà versé"
     }
   },
+  "agent": {
+    "menu": {
+      "sejours": "Mes séjours du jour",
+      "missions": "Mes missions"
+    },
+    "tableauDeBord": {
+      "arriveesAAccueillir": "Arrivées à accueillir aujourd’hui",
+      "departsAFaireSortir": "Départs à faire partir aujourd’hui",
+      "missionsAFaire": "Mes missions à faire"
+    },
+    "sejours": {
+      "aucun": "Aucun séjour à traiter aujourd’hui."
+    },
+    "missions": {
+      "demarrer": "Démarrer",
+      "terminer": "Terminer",
+      "terminerTitre": "Terminer la mission",
+      "notes": "Notes (facultatif)"
+    }
+  },
+  "assistance": {
+    "description": "Tickets soulevés par les clients pendant leur séjour : répondez ou fermez.",
+    "votreReponse": "Votre réponse",
+    "repondre": "Répondre",
+    "fermer": "Fermer"
+  },
   "espaces": {
     "backoffice": "Back office",
     "assistance": "Assistance",

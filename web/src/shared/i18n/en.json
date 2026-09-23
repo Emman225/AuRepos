@@ -1416,6 +1416,32 @@
       "dejaVerse": "Already paid"
     }
   },
+  "agent": {
+    "menu": {
+      "sejours": "My stays today",
+      "missions": "My missions"
+    },
+    "tableauDeBord": {
+      "arriveesAAccueillir": "Arrivals to welcome today",
+      "departsAFaireSortir": "Departures to see off today",
+      "missionsAFaire": "My missions to do"
+    },
+    "sejours": {
+      "aucun": "No stay to handle today."
+    },
+    "missions": {
+      "demarrer": "Start",
+      "terminer": "Finish",
+      "terminerTitre": "Finish the mission",
+      "notes": "Notes (optional)"
+    }
+  },
+  "assistance": {
+    "description": "Tickets raised by guests during their stay: reply or close them.",
+    "votreReponse": "Your reply",
+    "repondre": "Reply",
+    "fermer": "Close"
+  },
   "espaces": {
     "backoffice": "Back office",
     "assistance": "Support",

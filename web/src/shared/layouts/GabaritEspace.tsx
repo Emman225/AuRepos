@@ -9,7 +9,9 @@ import { useSession } from '../../features/auth/session'
 import type { Espace } from '../../features/auth/types'
 import { LogoMarque } from '../composants/LogoMarque'
 import { SelecteurDeLangue } from '../i18n/SelecteurDeLangue'
+import { ECRANS_AGENT_TERRAIN } from './menuAgentTerrain'
 import { ECRANS_APPORTEUR } from './menuApporteur'
+import { ECRANS_ASSISTANCE } from './menuAssistance'
 import { ECRANS_BACKOFFICE } from './menuBackOffice'
 import { ECRANS_CHAUFFEUR } from './menuChauffeur'
 import { ECRANS_CLIENT } from './menuClient'
@@ -64,6 +66,12 @@ export function GabaritEspace({ titre, espace }: Props) {
           : []),
         ...(espace === 'chauffeur'
           ? ECRANS_CHAUFFEUR.map((e) => ({ cle: `${racine}/${e.chemin}`, libelle: t(e.cle), icone: e.icone }))
+          : []),
+        ...(espace === 'agent'
+          ? ECRANS_AGENT_TERRAIN.map((e) => ({ cle: `${racine}/${e.chemin}`, libelle: t(e.cle), icone: e.icone }))
+          : []),
+        ...(espace === 'assistance'
+          ? ECRANS_ASSISTANCE.map((e) => ({ cle: `${racine}/${e.chemin}`, libelle: t(e.cle), icone: e.icone }))
           : []),
       ]
     : []

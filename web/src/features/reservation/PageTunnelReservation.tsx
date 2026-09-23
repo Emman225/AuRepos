@@ -29,6 +29,14 @@ import { estimer, etablirUnDevis, initierLePaiement, monCompteATerme, reserver, 
 import { ResumeDevis } from './ResumeDevis'
 import type { ModeReglement, Sejour } from './types'
 
+/** Habillage commun des sections du tunnel : une surface blanche nettement délimitée, pas des champs flottant sur le fond. */
+const STYLE_CARTE = {
+  background: couleurs.blanc,
+  border: `1px solid ${couleurs.bordure}`,
+  borderRadius: 10,
+  padding: 24,
+} as const
+
 /** Les 3 phases réelles du tunnel (brief refonte §17) — pas de fausses étapes sans contenu : ici tout est déjà séquentiel, seulement pas visible comme tel. */
 function EtapesDuTunnel({ etape }: { etape: 0 | 1 | 2 }) {
   const { t } = useTranslation()
@@ -150,48 +158,53 @@ export function PageTunnelReservation() {
 
       <Row gutter={40}>
         <Col xs={24} md={14}>
-          <Row gutter={[12, 12]}>
-            <Col xs={24} md={24}>
-              <DatePicker.RangePicker
-                style={{ width: '100%' }}
-                value={dates}
-                onChange={(v) => setDates(v && v[0] && v[1] ? [v[0], v[1]] : null)}
-                disabledDate={(d) => d.isBefore(dayjs().startOf('day'))}
-                format="DD/MM/YYYY"
-                placeholder={[t('tunnel.arrivee'), t('tunnel.depart')]}
-              />
-            </Col>
-            <Col xs={12} md={12}>
-              <Typography.Text style={{ display: 'block', marginBottom: 4 }} type="secondary">
-                {t('tunnel.adultes')}
-              </Typography.Text>
-              <InputNumber
-                style={{ width: '100%' }}
-                min={1}
-                max={60}
-                value={adultes}
-                onChange={(v) => setAdultes(v ?? 1)}
-              />
-            </Col>
-            <Col xs={12} md={12}>
-              <Typography.Text style={{ display: 'block', marginBottom: 4 }} type="secondary">
-                {t('tunnel.enfants')}
-              </Typography.Text>
-              <InputNumber
-                style={{ width: '100%' }}
-                min={0}
-                max={60}
-                value={enfants}
-                onChange={(v) => setEnfants(v ?? 0)}
-              />
-            </Col>
-            <Col xs={24}>
-              <Input value={codePromo} onChange={(e) => setCodePromo(e.target.value)} placeholder={t('tunnel.codePromo')} />
-            </Col>
-          </Row>
+          <div style={STYLE_CARTE}>
+            <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 18, color: couleurs.bleuNuit }}>
+              {t('tunnel.etapes.sejour')}
+            </Typography.Title>
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={24}>
+                <DatePicker.RangePicker
+                  style={{ width: '100%' }}
+                  value={dates}
+                  onChange={(v) => setDates(v && v[0] && v[1] ? [v[0], v[1]] : null)}
+                  disabledDate={(d) => d.isBefore(dayjs().startOf('day'))}
+                  format="DD/MM/YYYY"
+                  placeholder={[t('tunnel.arrivee'), t('tunnel.depart')]}
+                />
+              </Col>
+              <Col xs={12} md={12}>
+                <Typography.Text style={{ display: 'block', marginBottom: 4 }} type="secondary">
+                  {t('tunnel.adultes')}
+                </Typography.Text>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  min={1}
+                  max={60}
+                  value={adultes}
+                  onChange={(v) => setAdultes(v ?? 1)}
+                />
+              </Col>
+              <Col xs={12} md={12}>
+                <Typography.Text style={{ display: 'block', marginBottom: 4 }} type="secondary">
+                  {t('tunnel.enfants')}
+                </Typography.Text>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  min={0}
+                  max={60}
+                  value={enfants}
+                  onChange={(v) => setEnfants(v ?? 0)}
+                />
+              </Col>
+              <Col xs={24}>
+                <Input value={codePromo} onChange={(e) => setCodePromo(e.target.value)} placeholder={t('tunnel.codePromo')} />
+              </Col>
+            </Row>
+          </div>
 
           {estimation.data && estimation.data.disponible && (
-            <div style={{ marginTop: 28 }}>
+            <div style={{ ...STYLE_CARTE, marginTop: 20 }}>
               {estimation.data.code_promo.motif && (
                 <Alert style={{ marginBottom: 12 }} type="warning" showIcon title={estimation.data.code_promo.motif} />
               )}
@@ -206,7 +219,7 @@ export function PageTunnelReservation() {
                 </Checkbox>
               )}
 
-              <Typography.Title level={4} style={{ marginTop: 12 }}>
+              <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 14, color: couleurs.bleuNuit }}>
                 {t('tunnel.reglement.titre')}
               </Typography.Title>
               <Radio.Group value={modeReglement} onChange={(e) => setModeReglement(e.target.value as ModeReglement)}>
@@ -307,7 +320,7 @@ export function PageConfirmation({
         title={t('tunnel.confirmation.titre')}
         subTitle={t('tunnel.confirmation.sousTitre', { reference: sejour.reference })}
       />
-      <div style={{ background: couleurs.sableClair, borderRadius: 8, padding: 20 }}>
+      <div style={{ background: couleurs.sableClair, border: `1px solid ${couleurs.sable}`, borderRadius: 10, padding: 20 }}>
         <Typography.Paragraph>
           <strong>{t('tunnel.confirmation.netAPayer')}</strong> {formaterPrix(sejour.net_a_payer)}
         </Typography.Paragraph>
@@ -370,7 +383,7 @@ export function SectionTransformationDevis({
   }
 
   return (
-    <div style={{ background: couleurs.sableClair, borderRadius: 8, padding: 20, marginTop: 24 }}>
+    <div style={{ background: couleurs.sableClair, border: `1px solid ${couleurs.sable}`, borderRadius: 10, padding: 20, marginTop: 24 }}>
       <Typography.Title level={4} style={{ marginTop: 0 }}>
         {t('tunnel.transformation.titre')}
       </Typography.Title>

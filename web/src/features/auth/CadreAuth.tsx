@@ -2,7 +2,7 @@ import { Alert, Card, Typography } from 'antd'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { LogoMarque } from '../../shared/composants/LogoMarque'
-import { couleurs } from '../../shared/theme/jetons'
+import { couleurs, ombres, rayons } from '../../shared/theme/jetons'
 
 interface Props {
   titre: string
@@ -19,21 +19,32 @@ interface Props {
 export function CadreAuth({ titre, sousTitre, refus, information, children, pied }: Props) {
   return (
     <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, background: couleurs.blancCasse }}>
-      <Card style={{ width: '100%', maxWidth: 460, borderTop: `4px solid ${couleurs.sable}` }}>
-        <Link to="/" style={{ display: 'inline-block', marginBottom: 4 }}>
+      <Card
+        style={{
+          width: '100%',
+          maxWidth: 460,
+          borderTop: `4px solid ${couleurs.sable}`,
+          borderRadius: rayons.xl,
+          boxShadow: ombres.forte,
+        }}
+        styles={{ body: { padding: '36px 32px' } }}
+      >
+        <Link to="/" style={{ display: 'inline-block', marginBottom: 8 }}>
           <LogoMarque taille={76} />
         </Link>
-        <Typography.Title level={2} style={{ marginTop: 12 }}>
+        <Typography.Title level={2} style={{ marginTop: 16, marginBottom: 6, color: couleurs.bleuNuit }}>
           {titre}
         </Typography.Title>
-        {sousTitre && <Typography.Paragraph style={{ color: couleurs.texteDiscret }}>{sousTitre}</Typography.Paragraph>}
+        {sousTitre && (
+          <Typography.Paragraph style={{ color: couleurs.texteDiscret, marginBottom: 24 }}>{sousTitre}</Typography.Paragraph>
+        )}
 
         {information && <Alert type="success" showIcon title={information} style={{ marginBottom: 16 }} role="status" />}
         {refus && <Alert type="error" showIcon title={refus} style={{ marginBottom: 16 }} role="alert" />}
 
         {children}
 
-        {pied && <div style={{ marginTop: 20, textAlign: 'center', color: couleurs.texteDiscret }}>{pied}</div>}
+        {pied && <div style={{ marginTop: 24, textAlign: 'center', color: couleurs.texteDiscret }}>{pied}</div>}
       </Card>
     </div>
   )

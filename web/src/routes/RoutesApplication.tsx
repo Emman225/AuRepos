@@ -45,9 +45,14 @@ import { PageMonCompte } from '../features/client-espace/PageMonCompte'
 import { PageTableauDeBord } from '../features/client-espace/PageTableauDeBord'
 import { PagePaiementRetour } from '../features/reservation/PagePaiementRetour'
 import { PageTunnelReservation } from '../features/reservation/PageTunnelReservation'
+import { PageDetailSejour as PageDetailSejourAgent } from '../features/agent-terrain/PageDetailSejour'
+import { PageMissions as PageMissionsAgent } from '../features/agent-terrain/PageMissions'
+import { PageSejours as PageSejoursAgent } from '../features/agent-terrain/PageSejours'
+import { PageTableauDeBord as PageTableauDeBordAgent } from '../features/agent-terrain/PageTableauDeBord'
 import { PageCommissions as PageCommissionsApporteur } from '../features/apporteur/PageCommissions'
 import { PageFilleuls as PageFilleulsApporteur } from '../features/apporteur/PageFilleuls'
 import { PageTableauDeBord as PageTableauDeBordApporteur } from '../features/apporteur/PageTableauDeBord'
+import { PageTableauDeBord as PageTableauDeBordAssistance } from '../features/assistance/PageTableauDeBord'
 import { PageGains as PageGainsChauffeur } from '../features/chauffeur/PageGains'
 import { PageTableauDeBord as PageTableauDeBordChauffeur } from '../features/chauffeur/PageTableauDeBord'
 import { PageTransferts as PageTransfertsChauffeur } from '../features/chauffeur/PageTransferts'
@@ -182,6 +187,10 @@ export function RoutesApplication() {
                 <PageTableauDeBordLivreur />
               ) : espace === 'chauffeur' ? (
                 <PageTableauDeBordChauffeur />
+              ) : espace === 'agent' ? (
+                <PageTableauDeBordAgent />
+              ) : espace === 'assistance' ? (
+                <PageTableauDeBordAssistance />
               ) : (
                 <TableauDeBordProvisoire />
               )
@@ -470,6 +479,13 @@ export function RoutesApplication() {
               <Route path="transferts" element={<PageTransfertsChauffeur />} />
               <Route path="gains" element={<PageGainsChauffeur />} />
               <Route path="vehicules" element={<PageVehiculesChauffeur />} />
+            </>
+          )}
+          {espace === 'agent' && (
+            <>
+              <Route path="sejours" element={<PageSejoursAgent />} />
+              <Route path="sejours/:id" element={<PageDetailSejourAgent />} />
+              <Route path="missions" element={<PageMissionsAgent />} />
             </>
           )}
           <Route path="*" element={<PageIntrouvable />} />
