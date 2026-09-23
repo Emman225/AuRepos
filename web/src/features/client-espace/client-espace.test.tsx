@@ -175,6 +175,113 @@ describe('mes séjours (P1-CLI-01)', () => {
   })
 })
 
+describe('demande d’annulation, assistance et réclamations (P2-BO-08)', () => {
+  it('demande l’annulation, motivée, d’un séjour confirmé — sans toucher au chemin de la simple demande', async () => {
+    const sejourConfirme: Sejour = { ...SEJOUR, etat: 'confirme', etat_libelle: 'Confirmé' }
+    vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {
+      if (url === '/client/sejours/SEJ-000001') return sejourConfirme as never
+      if (url === '/client/restaurateurs') return [] as never
+      if (url === '/client/sejours/SEJ-000001/commandes') return [] as never
+      if (url === '/client/sejours/SEJ-000001/transferts') return [] as never
+      return { 'general.whatsapp': null } as never
+    })
+    const envoyer = vi.spyOn(clientApi, 'envoyer').mockResolvedValue({
+      id: 1, motif_client: 'Contrainte professionnelle imprévue', etat: 'en_attente', etat_libelle: 'En attente d’instruction',
+      montant_retenu: null, montant_rembourse: null, motif_decision: null, instruite_le: null, created_at: null,
+    } as never)
+
+    monter('/mon-espace/sejours/SEJ-000001')
+    expect(await screen.findByText('Villa Riviera')).toBeInTheDocument()
+
+    // Le séjour est confirmé : le chemin de la simple demande (P2-SEJ-06) ne s'affiche pas.
+    expect(screen.queryByRole('button', { name: 'Annuler ce séjour' })).not.toBeInTheDocument()
+    // Les sections assistance/réclamations ne s'affichent pas hors de leur état.
+    expect(screen.queryByText('Assistance')).not.toBeInTheDocument()
+    expect(screen.queryByText('Réclamations')).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Demander l’annulation' }))
+    const motifChamp = await screen.findByRole('textbox', { name: 'Motif' })
+    await userEvent.type(motifChamp, 'Contrainte professionnelle imprévue')
+    await userEvent.click(screen.getByRole('button', { name: 'Envoyer la demande' }))
+
+    expect(envoyer).toHaveBeenCalledWith('/client/sejours/SEJ-000001/demande-annulation', { motif: 'Contrainte professionnelle imprévue' })
+    expect(await screen.findByText('Demande d’annulation envoyée : la réception va l’instruire.')).toBeInTheDocument()
+  })
+
+  it('ouvre un ticket d’assistance et liste les tickets existants, pendant un séjour arrivé seulement', async () => {
+    const sejourArrive: Sejour = { ...SEJOUR, etat: 'arrive', etat_libelle: 'Arrivé' }
+    const ticketExistant = {
+      id: 9, sujet: 'Climatisation en panne', message: 'La clim ne démarre plus.', statut: 'ferme', statut_libelle: 'Fermé',
+      reponse: 'Un technicien est passé ce matin.', traite_le: '02/10/2026 09:00:00', created_at: '01/10/2026 08:00:00',
+    }
+    vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {
+      if (url === '/client/sejours/SEJ-000001') return sejourArrive as never
+      if (url === '/client/restaurateurs') return [] as never
+      if (url === '/client/sejours/SEJ-000001/commandes') return [] as never
+      if (url === '/client/sejours/SEJ-000001/transferts') return [] as never
+      if (url === '/client/sejours/SEJ-000001/tickets-assistance') return [ticketExistant] as never
+      return { 'general.whatsapp': null } as never
+    })
+    const envoyer = vi.spyOn(clientApi, 'envoyer').mockResolvedValue({
+      id: 10, sujet: 'Wifi absent', message: 'Aucun réseau depuis ce matin.', statut: 'ouvert', statut_libelle: 'Ouvert',
+      reponse: null, traite_le: null, created_at: '03/10/2026 08:00:00',
+    } as never)
+
+    monter('/mon-espace/sejours/SEJ-000001')
+    expect(await screen.findByText('Villa Riviera')).toBeInTheDocument()
+
+    // Le séjour n'est pas terminé : pas de section réclamations.
+    expect(screen.queryByText('Réclamations')).not.toBeInTheDocument()
+
+    expect(await screen.findByText('Climatisation en panne')).toBeInTheDocument()
+    expect(screen.getByText(/Un technicien est passé ce matin\./)).toBeInTheDocument()
+
+    await userEvent.type(screen.getByRole('textbox', { name: 'Sujet' }), 'Wifi absent')
+    await userEvent.type(screen.getByRole('textbox', { name: 'Message' }), 'Aucun réseau depuis ce matin.')
+    await userEvent.click(screen.getByRole('button', { name: 'Envoyer' }))
+
+    expect(envoyer).toHaveBeenCalledWith('/client/sejours/SEJ-000001/tickets-assistance', { sujet: 'Wifi absent', message: 'Aucun réseau depuis ce matin.' })
+    expect(await screen.findByText('Ticket d’assistance envoyé : l’équipe assistance va vous répondre.')).toBeInTheDocument()
+  })
+
+  it('bloque une réclamation trop courte puis l’envoie une fois le motif d’au moins 15 caractères saisi, séjour terminé seulement', async () => {
+    const sejourParti: Sejour = { ...SEJOUR, etat: 'parti', etat_libelle: 'Parti' }
+    vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {
+      if (url === '/client/sejours/SEJ-000001') return sejourParti as never
+      if (url === '/client/restaurateurs') return [] as never
+      if (url === '/client/sejours/SEJ-000001/commandes') return [] as never
+      if (url === '/client/sejours/SEJ-000001/transferts') return [] as never
+      if (url === '/client/sejours/SEJ-000001/reclamations') return [] as never
+      return { 'general.whatsapp': null } as never
+    })
+    const envoyer = vi.spyOn(clientApi, 'envoyer').mockResolvedValue({
+      id: 5, motif: 'Le ménage n’a pas été fait le dernier jour du séjour.', statut: 'ouverte', statut_libelle: 'Ouverte',
+      reponse: null, avoir_montant: null, avoir_motif: null, fermee_le: null, created_at: '05/10/2026 08:00:00',
+    } as never)
+
+    monter('/mon-espace/sejours/SEJ-000001')
+    expect(await screen.findByText('Villa Riviera')).toBeInTheDocument()
+
+    // Le séjour n'est plus en cours : pas de section assistance.
+    expect(screen.queryByText('Assistance')).not.toBeInTheDocument()
+
+    const motifChamp = await screen.findByRole('textbox', { name: 'Motif' })
+    const bouton = screen.getByRole('button', { name: 'Envoyer' })
+
+    await userEvent.type(motifChamp, 'Trop court')
+    expect(bouton).toBeDisabled()
+
+    await userEvent.clear(motifChamp)
+    await userEvent.type(motifChamp, 'Le ménage n’a pas été fait le dernier jour du séjour.')
+    expect(bouton).toBeEnabled()
+
+    await userEvent.click(bouton)
+
+    expect(envoyer).toHaveBeenCalledWith('/client/sejours/SEJ-000001/reclamations', { motif: 'Le ménage n’a pas été fait le dernier jour du séjour.' })
+    expect(await screen.findByText('Réclamation envoyée : la réception va l’instruire.')).toBeInTheDocument()
+  })
+})
+
 describe('mes devis (P1-CLI-01)', () => {
   it('liste mes devis puis archive un devis en attente', async () => {
     vi.spyOn(clientApi, 'lire').mockImplementation(async (url: string) => {

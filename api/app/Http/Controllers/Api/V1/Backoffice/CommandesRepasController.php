@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\V1\Backoffice;
 use App\Domain\Repas\Enums\EtatDeCommande;
 use App\Domain\Repas\Models\Commande;
 use App\Domain\Repas\Models\Livreur;
+use App\Domain\Repas\Models\Restaurateur;
 use App\Domain\Repas\Services\GestionDesCommandes;
+use App\Domain\Sejours\Models\Sejour;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Repas\CommandeResource;
 use App\Support\Api\ReponseApi;
@@ -69,5 +71,29 @@ final class CommandesRepasController extends Controller
         $commande = $this->commandes->refuser($commande, (string) $saisie['motif']);
 
         return ReponseApi::succes(new CommandeResource($commande->load(['sejour', 'restaurateur', 'lignes'])), 'Commande refusée.');
+    }
+
+    /** Extra CdC § 5.2 « premier repas livré à l'arrivée » (P4-API-08) : geste explicite de la réception, après le check-in. */
+    public function offrirPremierRepas(Request $request): JsonResponse
+    {
+        $saisie = $request->validate([
+            'sejour_id' => ['required', 'integer', 'exists:sejours,id'],
+            'restaurateur_id' => ['required', 'integer', 'exists:restaurateurs,id'],
+            'lignes' => ['required', 'array', 'min:1', 'max:50'],
+            'lignes.*.produit_id' => ['required', 'integer', 'exists:produits,id'],
+            'lignes.*.quantite' => ['required', 'integer', 'min:1', 'max:100'],
+        ], [], [
+            'sejour_id' => 'séjour', 'restaurateur_id' => 'restaurateur',
+            'lignes' => 'lignes de commande', 'lignes.*.produit_id' => 'produit', 'lignes.*.quantite' => 'quantité',
+        ]);
+
+        $sejour = Sejour::query()->findOrFail($saisie['sejour_id']);
+        $restaurateur = Restaurateur::query()->where('actif', true)->findOrFail($saisie['restaurateur_id']);
+
+        /** @var list<array{produit_id: int, quantite: int}> $lignes */
+        $lignes = $saisie['lignes'];
+        $commande = $this->commandes->offrirLePremierRepas($sejour, $restaurateur, $lignes);
+
+        return ReponseApi::cree(new CommandeResource($commande->load(['sejour', 'restaurateur', 'lignes'])), 'Premier repas offert enregistré.');
     }
 }

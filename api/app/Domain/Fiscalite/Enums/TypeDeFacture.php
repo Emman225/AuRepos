@@ -9,6 +9,12 @@ enum TypeDeFacture: string
     case Facture = 'facture';
     /** Montant négatif, certifiée par la DGI, annule tout ou partie d'une facture (CdC § 14). */
     case Avoir = 'avoir';
+    /**
+     * Retenue sur caution (P2-CAU-02) : facture normalisée « frais de dégradation / retard ».
+     * Distincte de `Facture` à dessein — elle ne heurte jamais « un séjour, une facture » (CdC § 9.4),
+     * qui ne vaut que pour la facture DU SÉJOUR.
+     */
+    case FraisCaution = 'frais_caution';
 
     public function libelle(): string
     {
@@ -16,6 +22,7 @@ enum TypeDeFacture: string
             self::Proforma => 'Proforma',
             self::Facture => 'Facture',
             self::Avoir => 'Avoir',
+            self::FraisCaution => 'Frais de dégradation / retard',
         };
     }
 }

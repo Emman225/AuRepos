@@ -39,5 +39,8 @@ Route::prefix('agent')->name('agent.')->middleware(['connecte', 'profil:agent_te
         Route::get('/', [MissionsController::class, 'index'])->name('index');
         Route::post('{mission}/debut', [MissionsController::class, 'demarrer'])->whereNumber('mission')->name('debut');
         Route::post('{mission}/fin', [MissionsController::class, 'terminer'])->whereNumber('mission')->name('fin');
+        // Photos de clôture (P2-MEN-03) : check-list, linge, produits, anomalie voyagent dans
+        // le corps de « fin » ; les photos passent par leur propre endpoint, comme un état des lieux.
+        Route::post('{mission}/photos', [MissionsController::class, 'ajouterUnePhoto'])->whereNumber('mission')->name('photos.ajouter');
     });
 });

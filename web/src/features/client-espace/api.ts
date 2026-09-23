@@ -3,12 +3,17 @@ import type { Devis, Sejour } from '../reservation/types'
 import type {
   CommandeRepas,
   CompteATermeDetail,
+  DemandeAnnulation,
   MesPaiements,
   MonCompte,
   PageDe,
+  Reclamation,
   RestaurateurActif,
   SaisieCommandeRepas,
   SaisieDemandeTransfert,
+  SaisieReclamation,
+  SaisieTicketAssistance,
+  TicketAssistance,
   TransfertClient,
 } from './types'
 
@@ -66,3 +71,21 @@ export const mesTransfertsDuSejour = (reference: string): Promise<TransfertClien
 
 export const demanderUnTransfert = (reference: string, saisie: SaisieDemandeTransfert): Promise<TransfertClient> =>
   envoyer<TransfertClient>(`/client/sejours/${reference}/transferts`, saisie)
+
+/** Séjour confirmé (ou déjà arrivé) : une DEMANDE d'annulation, instruite par la réception (P2-SEJ-06). */
+export const demanderLAnnulationDeMonSejour = (reference: string, motif: string): Promise<DemandeAnnulation> =>
+  envoyer<DemandeAnnulation>(`/client/sejours/${reference}/demande-annulation`, { motif })
+
+/** Assistance (P2-AST-01) : un ticket PENDANT un séjour en cours (« arrivé »). */
+export const mesTicketsAssistance = (reference: string): Promise<TicketAssistance[]> =>
+  lire<TicketAssistance[]>(`/client/sejours/${reference}/tickets-assistance`)
+
+export const ouvrirUnTicketAssistance = (reference: string, saisie: SaisieTicketAssistance): Promise<TicketAssistance> =>
+  envoyer<TicketAssistance>(`/client/sejours/${reference}/tickets-assistance`, saisie)
+
+/** Réclamations (P2-AST-01) : APRÈS un séjour terminé, motif d'au moins 15 caractères. */
+export const mesReclamations = (reference: string): Promise<Reclamation[]> =>
+  lire<Reclamation[]>(`/client/sejours/${reference}/reclamations`)
+
+export const creerUneReclamation = (reference: string, saisie: SaisieReclamation): Promise<Reclamation> =>
+  envoyer<Reclamation>(`/client/sejours/${reference}/reclamations`, saisie)

@@ -9,6 +9,8 @@ use App\Domain\Caisse\Enums\ModeDeReglement;
 use App\Domain\Caisse\Services\Caisse;
 use App\Domain\Comptes\Models\User;
 use App\Domain\Parametres\Services\Parametres;
+use App\Domain\Repas\Enums\EtatDeCommande;
+use App\Domain\Repas\Models\Commande;
 use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\Sejour;
 use App\Domain\Validation\Models\ChangementAValider;
@@ -62,6 +64,24 @@ final class Reclamations
         return Reclamation::create(['sejour_id' => $sejour->id, 'client_id' => $client->id, 'motif' => trim($motif)])->refresh();
     }
 
+    /**
+     * Réclamation REPAS (P4-API-08) : après une commande LIVRÉE — même exigence de motif
+     * que la réclamation séjour, même modèle (`sejour_id` laissé null, `commande_id` posé).
+     */
+    public function creerPourCommande(Commande $commande, User $client, string $motif): Reclamation
+    {
+        if ($commande->etat !== EtatDeCommande::Livree) {
+            throw new ErreurMetier('Une réclamation ne se soulève qu’après une commande livrée.', 'commande_non_livree', 422);
+        }
+        if (mb_strlen(trim($motif)) < self::MOTIF_MIN) {
+            throw new ErreurMetier(
+                'Le motif doit compter au moins '.self::MOTIF_MIN.' caractères.', 'motif_trop_court', 422,
+            );
+        }
+
+        return Reclamation::create(['commande_id' => $commande->id, 'client_id' => $client->id, 'motif' => trim($motif)])->refresh();
+    }
+
     /** Fermeture sans avoir : une simple réponse au client. */
     public function fermer(Reclamation $reclamation, User $administrateur, ?string $reponse): Reclamation
     {
@@ -111,7 +131,7 @@ final class Reclamations
 
             $reglement = $this->caisse->saisirUnDecaissement(
                 $tresorier, $reclamation->client, (int) $reclamation->avoir_montant, $mode,
-                'Avoir / geste commercial sur réclamation — '.$reclamation->sejour->libelleAudit(),
+                'Avoir / geste commercial sur réclamation — '.($reclamation->sejour?->libelleAudit() ?? $reclamation->commande?->libelleAudit()),
                 Guichet::Remboursements,
             );
 

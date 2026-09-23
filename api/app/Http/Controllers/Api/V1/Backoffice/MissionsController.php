@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1\Backoffice;
 
+use App\Domain\Caisse\Enums\ModeDeReglement;
 use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Catalogue\Services\PerimetreGestionnaire;
 use App\Domain\Comptes\Models\User;
 use App\Domain\Exploitation\Enums\StatutDeMission;
 use App\Domain\Exploitation\Models\Mission;
 use App\Domain\Exploitation\Services\Missions;
+use App\Domain\Exploitation\Services\RemunerationDesAgents;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Exploitation\MissionResource;
 use App\Support\Api\ReponseApi;
@@ -32,6 +34,7 @@ final class MissionsController extends Controller
     public function __construct(
         private readonly Missions $missions,
         private readonly PerimetreGestionnaire $perimetre,
+        private readonly RemunerationDesAgents $remuneration,
     ) {}
 
     public function index(Request $request): JsonResponse
@@ -91,6 +94,24 @@ final class MissionsController extends Controller
         $mission = $this->missions->affecter($mission, $agent, $auteur);
 
         return ReponseApi::succes(new MissionResource($mission->load(self::RELATIONS)), 'Mission affectée.');
+    }
+
+    /** Paiement de la rémunération (P2-MEN-04) : un décaissement, réservé administrateur — la route le garantit déjà. */
+    public function payerLaRemuneration(Request $request, Mission $mission): JsonResponse
+    {
+        $this->exigerVisible($mission, $request);
+        $saisie = $request->validate([
+            'mode' => ['required', Rule::enum(ModeDeReglement::class)],
+            'reference_du_mode' => ['nullable', 'string', 'max:100'],
+        ], [], ['mode' => 'mode de règlement', 'reference_du_mode' => 'référence']);
+
+        /** @var User $auteur */
+        $auteur = $request->user();
+        $mission = $this->remuneration->payer(
+            $mission, $auteur, ModeDeReglement::from($saisie['mode']), $saisie['reference_du_mode'] ?? null,
+        );
+
+        return ReponseApi::succes(new MissionResource($mission->load(self::RELATIONS)), 'Rémunération payée.');
     }
 
     /** Même règle que `CloisonnerResidence` (CdC § 9.5) : un gestionnaire hors résidence reçoit un 404, jamais un 403. */

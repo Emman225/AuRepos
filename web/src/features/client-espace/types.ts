@@ -168,3 +168,68 @@ export interface SaisieDemandeTransfert {
   nombre_bagages?: number
   notes?: string
 }
+
+/** api/app/Domain/Sejours/Enums/EtatDeLaDemandeAnnulation.php */
+export type EtatDeLaDemandeAnnulation = 'en_attente' | 'acceptee' | 'rejetee'
+
+/**
+ * POST /client/sejours/{reference}/demande-annulation (P2-SEJ-06) — api/app/Http/Resources/Sejours/DemandeAnnulationResource.php.
+ * Un séjour confirmé (ou déjà arrivé) ne s'annule plus d'un geste du client : il DEMANDE, la réception INSTRUIT.
+ */
+export interface DemandeAnnulation {
+  id: number
+  motif_client: string
+  etat: EtatDeLaDemandeAnnulation
+  etat_libelle: string
+  montant_retenu: number | null
+  montant_rembourse: number | null
+  motif_decision: string | null
+  instruite_le: string | null
+  created_at: string | null
+}
+
+/** api/app/Domain/Assistance/Enums/EtatDuTicket.php */
+export type EtatDuTicket = 'ouvert' | 'en_cours' | 'ferme'
+
+/**
+ * GET/POST /client/sejours/{reference}/tickets-assistance (P2-AST-01) — api/app/Http/Resources/Assistance/TicketAssistanceResource.php.
+ * Un ticket se soulève PENDANT un séjour en cours (état « arrivé »).
+ */
+export interface TicketAssistance {
+  id: number
+  sujet: string
+  message: string
+  statut: EtatDuTicket
+  statut_libelle: string
+  reponse: string | null
+  traite_le: string | null
+  created_at: string | null
+}
+
+export interface SaisieTicketAssistance {
+  sujet: string
+  message: string
+}
+
+/** api/app/Domain/Assistance/Enums/EtatDeLaReclamation.php */
+export type EtatDeLaReclamation = 'ouverte' | 'en_cours' | 'fermee'
+
+/**
+ * GET/POST /client/sejours/{reference}/reclamations (P2-AST-01) — api/app/Http/Resources/Assistance/ReclamationResource.php.
+ * Une réclamation se soulève APRÈS un séjour terminé (parti ou clôturé), motif d'au moins 15 caractères.
+ */
+export interface Reclamation {
+  id: number
+  motif: string
+  statut: EtatDeLaReclamation
+  statut_libelle: string
+  reponse: string | null
+  avoir_montant: number | null
+  avoir_motif: string | null
+  fermee_le: string | null
+  created_at: string | null
+}
+
+export interface SaisieReclamation {
+  motif: string
+}

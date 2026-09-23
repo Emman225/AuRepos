@@ -14,6 +14,7 @@ use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\Sejour;
 use App\Support\Api\ErreurMetier;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,7 @@ final class Caisse
 {
     public function __construct(
         private readonly SoldeDesSejours $soldes,
+        private readonly SoldeDesConsommations $soldesDesConsommations,
         private readonly Parametres $parametres,
         private readonly JournalAudit $journal,
         private readonly Recus $recus,
@@ -97,6 +99,43 @@ final class Caisse
     }
 
     /**
+     * Étape 1 — SAISIE d'un encaissement au guichet d'une CONSOMMATION demandée pendant un
+     * séjour (transfert, extra — P2-TRF-03) : une seule affaire, dont le montant dû est FIXE
+     * (jamais recalculé), jamais une ligne du net à payer figé du séjour. Même circuit de
+     * preuve ensuite (valider/joindreLaPreuve/finaliser/rejeter, déjà génériques).
+     */
+    public function encaisserUneConsommation(User $caissier, Model $consommation, int $montantDu, User $tiers, int $montant, ModeDeReglement $mode, string $notes, Guichet $guichet, ?string $referenceDuMode = null): Reglement
+    {
+        $this->exigerUnCaissier($caissier);
+        $this->exigerUnModeActif($mode);
+
+        return DB::transaction(function () use ($caissier, $consommation, $montantDu, $tiers, $montant, $mode, $notes, $guichet, $referenceDuMode): Reglement {
+            // Verrou : deux caissiers ne peuvent pas encaisser le même reste dû en même temps.
+            $consommation::query()->whereKey($consommation->getKey())->lockForUpdate()->first();
+
+            $resteDu = $this->soldesDesConsommations->de($consommation, $montantDu)['reste_du'];
+            if ($montant > $resteDu) {
+                throw new ErreurMetier(
+                    'Ce montant dépasse de '.number_format($montant - $resteDu, 0, ',', ' ').' F le reste dû, qui tient compte des règlements déjà saisis, même non validés.',
+                    'montant_superieur_au_reste_du',
+                    422,
+                );
+            }
+
+            $reglement = Reglement::create([
+                'sens' => 'encaissement', 'guichet' => $guichet, 'agence_id' => $caissier->agence_id, 'tiers_id' => $tiers->id,
+                'montant' => $montant, 'mode' => $mode, 'reference_du_mode' => $referenceDuMode, 'notes' => trim($notes),
+                'saisi_par' => $caissier->id, 'saisi_le' => now(),
+            ]);
+            $reglement->imputations()->create(['affaire_type' => $consommation->getMorphClass(), 'affaire_id' => $consommation->getKey(), 'montant' => $montant]);
+
+            $this->tracer($reglement, 'reglement_saisi', 'Saisie', $caissier);
+
+            return $reglement->refresh();
+        });
+    }
+
+    /**
      * Étape 1 — SAISIE d'un dépôt d'avance : une somme sans réservation en face (CdC § 4).
      * Elle ne devient une avance utilisable qu'une fois le circuit de preuve terminé.
      */
@@ -117,18 +156,23 @@ final class Caisse
         });
     }
 
-    /** Étape 1 — SAISIE d'un décaissement : reversement, remboursement, restitution (CdC § 4). */
-    public function saisirUnDecaissement(User $auteur, User $beneficiaire, int $montant, ModeDeReglement $mode, string $notes, Guichet $guichet = Guichet::DettesPartenaires, ?string $referenceDuMode = null): Reglement
+    /**
+     * Étape 1 — SAISIE d'un décaissement : reversement, remboursement, restitution (CdC § 4).
+     *
+     * @param  int|null  $sejourId  restitution de caution (P2-CAU-01) UNIQUEMENT : le séjour dont la
+     *                              caution se restitue — jamais une imputation (cf. `Guichet::Cautions`).
+     */
+    public function saisirUnDecaissement(User $auteur, User $beneficiaire, int $montant, ModeDeReglement $mode, string $notes, Guichet $guichet = Guichet::DettesPartenaires, ?string $referenceDuMode = null, ?int $sejourId = null): Reglement
     {
         $this->exigerUnAdministrateur($auteur);
         $this->exigerUnCaissier($auteur);
         $this->exigerUnModeActif($mode);
 
-        return DB::transaction(function () use ($auteur, $beneficiaire, $montant, $mode, $notes, $guichet, $referenceDuMode): Reglement {
+        return DB::transaction(function () use ($auteur, $beneficiaire, $montant, $mode, $notes, $guichet, $referenceDuMode, $sejourId): Reglement {
             $reglement = Reglement::create([
                 'sens' => 'decaissement', 'guichet' => $guichet, 'agence_id' => $auteur->agence_id, 'tiers_id' => $beneficiaire->id,
                 'montant' => $montant, 'mode' => $mode, 'reference_du_mode' => $referenceDuMode, 'notes' => trim($notes),
-                'saisi_par' => $auteur->id, 'saisi_le' => now(),
+                'saisi_par' => $auteur->id, 'saisi_le' => now(), 'sejour_id' => $sejourId,
             ]);
             $this->tracer($reglement, 'reglement_saisi', 'Saisie', $auteur);
 

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Repas\Models;
 
+use App\Domain\Assistance\Models\Reclamation;
 use App\Domain\Audit\Concerns\EstAudite;
 use App\Domain\Repas\Enums\EtatDeCommande;
 use App\Domain\Sejours\Models\Sejour;
@@ -17,6 +18,11 @@ use Illuminate\Support\Str;
  * « Repas et boissons »). Ne se rattache jamais à une réservation : un séjour doit déjà
  * exister ; « pendant le séjour », jamais au moment de la réservation.
  *
+ * `offert` (P4-API-08) : extra CdC § 5.2 « premier repas livré à l'arrivée » — une commande
+ * comme une autre (même circuit préparation/livraison), sauf que chaque ligne est à prix
+ * nul pour le client (`montant_total` = 0) ; le restaurateur, lui, reste dû à son prix
+ * normal (App\Domain\Repas\Services\GestionDesCommandes::detteEnversLeRestaurateur).
+ *
  * @property int $id
  * @property string $reference
  * @property int $sejour_id
@@ -24,6 +30,7 @@ use Illuminate\Support\Str;
  * @property EtatDeCommande $etat
  * @property string $mode_reglement
  * @property int $montant_total
+ * @property bool $offert
  * @property int|null $livreur_id
  * @property int|null $remuneration_livreur
  * @property string|null $notes
@@ -41,13 +48,14 @@ class Commande extends Model
     protected $guarded = [];
 
     /** @var array<string, mixed> */
-    protected $attributes = ['etat' => 'demande'];
+    protected $attributes = ['etat' => 'demande', 'offert' => false];
 
     protected function casts(): array
     {
         return [
             'etat' => EtatDeCommande::class,
             'montant_total' => 'integer',
+            'offert' => 'boolean',
             'remuneration_livreur' => 'integer',
         ];
     }
@@ -83,6 +91,12 @@ class Commande extends Model
     public function lignes(): HasMany
     {
         return $this->hasMany(LigneDeCommande::class, 'commande_id');
+    }
+
+    /** Réclamations soulevées sur cette commande (P4-API-08). @return HasMany<Reclamation, $this> */
+    public function reclamations(): HasMany
+    {
+        return $this->hasMany(Reclamation::class);
     }
 
     public function libelleAudit(): string

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Backoffice;
 
+use App\Domain\Catalogue\Enums\Disponibilite;
 use App\Domain\Catalogue\Models\Logement;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,6 +23,10 @@ class PlanningLogementResource extends JsonResource
             'id' => $this->id,
             'reference' => $this->reference,
             'nom' => $this->nom,
+            // État « Occupée (fermée par le propriétaire) » du planning (8 états, jetons.ts) :
+            // dérivé du bouton « Occupée / Disponible » déjà existant sur LA RÉSIDENCE
+            // (CalendrierController::disponibilite), pas d'un champ propre au logement.
+            'ferme' => $this->residence->disponibilite === Disponibilite::Occupee,
             'residence' => [
                 'id' => $this->residence->id,
                 'nom' => $this->residence->nom,

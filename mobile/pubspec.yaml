@@ -12,6 +12,7 @@ workspace:
   - packages/api_client
   - packages/ui
   - apps/client
+  - apps/agent
 
 dev_dependencies:
   melos: ^7.0.0

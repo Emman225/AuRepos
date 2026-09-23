@@ -73,6 +73,35 @@ final class Factures
         ]));
     }
 
+    /**
+     * Retenue sur caution (P2-CAU-02, CdC § 6.3) : facture normalisée « frais de dégradation /
+     * retard », HORS devis (le motif et le montant viennent tous deux de la SAISIE de la retenue,
+     * jamais d'une formule) — mais avec le même compteur, le même modèle `Facture` et le même
+     * circuit de transmission FNE que la facture du séjour, réutilisés tels quels. Distincte du
+     * type `Facture` : elle ne heurte jamais « un séjour, une facture » (CdC § 9.4).
+     */
+    public function genererFraisDeDegradation(Sejour $sejour, int $montant, string $motif, User $auteur): Facture
+    {
+        // TVAD (0 %, exonération légale) : seul code du schéma DGI qui laisse le montant intact
+        // tout en satisfaisant « une taxe non vide » — même choix que le TDT et la taxe de séjour.
+        $lignes = [['description' => 'Frais de dégradation / retard — '.trim($motif), 'quantity' => 1, 'amount' => $montant, 'taxes' => ['TVAD']]];
+        $numero = sprintf('FRC-%d-%03d', now()->year, $this->numerotation->suivant('factures', now()->year));
+
+        return DB::transaction(fn (): Facture => Facture::create([
+            'numero' => $numero,
+            'type' => TypeDeFacture::FraisCaution->value,
+            'sejour_id' => $sejour->id,
+            'client_id' => $sejour->client_id,
+            'montant_ht' => $montant,
+            'montant_tva' => 0,
+            'autres_taxes' => 0,
+            'montant_ttc' => $montant,
+            'lignes' => $lignes,
+            'statut_transmission' => StatutDeTransmissionFne::ATransmettre->value,
+            'genere_par' => $auteur->id,
+        ]));
+    }
+
     public function transmettre(Facture $facture, User $administrateur): Facture
     {
         if ($facture->estTransmise()) {

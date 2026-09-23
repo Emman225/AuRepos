@@ -14,6 +14,7 @@ use App\Domain\Sejours\Services\CheckIn;
 use App\Domain\Sejours\Services\CheckOut;
 use App\Domain\Sejours\Services\ClientDeLaReception;
 use App\Domain\Sejours\Services\ConfirmationDeSejour;
+use App\Domain\Sejours\Services\DeplacementDeSejour;
 use App\Domain\Sejours\Services\ProlongationDeSejour;
 use App\Domain\Sejours\Services\ReductionSurSejour;
 use App\Domain\Sejours\Services\ReservationDeSejour;
@@ -49,6 +50,7 @@ final class SejoursController extends Controller
         private readonly CheckIn $checkIn,
         private readonly CheckOut $checkOut,
         private readonly ProlongationDeSejour $prolongation,
+        private readonly DeplacementDeSejour $deplacement,
     ) {}
 
     public function index(Request $request): JsonResponse
@@ -260,6 +262,31 @@ final class SejoursController extends Controller
         $sejour = $this->prolongation->modifierLeDepart($sejour, Carbon::parse($saisie['depart']), $this->moi($request));
 
         return ReponseApi::succes(new SejourResource($sejour->load(self::RELATIONS)), 'Date de départ mise à jour : devis recalculé.');
+    }
+
+    /**
+     * Déplacement d'un séjour vers un autre logement du même type (P2-PLA-02, planning back-office).
+     * Le logement de destination doit rester dans le périmètre du gestionnaire (CdC § 9.5) —
+     * comme pour une réservation manuelle (creer()), un logement hors périmètre n'existe pas ici : 404.
+     */
+    public function deplacer(Request $request, Sejour $sejour): JsonResponse
+    {
+        $saisie = $request->validate([
+            'logement_id' => ['required', 'integer', 'exists:logements,id'],
+            'motif' => ['required', 'string', 'min:5', 'max:255'],
+        ], [], ['logement_id' => 'logement de destination', 'motif' => 'motif']);
+
+        $destination = Logement::query()->findOrFail((int) $saisie['logement_id']);
+        $gestionnaire = $this->moi($request);
+
+        $autorisees = $this->perimetre->residencesAutorisees($gestionnaire);
+        if ($autorisees !== null && ! in_array($destination->residence_id, $autorisees, true)) {
+            abort(404);
+        }
+
+        $sejour = $this->deplacement->deplacer($sejour, $destination, (string) $saisie['motif'], $gestionnaire);
+
+        return ReponseApi::succes(new SejourResource($sejour->load(self::RELATIONS)), 'Séjour déplacé vers un autre logement.');
     }
 
     /** Fiche de police (P2-SEJ-01) : les occupants déjà connus pour ce séjour. */

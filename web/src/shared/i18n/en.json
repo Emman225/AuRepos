@@ -345,6 +345,34 @@
       "modeATerme": "On my credit account",
       "envoyerLaCommande": "Send the order",
       "commandeEnvoyee": "Order {{reference}} sent to the restaurateur."
+    },
+    "annulation": {
+      "demanderLAnnulation": "Request cancellation",
+      "motif": "Reason",
+      "motifMinimum": "Enter at least {{count}} characters.",
+      "envoyer": "Send the request",
+      "envoyee": "Cancellation request sent: the front desk will review it."
+    },
+    "assistance": {
+      "titre": "Assistance",
+      "aucun": "No assistance ticket yet.",
+      "nouveauTicket": "New ticket",
+      "sujet": "Subject",
+      "message": "Message",
+      "envoyer": "Send",
+      "envoye": "Assistance ticket sent: the assistance team will reply.",
+      "reponse": "Reply:"
+    },
+    "reclamations": {
+      "titre": "Complaints",
+      "aucune": "No complaint yet.",
+      "nouvelleReclamation": "New complaint",
+      "motif": "Reason",
+      "motifMinimum": "At least {{count}} characters ({{saisis}}/{{count}}).",
+      "envoyer": "Send",
+      "envoyee": "Complaint sent: the front desk will review it.",
+      "reponse": "Reply:",
+      "avoir": "Credit granted: {{montant}}"
     }
   },
   "backoffice": {
@@ -382,7 +410,29 @@
     },
     "planning": {
       "aujourdhui": "Today",
-      "aucunLogement": "No accommodation to show for this period."
+      "aucunLogement": "No accommodation to show for this period.",
+      "legende": {
+        "titre": "Legend"
+      },
+      "deplacer": {
+        "titre": "Move stay",
+        "resume": "Move {{client}} from {{source}} to {{cible}}?",
+        "avertissementType": "Check that the target unit is the same type as the original unit before confirming.",
+        "motif": "Reason for the move"
+      },
+      "blocage": {
+        "titre": "Block dates — {{logement}}",
+        "bouton": "Block dates",
+        "periode": "Period",
+        "motif": "Reason",
+        "commentaire": "Comment (optional)",
+        "confirmerDeblocage": "Return these dates to sale?",
+        "motifs": {
+          "maintenance": "Maintenance",
+          "usage_proprietaire": "Owner use",
+          "saison_fermee": "Closed season"
+        }
+      }
     },
     "reservations": {
       "client": "Guest",

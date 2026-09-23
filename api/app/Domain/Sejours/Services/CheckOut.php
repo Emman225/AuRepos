@@ -4,6 +4,7 @@ namespace App\Domain\Sejours\Services;
 
 use App\Domain\Comptes\Models\User;
 use App\Domain\Exploitation\Services\Missions;
+use App\Domain\Extras\Enums\EtatDeCommandeExtra;
 use App\Domain\Fiscalite\Enums\TypeDeFacture;
 use App\Domain\Fiscalite\Models\Facture;
 use App\Domain\Fiscalite\Services\Factures;
@@ -64,12 +65,13 @@ final class CheckOut
     /**
      * Consommations déjà connues du système, pour l'écran de check-out — une simple lecture,
      * aucun nouveau calcul (CdC § 6.3). `hebergement` est le net à payer FIGÉ du séjour
-     * (hébergement, extras et transfert éventuel de la réservation, taxes comprises) ; `repas`
-     * et `transferts` sont les commandes et transferts demandés PENDANT le séjour (CdC § 6.6 et
-     * « Repas et boissons »), réglés chacun par leur propre circuit — jamais inclus dans le net
-     * à payer du séjour, donc jamais soustraits de lui.
+     * (hébergement, extras et transfert éventuel de la réservation, taxes comprises) ; `repas`,
+     * `transferts` et `extras` sont les commandes, transferts et extras demandés PENDANT le
+     * séjour (CdC § 6.6, « Repas et boissons », P2-EXT-01), réglés chacun par leur propre
+     * circuit (guichet d'encaissement dédié, P2-TRF-03) — jamais inclus dans le net à payer
+     * du séjour, donc jamais soustraits de lui.
      *
-     * @return array{hebergement: int, repas: int, transferts: int, total: int}
+     * @return array{hebergement: int, repas: int, transferts: int, extras: int, total: int}
      */
     public function consommations(Sejour $sejour): array
     {
@@ -81,11 +83,16 @@ final class CheckOut
             ->whereNotIn('etat', [EtatDuTransfert::Demande->value, EtatDuTransfert::Annule->value])
             ->sum('montant');
 
+        $extras = (int) $sejour->commandesExtras()
+            ->whereNotIn('etat', [EtatDeCommandeExtra::Demande->value, EtatDeCommandeExtra::Annulee->value, EtatDeCommandeExtra::Refusee->value])
+            ->sum('montant_total');
+
         return [
             'hebergement' => $sejour->net_a_payer,
             'repas' => $repas,
             'transferts' => $transferts,
-            'total' => $sejour->net_a_payer + $repas + $transferts,
+            'extras' => $extras,
+            'total' => $sejour->net_a_payer + $repas + $transferts + $extras,
         ];
     }
 }

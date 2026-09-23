@@ -345,6 +345,34 @@
       "modeATerme": "Sur mon compte à terme",
       "envoyerLaCommande": "Envoyer la commande",
       "commandeEnvoyee": "Commande {{reference}} envoyée au restaurateur."
+    },
+    "annulation": {
+      "demanderLAnnulation": "Demander l’annulation",
+      "motif": "Motif",
+      "motifMinimum": "Saisissez au moins {{count}} caractères.",
+      "envoyer": "Envoyer la demande",
+      "envoyee": "Demande d’annulation envoyée : la réception va l’instruire."
+    },
+    "assistance": {
+      "titre": "Assistance",
+      "aucun": "Aucun ticket d’assistance pour l’instant.",
+      "nouveauTicket": "Nouveau ticket",
+      "sujet": "Sujet",
+      "message": "Message",
+      "envoyer": "Envoyer",
+      "envoye": "Ticket d’assistance envoyé : l’équipe assistance va vous répondre.",
+      "reponse": "Réponse :"
+    },
+    "reclamations": {
+      "titre": "Réclamations",
+      "aucune": "Aucune réclamation pour l’instant.",
+      "nouvelleReclamation": "Nouvelle réclamation",
+      "motif": "Motif",
+      "motifMinimum": "Au moins {{count}} caractères ({{saisis}}/{{count}}).",
+      "envoyer": "Envoyer",
+      "envoyee": "Réclamation envoyée : la réception va l’instruire.",
+      "reponse": "Réponse :",
+      "avoir": "Avoir accordé : {{montant}}"
     }
   },
   "backoffice": {
@@ -382,7 +410,29 @@
     },
     "planning": {
       "aujourdhui": "Aujourd’hui",
-      "aucunLogement": "Aucun logement à afficher sur cette période."
+      "aucunLogement": "Aucun logement à afficher sur cette période.",
+      "legende": {
+        "titre": "Légende"
+      },
+      "deplacer": {
+        "titre": "Déplacer le séjour",
+        "resume": "Déplacer {{client}} de {{source}} vers {{cible}} ?",
+        "avertissementType": "Vérifiez que le logement cible est bien du même type que le logement d’origine avant de confirmer.",
+        "motif": "Motif du déplacement"
+      },
+      "blocage": {
+        "titre": "Bloquer des dates — {{logement}}",
+        "bouton": "Bloquer des dates",
+        "periode": "Période",
+        "motif": "Motif",
+        "commentaire": "Commentaire (facultatif)",
+        "confirmerDeblocage": "Rendre ces dates à la vente ?",
+        "motifs": {
+          "maintenance": "Maintenance",
+          "usage_proprietaire": "Usage du propriétaire",
+          "saison_fermee": "Saison fermée"
+        }
+      }
     },
     "reservations": {
       "client": "Client",

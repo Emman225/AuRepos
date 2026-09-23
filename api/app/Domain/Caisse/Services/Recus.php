@@ -3,10 +3,10 @@
 namespace App\Domain\Caisse\Services;
 
 use App\Domain\Caisse\Enums\EtatDuReglement;
+use App\Domain\Caisse\Enums\Guichet;
 use App\Domain\Caisse\Models\Imputation;
 use App\Domain\Caisse\Models\Reglement;
 use App\Domain\Parametres\Services\Parametres;
-use App\Domain\Sejours\Models\Sejour;
 use App\Mail\RecuDeReglementMail;
 use App\Support\Api\ErreurMetier;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -31,7 +31,8 @@ final class Recus
     /** À appeler DANS la transaction de finalisation : le numéro et l'état « effectué » naissent ensemble. */
     public function attribuerLeNumero(Reglement $reglement): ?string
     {
-        $prefixe = $reglement->estUnEncaissement() ? $reglement->guichet->prefixeDuRecu() : null;
+        // Un décaissement n'a normalement pas de reçu — sauf la restitution de caution (RK-R, P2-CAU-01).
+        $prefixe = $reglement->estUnEncaissement() ? $reglement->guichet->prefixeDuRecu() : $reglement->guichet->prefixeDuRecuDecaissement();
         if ($prefixe === null || $reglement->numero_recu !== null) {
             return $reglement->numero_recu;
         }
@@ -96,23 +97,40 @@ final class Recus
     /** @return array<string, mixed> */
     private function donnees(Reglement $reglement): array
     {
-        $reglement->loadMissing(['tiers', 'agence', 'auteur', 'imputations.affaire']);
+        $reglement->loadMissing(['tiers', 'agence', 'auteur', 'imputations.affaire', 'sejour']);
         $p = fn (string $cle) => $this->parametres->valeur($cle);
+        $entreprise = [
+            'nom' => $p('entreprise.raison_sociale') ?: $p('general.nom_plateforme'), 'siege' => $p('entreprise.siege'),
+            'telephone' => $p('entreprise.telephone') ?: $p('general.telephone'), 'courriel' => $p('entreprise.courriel') ?: $p('general.courriel'),
+            'ncc' => $p('entreprise.ncc'), 'rccm' => $p('entreprise.rccm'), 'regime' => $p('entreprise.regime_imposition'),
+        ];
+
+        // Dépôt (RK) ou restitution (RK-R) de caution (P2-CAU-01) : rattaché par `sejour_id`,
+        // jamais par imputation — la caution n'entre jamais dans le reste dû du séjour.
+        if ($reglement->guichet === Guichet::Cautions && $reglement->sejour !== null) {
+            return [
+                'reglement' => $reglement,
+                'entreprise' => $entreprise,
+                'devise' => $p('general.devise'),
+                'enLettres' => self::enLettres($reglement->montant),
+                'lignes' => [[
+                    'libelle' => ($reglement->estUnEncaissement() ? 'Dépôt de caution — ' : 'Restitution de caution — ')
+                        .'Séjour '.$reglement->sejour->reference.' — du '.$reglement->sejour->arrivee->format('d/m/Y').' au '.$reglement->sejour->depart->format('d/m/Y'),
+                    'montant' => $reglement->montant,
+                ]],
+                'enAvance' => 0,
+            ];
+        }
+
         $impute = (int) $reglement->imputations->sum('montant');
 
         return [
             'reglement' => $reglement,
-            'entreprise' => [
-                'nom' => $p('entreprise.raison_sociale') ?: $p('general.nom_plateforme'), 'siege' => $p('entreprise.siege'),
-                'telephone' => $p('entreprise.telephone') ?: $p('general.telephone'), 'courriel' => $p('entreprise.courriel') ?: $p('general.courriel'),
-                'ncc' => $p('entreprise.ncc'), 'rccm' => $p('entreprise.rccm'), 'regime' => $p('entreprise.regime_imposition'),
-            ],
+            'entreprise' => $entreprise,
             'devise' => $p('general.devise'),
             'enLettres' => self::enLettres($reglement->montant),
             'lignes' => $reglement->imputations->map(fn (Imputation $i): array => [
-                'libelle' => $i->affaire instanceof Sejour
-                    ? 'Séjour '.$i->affaire->reference.' — du '.$i->affaire->arrivee->format('d/m/Y').' au '.$i->affaire->depart->format('d/m/Y')
-                    : $i->affaire_type.' n° '.$i->affaire_id,
+                'libelle' => $i->libelleDeLAffaire(),
                 'montant' => $i->montant,
             ])->all(),
             // Part gardée en avance : dépôt d'avance, ou surplus d'un encaissement.

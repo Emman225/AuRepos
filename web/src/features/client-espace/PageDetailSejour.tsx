@@ -1,19 +1,35 @@
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { Alert, Button, InputNumber, Select, Skeleton, Space, Table, Typography } from 'antd'
+import { Alert, Button, Form, Input, InputNumber, Select, Skeleton, Space, Table, Typography } from 'antd'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { ErreurApi } from '../../shared/api/client'
 import { EtatVide } from '../../shared/composants/EtatVide'
+import { Modal } from '../../shared/composants/PopupModal'
 import { StatutBadge } from '../../shared/composants/StatutBadge'
 import { useConfirmerAction } from '../../shared/composants/confirmer'
 import { formaterDate } from '../../shared/format/date'
 import { formaterPrix } from '../../shared/format/devise'
 import { couleurs } from '../../shared/theme/jetons'
 import { ResumeDevis } from '../reservation/ResumeDevis'
-import { annulerMonSejour, commanderUnRepas, mesCommandesRepas, mesTransfertsDuSejour, monSejour, restaurateursActifs } from './api'
+import {
+  annulerMonSejour,
+  commanderUnRepas,
+  creerUneReclamation,
+  demanderLAnnulationDeMonSejour,
+  mesCommandesRepas,
+  mesReclamations,
+  mesTicketsAssistance,
+  mesTransfertsDuSejour,
+  monSejour,
+  ouvrirUnTicketAssistance,
+  restaurateursActifs,
+} from './api'
 import { FormulaireDemandeTransfert } from './FormulaireDemandeTransfert'
-import type { CommandeRepas, ModeDeReglementRepas, RestaurateurActif, TransfertClient } from './types'
+import type { CommandeRepas, ModeDeReglementRepas, Reclamation, RestaurateurActif, TicketAssistance, TransfertClient } from './types'
+
+const MOTIF_ANNULATION_MIN = 5
+const MOTIF_RECLAMATION_MIN = 15
 
 /** Espace client › Détail d'un séjour (CdC § 5.3) : code d'arrivée et adresse une fois confirmé. */
 export function PageDetailSejour() {
@@ -22,6 +38,8 @@ export function PageDetailSejour() {
   const queryClient = useQueryClient()
   const confirmer = useConfirmerAction()
   const [erreur, setErreur] = useState<string | null>(null)
+  const [messageAnnulation, setMessageAnnulation] = useState<string | null>(null)
+  const [demandeAnnulationOuverte, setDemandeAnnulationOuverte] = useState(false)
 
   const sejour = useQuery({
     queryKey: ['client', 'sejours', reference],
@@ -100,7 +118,12 @@ export function PageDetailSejour() {
 
       <SectionTransferts reference={s.reference} />
 
+      {s.etat === 'arrive' && <SectionTicketsAssistance reference={s.reference} />}
+
+      {(s.etat === 'parti' || s.etat === 'cloture') && <SectionReclamations reference={s.reference} />}
+
       {erreur && <Alert style={{ marginTop: 16 }} type="error" showIcon title={erreur} />}
+      {messageAnnulation && <Alert style={{ marginTop: 16 }} type="success" showIcon title={messageAnnulation} />}
 
       {s.etat === 'demande' && (
         <Space style={{ marginTop: 24 }}>
@@ -116,7 +139,91 @@ export function PageDetailSejour() {
           </Button>
         </Space>
       )}
+
+      {(s.etat === 'confirme' || s.etat === 'arrive') && (
+        <Space style={{ marginTop: 24 }}>
+          <Button danger onClick={() => setDemandeAnnulationOuverte(true)}>
+            {t('client.annulation.demanderLAnnulation')}
+          </Button>
+        </Space>
+      )}
+
+      <ModaleDemandeAnnulation
+        ouvert={demandeAnnulationOuverte}
+        reference={s.reference}
+        onFermer={() => setDemandeAnnulationOuverte(false)}
+        onEnvoyee={() => {
+          setDemandeAnnulationOuverte(false)
+          setMessageAnnulation(t('client.annulation.envoyee'))
+        }}
+      />
     </div>
+  )
+}
+
+/** Un séjour confirmé (ou déjà arrivé) ne s'annule plus d'un geste : le client DEMANDE, motivé, la réception instruit (P2-SEJ-06). */
+function ModaleDemandeAnnulation({
+  ouvert,
+  reference,
+  onFermer,
+  onEnvoyee,
+}: {
+  ouvert: boolean
+  reference: string
+  onFermer: () => void
+  onEnvoyee: () => void
+}) {
+  const { t } = useTranslation()
+  const [motif, setMotif] = useState('')
+  const [erreur, setErreur] = useState<string | null>(null)
+
+  const envoi = useMutation({
+    mutationFn: () => demanderLAnnulationDeMonSejour(reference, motif),
+    onSuccess: () => {
+      setMotif('')
+      setErreur(null)
+      onEnvoyee()
+    },
+    onError: (e) => setErreur(e instanceof ErreurApi ? e.message : t('tunnel.erreurGenerique')),
+  })
+
+  const motifTropCourt = motif.trim().length < MOTIF_ANNULATION_MIN
+
+  return (
+    <Modal
+      title={t('client.annulation.demanderLAnnulation')}
+      open={ouvert}
+      onCancel={() => {
+        setMotif('')
+        setErreur(null)
+        onFermer()
+      }}
+      onOk={() => envoi.mutate()}
+      confirmLoading={envoi.isPending}
+      okText={t('client.annulation.envoyer')}
+      cancelText={t('listes.confirmation.annuler')}
+      okButtonProps={{ disabled: motifTropCourt, danger: true }}
+      destroyOnHidden
+      width={480}
+    >
+      <Form layout="vertical">
+        <Form.Item label={t('client.annulation.motif')} htmlFor="champ-motif-demande-annulation" required>
+          <Input.TextArea
+            id="champ-motif-demande-annulation"
+            rows={4}
+            value={motif}
+            onChange={(e) => setMotif(e.target.value)}
+            aria-label={t('client.annulation.motif')}
+          />
+        </Form.Item>
+        {motifTropCourt && (
+          <Typography.Text style={{ color: couleurs.texteDiscret, fontSize: 12 }}>
+            {t('client.annulation.motifMinimum', { count: MOTIF_ANNULATION_MIN })}
+          </Typography.Text>
+        )}
+      </Form>
+      {erreur && <Alert style={{ marginTop: 12 }} type="error" showIcon title={erreur} />}
+    </Modal>
   )
 }
 
@@ -230,6 +337,218 @@ function SectionTransferts({ reference }: { reference: string }) {
           void invalider()
         }}
       />
+    </div>
+  )
+}
+
+/** Tickets déjà ouverts sur ce séjour, et formulaire pour en ouvrir un nouveau (P2-AST-01, CdC § 6.1) — PENDANT un séjour en cours seulement. */
+function SectionTicketsAssistance({ reference }: { reference: string }) {
+  const { t } = useTranslation()
+  const queryClient = useQueryClient()
+
+  const tickets = useQuery({ queryKey: ['client', 'sejours', reference, 'tickets-assistance'], queryFn: () => mesTicketsAssistance(reference) })
+  const invalider = () => queryClient.invalidateQueries({ queryKey: ['client', 'sejours', reference, 'tickets-assistance'] })
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <Typography.Title level={4}>{t('client.assistance.titre')}</Typography.Title>
+
+      {tickets.isPending ? (
+        <Skeleton active paragraph={{ rows: 2 }} />
+      ) : !tickets.data || tickets.data.length === 0 ? (
+        <EtatVide titre={t('client.assistance.aucun')} />
+      ) : (
+        <Space orientation="vertical" style={{ width: '100%', marginBottom: 16 }}>
+          {tickets.data.map((tk: TicketAssistance) => (
+            <div key={tk.id} style={{ border: `1px solid ${couleurs.bordure}`, borderRadius: 8, padding: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                <Space align="center">
+                  <Typography.Text strong>{tk.sujet}</Typography.Text>
+                  <StatutBadge domaine="ticketAssistance" code={tk.statut} libelle={tk.statut_libelle} />
+                </Space>
+              </div>
+              <Typography.Text style={{ display: 'block', color: couleurs.texteDiscret, fontSize: 13, marginTop: 4 }}>{tk.message}</Typography.Text>
+              {tk.statut === 'ferme' && tk.reponse && (
+                <Alert
+                  style={{ marginTop: 10 }}
+                  type="info"
+                  showIcon
+                  title={
+                    <Typography.Text>
+                      <Typography.Text strong>{t('client.assistance.reponse')}</Typography.Text> {tk.reponse}
+                    </Typography.Text>
+                  }
+                />
+              )}
+            </div>
+          ))}
+        </Space>
+      )}
+
+      <FormulaireNouveauTicket reference={reference} onEnvoye={() => void invalider()} />
+    </div>
+  )
+}
+
+function FormulaireNouveauTicket({ reference, onEnvoye }: { reference: string; onEnvoye: () => void }) {
+  const { t } = useTranslation()
+  const [sujet, setSujet] = useState('')
+  const [message, setMessage] = useState('')
+  const [erreur, setErreur] = useState<string | null>(null)
+  const [confirmation, setConfirmation] = useState<string | null>(null)
+
+  const envoi = useMutation({
+    mutationFn: () => ouvrirUnTicketAssistance(reference, { sujet, message }),
+    onSuccess: () => {
+      setSujet('')
+      setMessage('')
+      setErreur(null)
+      setConfirmation(t('client.assistance.envoye'))
+      onEnvoye()
+    },
+    onError: (e) => setErreur(e instanceof ErreurApi ? e.message : t('tunnel.erreurGenerique')),
+  })
+
+  const peutEnvoyer = sujet.trim().length > 0 && message.trim().length > 0
+
+  return (
+    <div style={{ border: `1px solid ${couleurs.bordure}`, borderRadius: 8, padding: 16, marginTop: 16 }}>
+      <Typography.Title level={5} style={{ marginTop: 0 }}>
+        {t('client.assistance.nouveauTicket')}
+      </Typography.Title>
+      <Form layout="vertical">
+        <Form.Item label={t('client.assistance.sujet')} htmlFor="champ-sujet-ticket" required>
+          <Input
+            id="champ-sujet-ticket"
+            maxLength={150}
+            showCount
+            value={sujet}
+            onChange={(e) => setSujet(e.target.value)}
+            aria-label={t('client.assistance.sujet')}
+          />
+        </Form.Item>
+        <Form.Item label={t('client.assistance.message')} htmlFor="champ-message-ticket" required>
+          <Input.TextArea
+            id="champ-message-ticket"
+            rows={4}
+            maxLength={2000}
+            showCount
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            aria-label={t('client.assistance.message')}
+          />
+        </Form.Item>
+        <Button type="primary" loading={envoi.isPending} disabled={!peutEnvoyer} onClick={() => envoi.mutate()}>
+          {t('client.assistance.envoyer')}
+        </Button>
+      </Form>
+
+      {confirmation && <Alert style={{ marginTop: 16 }} type="success" showIcon title={confirmation} />}
+      {erreur && <Alert style={{ marginTop: 16 }} type="error" showIcon title={erreur} />}
+    </div>
+  )
+}
+
+/** Réclamations déjà soulevées sur ce séjour, et formulaire pour en soulever une nouvelle (P2-AST-01, CdC § 6.1) — APRÈS un séjour terminé seulement. */
+function SectionReclamations({ reference }: { reference: string }) {
+  const { t } = useTranslation()
+  const queryClient = useQueryClient()
+
+  const reclamations = useQuery({ queryKey: ['client', 'sejours', reference, 'reclamations'], queryFn: () => mesReclamations(reference) })
+  const invalider = () => queryClient.invalidateQueries({ queryKey: ['client', 'sejours', reference, 'reclamations'] })
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <Typography.Title level={4}>{t('client.reclamations.titre')}</Typography.Title>
+
+      {reclamations.isPending ? (
+        <Skeleton active paragraph={{ rows: 2 }} />
+      ) : !reclamations.data || reclamations.data.length === 0 ? (
+        <EtatVide titre={t('client.reclamations.aucune')} />
+      ) : (
+        <Space orientation="vertical" style={{ width: '100%', marginBottom: 16 }}>
+          {reclamations.data.map((r: Reclamation) => (
+            <div key={r.id} style={{ border: `1px solid ${couleurs.bordure}`, borderRadius: 8, padding: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                <StatutBadge domaine="reclamation" code={r.statut} libelle={r.statut_libelle} />
+              </div>
+              <Typography.Text style={{ display: 'block', color: couleurs.texteDiscret, fontSize: 13, marginTop: 4 }}>{r.motif}</Typography.Text>
+              {r.statut === 'fermee' && r.reponse && (
+                <Alert
+                  style={{ marginTop: 10 }}
+                  type="info"
+                  showIcon
+                  title={
+                    <Typography.Text>
+                      <Typography.Text strong>{t('client.reclamations.reponse')}</Typography.Text> {r.reponse}
+                    </Typography.Text>
+                  }
+                />
+              )}
+              {r.statut === 'fermee' && r.avoir_montant != null && (
+                <Alert
+                  style={{ marginTop: 10 }}
+                  type="success"
+                  showIcon
+                  title={t('client.reclamations.avoir', { montant: formaterPrix(r.avoir_montant) })}
+                />
+              )}
+            </div>
+          ))}
+        </Space>
+      )}
+
+      <FormulaireNouvelleReclamation reference={reference} onEnvoyee={() => void invalider()} />
+    </div>
+  )
+}
+
+function FormulaireNouvelleReclamation({ reference, onEnvoyee }: { reference: string; onEnvoyee: () => void }) {
+  const { t } = useTranslation()
+  const [motif, setMotif] = useState('')
+  const [erreur, setErreur] = useState<string | null>(null)
+  const [confirmation, setConfirmation] = useState<string | null>(null)
+
+  const envoi = useMutation({
+    mutationFn: () => creerUneReclamation(reference, { motif }),
+    onSuccess: () => {
+      setMotif('')
+      setErreur(null)
+      setConfirmation(t('client.reclamations.envoyee'))
+      onEnvoyee()
+    },
+    onError: (e) => setErreur(e instanceof ErreurApi ? e.message : t('tunnel.erreurGenerique')),
+  })
+
+  const motifTropCourt = motif.trim().length < MOTIF_RECLAMATION_MIN
+
+  return (
+    <div style={{ border: `1px solid ${couleurs.bordure}`, borderRadius: 8, padding: 16, marginTop: 16 }}>
+      <Typography.Title level={5} style={{ marginTop: 0 }}>
+        {t('client.reclamations.nouvelleReclamation')}
+      </Typography.Title>
+      <Form layout="vertical">
+        <Form.Item label={t('client.reclamations.motif')} htmlFor="champ-motif-reclamation" required>
+          <Input.TextArea
+            id="champ-motif-reclamation"
+            rows={4}
+            maxLength={2000}
+            showCount
+            value={motif}
+            onChange={(e) => setMotif(e.target.value)}
+            aria-label={t('client.reclamations.motif')}
+          />
+        </Form.Item>
+        <Typography.Text style={{ display: 'block', color: couleurs.texteDiscret, fontSize: 12, marginTop: -8, marginBottom: 12 }}>
+          {t('client.reclamations.motifMinimum', { count: MOTIF_RECLAMATION_MIN, saisis: motif.trim().length })}
+        </Typography.Text>
+        <Button type="primary" loading={envoi.isPending} disabled={motifTropCourt} onClick={() => envoi.mutate()}>
+          {t('client.reclamations.envoyer')}
+        </Button>
+      </Form>
+
+      {confirmation && <Alert style={{ marginTop: 16 }} type="success" showIcon title={confirmation} />}
+      {erreur && <Alert style={{ marginTop: 16 }} type="error" showIcon title={erreur} />}
     </div>
   )
 }

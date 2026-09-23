@@ -5,7 +5,6 @@ namespace App\Http\Resources\Backoffice;
 use App\Domain\Caisse\Enums\EtatDuReglement;
 use App\Domain\Caisse\Models\Imputation;
 use App\Domain\Caisse\Models\Reglement;
-use App\Domain\Sejours\Models\Sejour;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -37,7 +36,7 @@ class ReglementResource extends JsonResource
             'recu_envoye_le' => $this->recu_envoye_le?->format('d/m/Y H:i:s'),
             'surplus_en_avance' => $this->surplus_en_avance,
             'imputations' => $this->whenLoaded('imputations', fn () => $this->imputations->map(fn (Imputation $i): array => [
-                'affaire' => $i->affaire instanceof Sejour ? $i->affaire->reference : $i->affaire_type.' n° '.$i->affaire_id,
+                'affaire' => $i->affaire?->reference ?? $i->affaire_type.' n° '.$i->affaire_id,
                 'montant' => $i->montant,
             ])),
             // Qui a fait quoi, et quand : la traçabilité du circuit (CdC § 8.2).

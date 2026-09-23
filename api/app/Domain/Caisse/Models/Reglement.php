@@ -7,6 +7,7 @@ use App\Domain\Caisse\Enums\Guichet;
 use App\Domain\Caisse\Enums\ModeDeReglement;
 use App\Domain\Comptes\Models\Agence;
 use App\Domain\Comptes\Models\User;
+use App\Domain\Sejours\Models\Sejour;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,8 +46,10 @@ use Illuminate\Support\Str;
  * @property bool $surplus_en_avance
  * @property string|null $recu_chemin
  * @property Carbon|null $recu_envoye_le
+ * @property int|null $sejour_id
  * @property-read User $tiers
  * @property-read Agence $agence
+ * @property-read Sejour|null $sejour
  */
 class Reglement extends Model
 {
@@ -91,6 +94,12 @@ class Reglement extends Model
     public function imputations(): HasMany
     {
         return $this->hasMany(Imputation::class);
+    }
+
+    /** Le séjour d'un dépôt ou d'une restitution de caution (guichet Cautions, P2-CAU-01) — jamais une imputation. */
+    public function sejour(): BelongsTo
+    {
+        return $this->belongsTo(Sejour::class);
     }
 
     /** @return BelongsTo<User, $this> */

@@ -57,6 +57,9 @@ class LogementResource extends JsonResource
             'etat_publication' => $this->etat_publication->value,
             'etat_publication_libelle' => $this->etat_publication->libelle(),
             'mise_en_avant' => $this->mise_en_avant,
+            // Ménage (P2-MEN-02) : null tant qu'aucune mission n'a encore suivi ce logement.
+            'etat_menage' => $this->etat_menage?->value,
+            'etat_menage_libelle' => $this->etat_menage?->libelle(),
             'equipements' => $this->whenLoaded('equipements', fn () => $this->equipements->map->only(['id', 'nom', 'icone'])),
         ];
     }

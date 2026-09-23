@@ -69,6 +69,16 @@ return [
         ],
     ],
 
+    'creances' => [
+        'libelle' => 'Créances et relances',
+        'parametres' => [
+            // Délai et seuil paramétrables (CdC § 9.1) : la file de relance ne liste que les
+            // comptes dont le reste dû dépasse ce seuil, depuis plus de ce délai après le départ.
+            'creances.relance_delai_jours' => ['libelle' => 'Relance : délai après le départ (jours)', 'type' => 'entier', 'defaut' => 15, 'regles' => ['required', 'integer', 'min:0', 'max:365']],
+            'creances.relance_seuil_montant' => ['libelle' => 'Relance : seuil de reste dû (F CFA)', 'type' => 'entier', 'defaut' => 5000, 'regles' => ['required', 'integer', 'min:0']],
+        ],
+    ],
+
     'gestionnaires' => [
         'libelle' => 'Gestionnaires et notifications',
         'parametres' => [

@@ -29,6 +29,7 @@ class CommandeResource extends JsonResource
             'etat_libelle' => $this->etat->libelle(),
             'mode_reglement' => $this->mode_reglement,
             'montant_total' => $this->montant_total,
+            'offert' => (bool) $this->offert,
             'code_livraison' => $this->etat === EtatDeCommande::EnLivraison
                 ? app(CodesSecrets::class)->lirePourLeClient($this->resource, 'livraison')
                 : null,

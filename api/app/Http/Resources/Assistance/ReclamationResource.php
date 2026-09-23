@@ -14,9 +14,12 @@ class ReclamationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'sejour' => $this->whenLoaded('sejour', fn () => [
+            'sejour' => $this->whenLoaded('sejour', fn () => $this->sejour ? [
                 'reference' => $this->sejour->reference, 'logement' => $this->sejour->logement?->nom,
-            ]),
+            ] : null),
+            'commande' => $this->whenLoaded('commande', fn () => $this->commande ? [
+                'reference' => $this->commande->reference, 'restaurateur' => $this->commande->restaurateur?->nomAffiche(),
+            ] : null),
             'client' => $this->whenLoaded('client', fn () => $this->client?->nomComplet()),
             'motif' => $this->motif,
             'statut' => $this->statut->value,

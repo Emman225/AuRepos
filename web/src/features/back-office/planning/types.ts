@@ -22,3 +22,17 @@ export interface DonneesPlanning {
   logements: LogementDuPlanning[]
   sejours: SejourDuPlanning[]
 }
+
+/**
+ * Un blocage de dates (maintenance, usage du propriétaire, saison fermée) — endpoint RÉEL et déjà
+ * en production ailleurs (fiche logement, pas encore consommé côté planning avant P2-BO-01).
+ * api/app/Http/Controllers/Api/V1/Backoffice/CalendrierController.php::presenter().
+ */
+export interface BlocageDuPlanning {
+  id: number
+  debut: string
+  fin: string
+  motif: string
+  motif_libelle: string
+  commentaire: string | null
+}

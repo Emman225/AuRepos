@@ -2,6 +2,7 @@
 
 namespace App\Domain\Sejours\Services;
 
+use App\Domain\Caisse\Services\Cautions;
 use App\Domain\Caisse\Services\SoldeDesSejours;
 use App\Domain\Codes\Services\CodesSecrets;
 use App\Domain\Comptes\Models\User;
@@ -14,10 +15,9 @@ use Illuminate\Support\Facades\DB;
 /**
  * Check-in (P2-SEJ-01, CdC § 6.3) : l'agent de terrain SAISIT le code d'arrivée que le client
  * détient — il ne le lit jamais (CdC § 11), même mécanisme que
- * `GestionDesTransferts::cloturerParCode`. Le séjour doit être SOLDÉ (CdC § 6.3, « conditions
- * soldé + caution encaissée ») ; la caution, elle, n'a pas encore son propre guichet dans ce
- * projet (prévu pour un lot ultérieur, cf. commentaire de `Guichet::prefixeDuRecu`) — cette
- * seconde condition n'est donc pas vérifiable ici et n'est délibérément PAS posée en dur.
+ * `GestionDesTransferts::cloturerParCode`. Le séjour doit être SOLDÉ ET la caution encaissée
+ * (CdC § 6.3, « conditions soldé + caution encaissée ») — la seconde condition, longtemps non
+ * vérifiable faute de guichet Cautions, l'est désormais via `Cautions::estEncaissee` (P2-CAU-01).
  */
 final class CheckIn
 {
@@ -25,6 +25,7 @@ final class CheckIn
         private readonly CodesSecrets $codes,
         private readonly CycleDuSejour $cycle,
         private readonly SoldeDesSejours $soldes,
+        private readonly Cautions $cautions,
     ) {}
 
     /**
@@ -40,6 +41,10 @@ final class CheckIn
         }
         if (! $this->soldes->de($sejour)['solde']) {
             throw new ErreurMetier('Ce séjour n’est pas encore soldé : le check-in n’est pas possible.', 'sejour_non_solde', 422);
+        }
+        // « soldé + caution encaissée » (CdC § 6.3) : sans objet si le séjour n'a pas de caution (Cautions::estEncaissee le rend alors vrai).
+        if (! $this->cautions->estEncaissee($sejour)) {
+            throw new ErreurMetier('La caution de ce séjour n’est pas encore encaissée : le check-in n’est pas possible.', 'caution_non_encaissee', 422);
         }
 
         // Ni le code lu, ni le résultat détaillé : juste « oui » ou une erreur reconnaissable (CdC § 11).

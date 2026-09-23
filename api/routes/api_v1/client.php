@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Client\AvisController;
+use App\Http\Controllers\Api\V1\Client\CommandesExtrasController;
 use App\Http\Controllers\Api\V1\Client\CommandesRepasController;
 use App\Http\Controllers\Api\V1\Client\CompteController;
 use App\Http\Controllers\Api\V1\Client\DevisController;
+use App\Http\Controllers\Api\V1\Client\ExtrasController;
 use App\Http\Controllers\Api\V1\Client\ReclamationsController;
 use App\Http\Controllers\Api\V1\Client\RestaurateursController;
 use App\Http\Controllers\Api\V1\Client\SejoursController;
@@ -46,6 +48,13 @@ Route::prefix('client')->name('client.')->middleware(['connecte', 'profil:client
     Route::get('sejours/{reference}/transferts', [TransfertsController::class, 'index'])->name('sejours.transferts.index');
     Route::post('sejours/{reference}/transferts', [TransfertsController::class, 'demander'])->middleware('throttle:20,1')->name('sejours.transferts.demander');
 
+    // Extras (P2-EXT-01) : catalogue, puis commande PENDANT un séjour déjà arrivé (même garde
+    // que les tickets d'assistance ci-dessus). Facturé par son propre guichet d'encaissement
+    // (P2-TRF-03), jamais une ligne du net à payer figé du séjour.
+    Route::get('extras', [ExtrasController::class, 'index'])->name('extras.index');
+    Route::get('sejours/{reference}/extras', [CommandesExtrasController::class, 'index'])->name('sejours.extras.index');
+    Route::post('sejours/{reference}/extras', [CommandesExtrasController::class, 'commander'])->middleware('throttle:20,1')->name('sejours.extras.commander');
+
     // Repas et boissons (CdC — « Repas et boissons ») : QUOI commander (restaurateurs actifs
     // et leur carte disponible), puis mes commandes PENDANT le séjour, avec le code de
     // livraison en clair une fois la commande en livraison (jamais avant, jamais après).
@@ -53,6 +62,10 @@ Route::prefix('client')->name('client.')->middleware(['connecte', 'profil:client
     Route::get('sejours/{reference}/commandes', [CommandesRepasController::class, 'index'])->name('sejours.commandes.index');
     Route::post('sejours/{reference}/commandes', [CommandesRepasController::class, 'commander'])->middleware('throttle:20,1')->name('sejours.commandes.commander');
     Route::get('sejours/{reference}/commandes/{commande}', [CommandesRepasController::class, 'afficher'])->whereNumber('commande')->name('sejours.commandes.afficher');
+
+    // Réclamations REPAS (P4-API-08) : APRÈS une commande LIVRÉE, même règle de motif.
+    Route::get('sejours/{reference}/commandes/{commande}/reclamations', [ReclamationsController::class, 'indexCommande'])->whereNumber('commande')->name('sejours.commandes.reclamations.index');
+    Route::post('sejours/{reference}/commandes/{commande}/reclamations', [ReclamationsController::class, 'soumettreCommande'])->whereNumber('commande')->middleware('throttle:10,1')->name('sejours.commandes.reclamations.soumettre');
 
     // Mes devis : prix figés, transformation en réservation d'un clic, suppression = archivage (CdC § 5.1).
     Route::get('devis', [DevisController::class, 'index'])->name('devis.index');

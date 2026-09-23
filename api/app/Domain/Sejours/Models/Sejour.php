@@ -9,6 +9,7 @@ use App\Domain\Catalogue\Enums\PolitiqueAnnulation;
 use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Comptes\Models\User;
 use App\Domain\Exploitation\Models\Mission;
+use App\Domain\Extras\Models\CommandeExtra;
 use App\Domain\Repas\Models\Commande;
 use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Transferts\Models\Transfert;
@@ -146,6 +147,12 @@ class Sejour extends Model
     public function commandesRepas(): HasMany
     {
         return $this->hasMany(Commande::class);
+    }
+
+    /** Commandes d'extras passées pendant ce séjour (P2-EXT-01). @return HasMany<CommandeExtra, $this> */
+    public function commandesExtras(): HasMany
+    {
+        return $this->hasMany(CommandeExtra::class);
     }
 
     /** Missions de ménage déclenchées par ce séjour (P2-MEN-01). @return HasMany<Mission, $this> */

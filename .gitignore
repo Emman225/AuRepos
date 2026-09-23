@@ -23,3 +23,7 @@ Thumbs.db
 
 # État local d'outillage, jamais partagé
 .claude/scheduled_tasks.lock
+
+# Extractions de travail du cahier des charges (le .docx source est versionné, pas ses dérivés)
+cdc_extract.txt
+cdc_extract/

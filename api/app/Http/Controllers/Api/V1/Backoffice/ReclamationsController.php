@@ -23,7 +23,7 @@ use Illuminate\Validation\Rule;
  */
 final class ReclamationsController extends Controller
 {
-    private const RELATIONS = ['sejour.logement.residence', 'client'];
+    private const RELATIONS = ['sejour.logement.residence', 'commande.restaurateur', 'client'];
 
     public function __construct(private readonly Reclamations $reclamations) {}
 

@@ -3,9 +3,13 @@
 namespace App\Domain\Catalogue\Models;
 
 use App\Domain\Audit\Concerns\EstAudite;
+use App\Domain\Catalogue\Enums\EtatMenage;
 use App\Domain\Catalogue\Enums\EtatPublication;
 use App\Domain\Catalogue\Enums\PolitiqueAnnulation;
 use App\Domain\Exploitation\Models\Mission;
+use App\Domain\Maintenance\Models\ArticleInventaire;
+use App\Domain\Maintenance\Models\ContratRecurrent;
+use App\Domain\Maintenance\Models\TicketMaintenance;
 use App\Domain\Referentiels\Models\Equipement;
 use App\Domain\Referentiels\Models\TypeLogement;
 use App\Domain\Sejours\Enums\StatutAvis;
@@ -45,6 +49,7 @@ use Illuminate\Support\Str;
  * @property EtatPublication $etat_publication
  * @property Carbon|null $publie_le
  * @property bool $mise_en_avant
+ * @property EtatMenage|null $etat_menage
  * @property-read Residence $residence
  * @property-read TypeLogement $type
  */
@@ -60,13 +65,14 @@ class Logement extends Model
         'nombre_salles_de_bain', 'capacite_de_base', 'capacite_maximale', 'surface_m2', 'description',
         'fumeur_autorise', 'animaux_autorises', 'fetes_autorisees', 'regles_maison',
         'heure_arrivee', 'heure_depart', 'caution', 'duree_minimale', 'duree_maximale', 'politique_annulation',
-        'mise_en_avant',
+        'mise_en_avant', 'etat_menage',
     ];
 
     protected function casts(): array
     {
         return [
             'etat_publication' => EtatPublication::class,
+            'etat_menage' => EtatMenage::class,
             'politique_annulation' => PolitiqueAnnulation::class,
             'fumeur_autorise' => 'boolean',
             'animaux_autorises' => 'boolean',
@@ -134,6 +140,24 @@ class Logement extends Model
     public function missions(): HasMany
     {
         return $this->hasMany(Mission::class);
+    }
+
+    /** Tickets de maintenance de ce logement (P2-MNT-01). @return HasMany<TicketMaintenance, $this> */
+    public function ticketsMaintenance(): HasMany
+    {
+        return $this->hasMany(TicketMaintenance::class);
+    }
+
+    /** Inventaire de ce logement (P2-MNT-02). @return HasMany<ArticleInventaire, $this> */
+    public function articlesInventaire(): HasMany
+    {
+        return $this->hasMany(ArticleInventaire::class);
+    }
+
+    /** Contrats récurrents de ce logement (P2-MNT-02). @return HasMany<ContratRecurrent, $this> */
+    public function contratsRecurrents(): HasMany
+    {
+        return $this->hasMany(ContratRecurrent::class);
     }
 
     /** Avis PUBLIÉS des séjours de ce logement (P2-AVI-01) — jamais ceux en attente ou refusés.

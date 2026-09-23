@@ -3,6 +3,7 @@
 use App\Domain\Audit\Models\EntreeAudit;
 use App\Domain\Caisse\Enums\ModeDeReglement;
 use App\Domain\Caisse\Services\Caisse;
+use App\Domain\Caisse\Services\Cautions;
 use App\Domain\Catalogue\Enums\EtatPublication;
 use App\Domain\Catalogue\Models\Logement;
 use App\Domain\Catalogue\Models\Residence;
@@ -49,10 +50,24 @@ beforeEach(function (): void {
     $caisse->joindreLaPreuve($r->refresh(), $this->admins[1], UploadedFile::fake()->create('recu.pdf', 10, 'application/pdf'));
     $caisse->finaliser($r->refresh(), $this->admins[1]);
 
+    // Caution déposée et finalisée : seconde condition du check-in (CdC § 6.3, P2-CAU-01).
+    deposerEtFinaliserLaCaution($this->sejour);
+
     app(ConfirmationDeSejour::class)->confirmer($this->sejour->refresh(), $this->gestionnaire);
     $this->sejour->refresh();
     $this->code = app(CodesSecrets::class)->lirePourLeClient($this->sejour, 'arrivee');
 });
+
+/** Circuit complet du dépôt de caution (même schéma que le règlement du séjour, guichet Cautions). */
+function deposerEtFinaliserLaCaution(\App\Domain\Sejours\Models\Sejour $sejour): void
+{
+    $caisse = app(Caisse::class);
+
+    $r = app(Cautions::class)->deposer(test()->gestionnaire, $sejour, $sejour->refresh()->caution, ModeDeReglement::Especes, 'Caution déposée au guichet');
+    $caisse->valider($r, test()->admins[0]);
+    $caisse->joindreLaPreuve($r->refresh(), test()->admins[1], UploadedFile::fake()->create('recu-caution.pdf', 10, 'application/pdf'));
+    $caisse->finaliser($r->refresh(), test()->admins[1]);
+}
 
 function connecteAgent(User $u): void
 {
@@ -82,6 +97,36 @@ it('refuse le check-in tant que le séjour n’est pas soldé', function (): voi
         ->assertStatus(422)->assertJsonPath('errors.code.0', 'sejour_non_solde');
 
     expect($sejour->refresh()->etat)->toBe(EtatDuSejour::Confirme);
+});
+
+it('refuse le check-in tant que la caution n’est pas encaissée, même le séjour soldé (P2-CAU-01)', function (): void {
+    // Un second séjour, soldé intégralement, mais SANS dépôt de caution.
+    $logement = Logement::factory()->create(['residence_id' => $this->sejour->logement->residence_id]);
+    $logement->forceFill(['etat_publication' => EtatPublication::Publie, 'prix_vente' => 30000, 'prix_proprietaire' => 22000])->save();
+    $sejour = app(ReservationDeSejour::class)->reserver($this->client, $logement->refresh(), [
+        'arrivee' => '2026-11-10', 'depart' => '2026-11-12', 'adultes' => 1, 'mode_reglement' => 'agence',
+    ]);
+    $caisse = app(Caisse::class);
+    $r = $caisse->saisirUnEncaissement($this->gestionnaire, $this->client, [$sejour->id], $sejour->net_a_payer, ModeDeReglement::Especes, 'Solde complet');
+    $caisse->valider($r, $this->admins[0]);
+    $caisse->joindreLaPreuve($r->refresh(), $this->admins[1], UploadedFile::fake()->create('recu.pdf', 10, 'application/pdf'));
+    $caisse->finaliser($r->refresh(), $this->admins[1]);
+    app(ConfirmationDeSejour::class)->confirmer($sejour->refresh(), $this->gestionnaire);
+    $code = app(CodesSecrets::class)->lirePourLeClient($sejour->refresh(), 'arrivee');
+
+    expect($sejour->refresh()->caution)->toBeGreaterThan(0); // la condition n'a de sens que si une caution est due
+
+    connecteAgent($this->agent);
+    test()->postJson("/api/v1/agent/sejours/{$sejour->id}/check-in", ['code' => $code])
+        ->assertStatus(422)->assertJsonPath('errors.code.0', 'caution_non_encaissee');
+
+    expect($sejour->refresh()->etat)->toBe(EtatDuSejour::Confirme);
+
+    // Une fois la caution déposée et finalisée, le check-in redevient possible : même séjour, même code.
+    deposerEtFinaliserLaCaution($sejour->refresh());
+
+    test()->postJson("/api/v1/agent/sejours/{$sejour->id}/check-in", ['code' => $code])->assertOk();
+    expect($sejour->refresh()->etat)->toBe(EtatDuSejour::Arrive);
 });
 
 it('effectue le check-in avec le bon code, jamais avant le jour d’arrivée', function (): void {

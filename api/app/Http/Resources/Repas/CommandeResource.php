@@ -32,6 +32,7 @@ class CommandeResource extends JsonResource
             'etat_libelle' => $this->etat->libelle(),
             'mode_reglement' => $this->mode_reglement,
             'montant_total' => $this->montant_total,
+            'offert' => (bool) $this->offert,
             'livreur_id' => $this->livreur_id,
             'livreur' => $this->livreur?->nomAffiche(),
             'remuneration_livreur' => $this->remuneration_livreur,

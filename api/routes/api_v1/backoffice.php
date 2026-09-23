@@ -8,24 +8,33 @@ use App\Http\Controllers\Api\V1\Backoffice\AvancesController;
 use App\Http\Controllers\Api\V1\Backoffice\AvisController;
 use App\Http\Controllers\Api\V1\Backoffice\BannieresController;
 use App\Http\Controllers\Api\V1\Backoffice\BaremesLivraisonRepasController;
+use App\Http\Controllers\Api\V1\Backoffice\BaremesMenageController;
 use App\Http\Controllers\Api\V1\Backoffice\BaremesTransfertController;
 use App\Http\Controllers\Api\V1\Backoffice\CaisseController;
 use App\Http\Controllers\Api\V1\Backoffice\CalculSejourController;
 use App\Http\Controllers\Api\V1\Backoffice\CalendrierController;
 use App\Http\Controllers\Api\V1\Backoffice\CarrouselController;
+use App\Http\Controllers\Api\V1\Backoffice\CautionsController;
 use App\Http\Controllers\Api\V1\Backoffice\ChangementsController;
 use App\Http\Controllers\Api\V1\Backoffice\ChauffeursController;
 use App\Http\Controllers\Api\V1\Backoffice\ClientsController;
 use App\Http\Controllers\Api\V1\Backoffice\CodePromoController;
+use App\Http\Controllers\Api\V1\Backoffice\CommandesExtrasController;
 use App\Http\Controllers\Api\V1\Backoffice\CommandesRepasController;
 use App\Http\Controllers\Api\V1\Backoffice\ComptesATermeController;
+use App\Http\Controllers\Api\V1\Backoffice\ContratsRecurrentsController;
 use App\Http\Controllers\Api\V1\Backoffice\DemandesAnnulationController;
 use App\Http\Controllers\Api\V1\Backoffice\DevisController;
 use App\Http\Controllers\Api\V1\Backoffice\EtatsDesLieuxController;
+use App\Http\Controllers\Api\V1\Backoffice\EtatsRepasController;
+use App\Http\Controllers\Api\V1\Backoffice\ExtrasController;
 use App\Http\Controllers\Api\V1\Backoffice\FacturesController;
 use App\Http\Controllers\Api\V1\Backoffice\GrilleTarifaireController;
+use App\Http\Controllers\Api\V1\Backoffice\GuichetsController;
+use App\Http\Controllers\Api\V1\Backoffice\InventaireController;
 use App\Http\Controllers\Api\V1\Backoffice\LivreursController;
 use App\Http\Controllers\Api\V1\Backoffice\LogementsController;
+use App\Http\Controllers\Api\V1\Backoffice\MenageController;
 use App\Http\Controllers\Api\V1\Backoffice\MissionsController;
 use App\Http\Controllers\Api\V1\Backoffice\NewsletterController;
 use App\Http\Controllers\Api\V1\Backoffice\NotificationsController;
@@ -46,6 +55,7 @@ use App\Http\Controllers\Api\V1\Backoffice\RestaurateursController;
 use App\Http\Controllers\Api\V1\Backoffice\SejoursController;
 use App\Http\Controllers\Api\V1\Backoffice\TableauDeBordController;
 use App\Http\Controllers\Api\V1\Backoffice\TicketsAssistanceController;
+use App\Http\Controllers\Api\V1\Backoffice\TicketsMaintenanceController;
 use App\Http\Controllers\Api\V1\Backoffice\TransfertsController;
 use App\Http\Controllers\Api\V1\Backoffice\VehiculesController;
 use App\Http\Controllers\Api\V1\ReferentielsController;
@@ -87,6 +97,26 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             // Guichet des avances : dépôt sans réservation, situation du compte d'un client.
             Route::get('clients/{client}/avances', [AvancesController::class, 'situation'])->name('clients.avances');
             Route::post('avances', [AvancesController::class, 'deposer'])->name('avances.deposer');
+
+            // Guichet des cautions (P2-CAU-01 à 03) : dépôt, situation, état — la restitution et
+            // la retenue, elles, sont réservées aux administrateurs (cf. groupe ci-dessous).
+            Route::prefix('cautions')->name('cautions.')->group(function (): void {
+                // Avant {sejour} : « etat » ne doit jamais être pris pour un identifiant de séjour.
+                Route::get('etat', [CautionsController::class, 'etat'])->name('etat');
+                Route::get('{sejour}/solde', [CautionsController::class, 'solde'])->whereNumber('sejour')->name('solde');
+                Route::post('{sejour}/depot', [CautionsController::class, 'deposer'])->whereNumber('sejour')->name('depot');
+            });
+
+            // Guichets d'encaissement Extras et Transferts (P2-TRF-03) : ce qui reste dû sur les
+            // consommations demandées PENDANT le séjour — jamais une ligne du net à payer figé
+            // du séjour, jamais une imputation sur le séjour lui-même (App\Domain\Caisse\Services
+            // \Caisse::encaisserUneConsommation).
+            Route::prefix('guichets')->name('guichets.')->group(function (): void {
+                Route::get('transferts', [GuichetsController::class, 'transferts'])->name('transferts');
+                Route::post('transferts/{transfert}/encaissement', [GuichetsController::class, 'encaisserTransfert'])->whereNumber('transfert')->name('transferts.encaisser');
+                Route::get('extras', [GuichetsController::class, 'extras'])->name('extras');
+                Route::post('extras/{commande}/encaissement', [GuichetsController::class, 'encaisserExtra'])->whereNumber('commande')->name('extras.encaisser');
+            });
         });
 
         // Chiffrage d'un séjour par la réception : même moteur que le site public.
@@ -115,6 +145,8 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             Route::get('sejours/{sejour}/consommations', [SejoursController::class, 'consommations'])->whereNumber('sejour')->name('sejours.consommations');
             Route::post('sejours/{sejour}/check-out', [SejoursController::class, 'checkOutSejour'])->whereNumber('sejour')->name('sejours.check-out');
             Route::put('sejours/{sejour}/depart', [SejoursController::class, 'prolonger'])->whereNumber('sejour')->name('sejours.depart.modifier');
+            // Déplacement vers un logement du même type, depuis le planning (P2-PLA-02).
+            Route::put('sejours/{sejour}/logement', [SejoursController::class, 'deplacer'])->whereNumber('sejour')->name('sejours.logement.deplacer');
 
             // États des lieux d'entrée et de sortie (P2-SEJ-02). Pas de scopeBindings() : le nom
             // français de la relation (`etatsDesLieux`) ne suit pas la pluralisation anglaise que
@@ -222,9 +254,27 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
         // livreur (code de livraison émis, jamais exposé ici), refus motivé.
         Route::prefix('commandes-repas')->name('commandes-repas.')->group(function (): void {
             Route::get('/', [CommandesRepasController::class, 'index'])->name('index');
+            // Avant {commande} : un segment littéral ne doit jamais être pris pour un identifiant.
+            Route::post('premier-repas-offert', [CommandesRepasController::class, 'offrirPremierRepas'])->name('premier-repas-offert');
             Route::post('{commande}/confirmer', [CommandesRepasController::class, 'confirmer'])->name('confirmer');
             Route::post('{commande}/affecter-livreur', [CommandesRepasController::class, 'affecterUnLivreur'])->name('affecter-livreur');
             Route::post('{commande}/refuser', [CommandesRepasController::class, 'refuser'])->name('refuser');
+        });
+
+        // États « Repas et boissons » (P4-API-09) : activité par période / restaurateur / état, CA et marge par commande.
+        Route::get('etats/repas', [EtatsRepasController::class, 'index'])->name('etats.repas');
+
+        // Commandes d'extras (P2-EXT-01) : la réception peut commander au nom du client (guichet,
+        // téléphone), confirmer, affecter un membre du personnel qui l'exécute, marquer le
+        // service fait, refuser motivé. La facturation passe par le guichet d'encaissement
+        // Extras ci-dessus (P2-TRF-03), jamais une ligne du net à payer figé du séjour.
+        Route::prefix('commandes-extras')->name('commandes-extras.')->group(function (): void {
+            Route::get('/', [CommandesExtrasController::class, 'index'])->name('index');
+            Route::post('/', [CommandesExtrasController::class, 'creer'])->name('creer');
+            Route::post('{commande}/confirmer', [CommandesExtrasController::class, 'confirmer'])->whereNumber('commande')->name('confirmer');
+            Route::post('{commande}/affecter', [CommandesExtrasController::class, 'affecter'])->whereNumber('commande')->name('affecter');
+            Route::post('{commande}/service', [CommandesExtrasController::class, 'marquerFournie'])->whereNumber('commande')->name('service');
+            Route::post('{commande}/refuser', [CommandesExtrasController::class, 'refuser'])->whereNumber('commande')->name('refuser');
         });
 
         // Notifications : journal et relance manuelle (CdC § 13.2).
@@ -312,8 +362,43 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
                     Route::post('{photo}/recadrage', [PhotosLogementController::class, 'recadrer'])->whereNumber('photo')->name('recadrer');
                     Route::delete('{photo}', [PhotosLogementController::class, 'supprimer'])->whereNumber('photo')->name('supprimer');
                 });
+
+                // Maintenance (P2-MNT-01) : tickets, propriété DANS ce logement (contrôle manuel
+                // de l'appartenance, comme {vehicule} sous {chauffeur} — scopeBindings() ne porte
+                // que sur {residence}/{logement}, pas sur ce niveau-ci).
+                Route::prefix('{logement}/tickets-maintenance')->name('tickets-maintenance.')->group(function (): void {
+                    Route::get('/', [TicketsMaintenanceController::class, 'index'])->name('index');
+                    Route::post('/', [TicketsMaintenanceController::class, 'creer'])->name('creer');
+                    Route::put('{ticket}/technicien', [TicketsMaintenanceController::class, 'affecterUnTechnicien'])->whereNumber('ticket')->name('technicien');
+                    Route::put('{ticket}/cout', [TicketsMaintenanceController::class, 'imputerUnCout'])->whereNumber('ticket')->name('cout');
+                    Route::post('{ticket}/resolution', [TicketsMaintenanceController::class, 'resoudre'])->whereNumber('ticket')->name('resolution');
+                });
+
+                // Inventaire du logement (P2-MNT-02) : nom, quantité, valeur de remplacement.
+                Route::prefix('{logement}/inventaire')->name('inventaire.')->group(function (): void {
+                    Route::get('/', [InventaireController::class, 'index'])->name('index');
+                    Route::post('/', [InventaireController::class, 'creer'])->name('creer');
+                    Route::put('{article}', [InventaireController::class, 'modifier'])->whereNumber('article')->name('modifier');
+                    Route::delete('{article}', [InventaireController::class, 'supprimer'])->whereNumber('article')->name('supprimer');
+                });
+
+                // Contrats récurrents du logement (P2-MNT-02) : nom, périodicité, prochain rappel.
+                Route::prefix('{logement}/contrats-recurrents')->name('contrats-recurrents.')->group(function (): void {
+                    Route::get('/', [ContratsRecurrentsController::class, 'index'])->name('index');
+                    Route::post('/', [ContratsRecurrentsController::class, 'creer'])->name('creer');
+                    Route::put('{contrat}', [ContratsRecurrentsController::class, 'modifier'])->whereNumber('contrat')->name('modifier');
+                    Route::put('{contrat}/desactivation', [ContratsRecurrentsController::class, 'desactiver'])->whereNumber('contrat')->name('desactivation');
+                });
             });
         });
+    });
+
+    // Ménage (P2-MEN-02) : tableau de bord et validation « logement prêt », réservés aux
+    // profils qui gèrent déjà toute l'exploitation, PLUS la gouvernante — qui n'a accès
+    // qu'à ce strict périmètre, jamais au reste du back office (résidences, tarification…).
+    Route::middleware('profil:super_administrateur,administrateur,gestionnaire,gouvernante')->group(function (): void {
+        Route::get('menage/tableau-de-bord', [MenageController::class, 'tableauDeBord'])->name('menage.tableau-de-bord');
+        Route::put('menage/logements/{logement}/validation', [MenageController::class, 'validerLeLogement'])->whereNumber('logement')->name('menage.logements.valider');
     });
 
     // Écrans réservés aux administrateurs (CdC § 9 et § 12).
@@ -336,6 +421,13 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             Route::get('reglements/{reglement}/preuve', [CaisseController::class, 'preuve'])->name('reglements.preuve.lire');
             Route::put('reglements/{reglement}/finalisation', [CaisseController::class, 'finaliser'])->name('reglements.finaliser');
             Route::put('reglements/{reglement}/rejet', [CaisseController::class, 'rejeter'])->name('reglements.rejeter');
+
+            // Guichet des cautions (P2-CAU-01/02) : restitution (décaissement) et retenue (facture
+            // « frais de dégradation / retard ») — réservées aux administrateurs, comme tout décaissement.
+            Route::prefix('cautions')->name('cautions.')->group(function (): void {
+                Route::post('{sejour}/restitution', [CautionsController::class, 'restituer'])->whereNumber('sejour')->name('restitution');
+                Route::post('{sejour}/retenue', [CautionsController::class, 'retenir'])->whereNumber('sejour')->name('retenue');
+            });
         });
 
         // Tarification : grille nuitée, vérification automatique, simulation sur une réservation réelle.
@@ -357,6 +449,28 @@ Route::prefix('backoffice')->name('backoffice.')->middleware('connecte')->group(
             Route::put('{bareme}', [BaremesTransfertController::class, 'modifier'])->name('modifier');
             Route::delete('{bareme}', [BaremesTransfertController::class, 'supprimer'])->name('supprimer');
         });
+
+        // Catalogue des extras (P2-EXT-01) : le CdC n'énumère aucune liste fixe — entièrement
+        // modifiable par le back office, réservé administrateur comme les barèmes.
+        Route::prefix('extras')->name('extras.')->group(function (): void {
+            Route::get('/', [ExtrasController::class, 'index'])->name('index');
+            Route::post('/', [ExtrasController::class, 'creer'])->name('creer');
+            Route::put('{extra}', [ExtrasController::class, 'modifier'])->whereNumber('extra')->name('modifier');
+        });
+
+        // Barème de ménage (P2-MEN-04, CdC § 6.4) : forfait par type de logement et plancher,
+        // réservé administrateur, comme les autres barèmes.
+        Route::prefix('baremes-menage')->name('baremes-menage.')->group(function (): void {
+            Route::get('/', [BaremesMenageController::class, 'index'])->name('index');
+            Route::post('/', [BaremesMenageController::class, 'creer'])->name('creer');
+            Route::put('{bareme}', [BaremesMenageController::class, 'modifier'])->whereNumber('bareme')->name('modifier');
+        });
+
+        // Rémunération d'une mission de ménage (P2-MEN-04) : le montant est déjà calculé à la
+        // clôture, seul le paiement — un décaissement — est réservé à un administrateur,
+        // comme tout décaissement (Caisse::saisirUnDecaissement).
+        Route::post('missions/{mission}/remuneration/paiement', [MissionsController::class, 'payerLaRemuneration'])
+            ->whereNumber('mission')->name('missions.remuneration.paiement');
 
         // Barème de livraison repas (CdC — « Barème de livraison repas ») : forfait par
         // résidence, réservé administrateur, comme le barème des transferts.

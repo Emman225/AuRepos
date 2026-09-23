@@ -39,7 +39,10 @@ final class Avances
      */
     public function constituerDepuis(Reglement $reglement): ?AvanceClient
     {
-        if (! $reglement->estUnEncaissement() || $reglement->mode === ModeDeReglement::Avance) {
+        // Un dépôt de caution (P2-CAU-01) n'a jamais d'imputation en face (la caution n'entre pas
+        // dans le reste dû du séjour) : sans cette garde, il serait pris pour un surplus « sans
+        // affaire » et versé en avance client, ce qu'il n'est pas — il reste dû au client, détenu.
+        if (! $reglement->estUnEncaissement() || $reglement->mode === ModeDeReglement::Avance || $reglement->guichet === Guichet::Cautions) {
             return null;
         }
 

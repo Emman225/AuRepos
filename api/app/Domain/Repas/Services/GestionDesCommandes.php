@@ -12,6 +12,7 @@ use App\Domain\Repas\Models\Commande;
 use App\Domain\Repas\Models\Livreur;
 use App\Domain\Repas\Models\Produit;
 use App\Domain\Repas\Models\Restaurateur;
+use App\Domain\Sejours\Enums\EtatDuSejour;
 use App\Domain\Sejours\Models\Sejour;
 use App\Support\Api\ErreurMetier;
 use Illuminate\Support\Facades\DB;
@@ -46,8 +47,13 @@ final class GestionDesCommandes
 
     /**
      * @param  list<array{produit_id: int, quantite: int}>  $lignes
+     * @param  bool  $offert  Extra CdC § 5.2 « premier repas livré à l'arrivée » (P4-API-08) :
+     *                        chaque ligne est facturée à ZÉRO au client (prix de vente ignoré,
+     *                        pas besoin d'un pourcentage plateforme déjà validé) ; le
+     *                        restaurateur, lui, reste dû à son prix normal — voir
+     *                        `offrirLePremierRepas` et `detteEnversLeRestaurateur`.
      */
-    public function commander(Sejour $sejour, Restaurateur $restaurateur, User $client, array $lignes, string $modeReglement, ?string $notes = null): Commande
+    public function commander(Sejour $sejour, Restaurateur $restaurateur, User $client, array $lignes, string $modeReglement, ?string $notes = null, bool $offert = false): Commande
     {
         if ($sejour->client_id !== $client->id) {
             throw new ErreurMetier('Ce séjour ne vous appartient pas.', 'sejour_non_a_vous', 403);
@@ -59,7 +65,7 @@ final class GestionDesCommandes
             throw new ErreurMetier('Une commande doit contenir au moins un produit.', 'commande_vide', 422);
         }
 
-        return DB::transaction(function () use ($sejour, $restaurateur, $lignes, $modeReglement, $notes): Commande {
+        return DB::transaction(function () use ($sejour, $restaurateur, $lignes, $modeReglement, $notes, $offert): Commande {
             $produits = Produit::query()->whereIn('id', array_column($lignes, 'produit_id'))->lockForUpdate()->get()->keyBy('id');
 
             $lignesAEnregistrer = [];
@@ -79,7 +85,8 @@ final class GestionDesCommandes
                 }
 
                 // Figés au moment T : un produit renommé ou re-tarifé ensuite ne change jamais cette commande.
-                $prixUnitaire = $produit->prixDeVente();
+                // Offert : zéro pour le client, quel que soit le pourcentage plateforme du restaurateur.
+                $prixUnitaire = $offert ? 0 : $produit->prixDeVente();
                 $montantTotal += $prixUnitaire * $quantite;
                 $lignesAEnregistrer[] = [
                     'produit_id' => $produit->id, 'nom_produit' => $produit->nom,
@@ -90,12 +97,34 @@ final class GestionDesCommandes
             $commande = Commande::create([
                 'sejour_id' => $sejour->id, 'restaurateur_id' => $restaurateur->id,
                 'etat' => EtatDeCommande::Demande, 'mode_reglement' => $modeReglement,
-                'montant_total' => $montantTotal, 'notes' => $notes,
+                'montant_total' => $montantTotal, 'offert' => $offert, 'notes' => $notes,
             ]);
             $commande->lignes()->createMany($lignesAEnregistrer);
 
             return $commande->refresh()->load('lignes');
         });
+    }
+
+    /**
+     * Extra CdC § 5.2 « premier repas livré à l'arrivée » (P4-API-08) : offert par
+     * l'établissement, jamais facturé au client. Réservé à un séjour déjà ARRIVÉ (check-in
+     * fait) — le catalogue général des extras choisis à la réservation (P2-EXT-01) n'est
+     * pas construit, donc ce geste se déclenche EXPLICITEMENT depuis la réception plutôt que
+     * d'inventer une règle de sélection automatique du restaurateur ou des plats offerts ;
+     * `App\Domain\Sejours\Services\CheckIn` n'a donc besoin d'aucune modification.
+     *
+     * @param  list<array{produit_id: int, quantite: int}>  $lignes
+     */
+    public function offrirLePremierRepas(Sejour $sejour, Restaurateur $restaurateur, array $lignes): Commande
+    {
+        if ($sejour->etat !== EtatDuSejour::Arrive) {
+            throw new ErreurMetier('Le premier repas offert ne se déclenche qu’après le check-in du séjour.', 'sejour_non_arrive', 422);
+        }
+
+        /** @var User $client */
+        $client = $sejour->client;
+
+        return $this->commander($sejour, $restaurateur, $client, $lignes, 'note_du_sejour', 'Premier repas offert à l’arrivée.', offert: true);
     }
 
     /** Réservé à la gestion quotidienne (mêmes profils que les réservations) : le règlement est vérifié. */
